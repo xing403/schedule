@@ -18,6 +18,5 @@ const router = createRouter({
 })
 
 app.use(ElementPlus)
-app.mount('#app')
 app.use(router)
 app.mount('#app')
