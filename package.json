@@ -12,14 +12,16 @@
     "postinstall": "npx simple-git-hooks"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
     "@vueuse/core": "^10.1.2",
-    "element-plus": "^2.3.7",
+    "cron-parser": "^4.9.0",
+    "element-plus": "^2.3.14",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.5",
-    "@iconify-json/carbon": "^1.1.17",
+    "@iconify-json/carbon": "^1.1.21",
     "@types/node": "^20.2.5",
     "@unocss/eslint-config": "^0.53.0",
     "@unocss/reset": "^0.53.0",

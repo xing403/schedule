@@ -1,4 +1,4 @@
-# Vite Template
+# Schedule
 A Vite based template
 
 ## Features
