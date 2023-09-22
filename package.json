@@ -1,6 +1,12 @@
 {
+  "name": "schedule",
+  "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@8.6.0",
+  "author": {
+    "name": "Xing403",
+    "email": "2983181595@qq.com"
+  },
   "scripts": {
     "build": "vite build",
     "dev": "vite --port 3333 --open",
