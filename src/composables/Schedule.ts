@@ -1,6 +1,6 @@
 import parser from 'cron-parser'
 
-export function generateSchedule(title: string, description: string, cron: string, callback: string | Function) {
+export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false) {
   const schedule = {
     id: new Date().getTime(),
     title,
@@ -10,9 +10,13 @@ export function generateSchedule(title: string, description: string, cron: strin
     interval: parser.parseExpression(cron, {
       iterator: true,
     }),
-    status: false,
+    status,
     timer: null,
   }
+
+  if (status)
+    startSchedule(schedule)
+
   return schedule
 }
 export function startSchedule(schedule: Schedule) {
