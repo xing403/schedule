@@ -1,12 +1,23 @@
 import parser from 'cron-parser'
+import { ElNotification } from 'element-plus'
 
-export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false) {
+export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'custom') {
+  if (callback_type === 'notification') {
+    callback = () => {
+      ElNotification({
+        title,
+        message: description,
+      })
+    }
+  }
+
   const schedule = {
     id: new Date().getTime(),
     title,
     description,
     cron,
     callback,
+    callback_type,
     interval: parser.parseExpression(cron, {
       iterator: true,
     }),

@@ -13,6 +13,7 @@ const schedule_form = ref<Schedule>({
   description: '',
   cron: '',
   callback: '',
+  callback_type: 'notification',
   interval: null,
   status: false,
   timer: null,
@@ -33,8 +34,8 @@ const schedule_form_rules = {
       trigger: 'change',
     },
   ],
-  callback: [
-    { required: true, message: '请输入标题', trigger: 'change' },
+  callback_type: [
+    { required: true, message: '请输入任务执行类型', trigger: 'change' },
   ],
 }
 const insertDialog = ref(false)
@@ -57,6 +58,7 @@ function handleAddSchedule() {
         schedule_form.value.cron,
         schedule_form.value.callback,
         schedule_form.value.status,
+        schedule_form.value.callback_type,
       )
       schedules.value.push(schedule)
       ElMessage.success('添加成功')
@@ -95,6 +97,7 @@ function handleSaveUpdateSchedule() {
         schedule_form.value.cron,
         schedule_form.value.callback,
         schedule_form.value.status,
+        schedule_form.value.callback_type,
       )
       updateDialog.value = false
       ElMessage.success('修改成功')
@@ -122,6 +125,15 @@ function handleUpdateDialogClose() {
     <el-table-column prop="title" label="标题" align="center" />
     <el-table-column prop="description" label="描述" align="center" />
     <el-table-column prop="cron" label="cron" align="center" />
+    <el-table-column prop="callback_type" label="任务类型" align="center">
+      <template #default="scope">
+        <template v-for="item in CallbackMap">
+          <el-tag v-if="scope.row.callback_type === item.value" :key="item.value">
+            {{ item.label }}
+          </el-tag>
+        </template>
+      </template>
+    </el-table-column>
     <el-table-column width="100" align="center" prop="status" label="任务状态">
       <template #default="scope">
         <el-switch
@@ -131,7 +143,6 @@ function handleUpdateDialogClose() {
       </template>
     </el-table-column>
     <el-table-column width="280" align="center" label="操作">
-      <!-- <template #default="scope"> -->
       <template #default="scope">
         <el-button type="warning" size="small" @click="handleUpdateSchedule(scope.row)">
           编辑
@@ -187,7 +198,12 @@ function handleUpdateDialogClose() {
       <el-form-item label="状态" prop="status">
         <el-switch v-model="schedule_form.status" :active-value="true" :inactive-value="false" />
       </el-form-item>
-      <el-form-item label="执行" prop="callback">
+      <el-form-item label="任务类型" prop="status">
+        <el-select v-model="schedule_form.callback_type" placeholder="选择任务类型">
+          <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="schedule_form.callback_type === 'custom'" label="执行内容" prop="callback">
         <el-input v-model="schedule_form.callback" :rows="5" type="textarea" placeholder="请输入执行表达式" />
       </el-form-item>
     </el-form>
@@ -237,7 +253,12 @@ function handleUpdateDialogClose() {
       <el-form-item label="状态" prop="status">
         <el-switch v-model="schedule_form.status" :active-value="true" :inactive-value="false" />
       </el-form-item>
-      <el-form-item label="执行" prop="callback">
+      <el-form-item label="任务类型" prop="status">
+        <el-select v-model="schedule_form.callback_type" placeholder="选择任务类型">
+          <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="schedule_form.callback_type === 'custom'" label="执行内容" prop="callback">
         <el-input v-model="schedule_form.callback" :rows="5" type="textarea" placeholder="请输入执行表达式" />
       </el-form-item>
     </el-form>

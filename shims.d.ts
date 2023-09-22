@@ -3,11 +3,15 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+type CallbackType = 'custom' | 'notification'
+
 declare interface Schedule {
   id: number
   title: string
   description: string
   cron: string
+  callback_type: CallbackType
   callback: string | Function
   interval: any
   status: boolean

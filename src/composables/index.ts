@@ -1,5 +1,4 @@
-import type { Schedule } from './Schedule'
-
+export * from './dictionaries'
 export * from './Schedule'
 
 export const isDark = useDark()
