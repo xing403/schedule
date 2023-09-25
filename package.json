@@ -1,12 +1,15 @@
 {
   "name": "schedule",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "packageManager": "pnpm@8.6.0",
+  "description": "cron schedule",
   "author": {
     "name": "Xing403",
     "email": "2983181595@qq.com"
   },
+  "keywords": ["cron", "schedule"],
+  "main": "background.ts",
   "scripts": {
     "build": "vite build",
     "dev": "vite --port 3333 --open",
@@ -34,6 +37,8 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue-macros/volar": "^0.10.2",
     "@vue/test-utils": "^2.3.2",
+    "electron": "25.5",
+    "electron-builder": "^24.6.4",
     "eslint": "^8.42.0",
     "jsdom": "^22.1.0",
     "lint-staged": "^13.2.2",

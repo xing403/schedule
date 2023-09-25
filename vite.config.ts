@@ -8,8 +8,11 @@ import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
+import ElectionDevPlugin from './plugins/electron.dev'
+import ElectronBuildPlugin from './plugins/electron.build'
 
 export default defineConfig({
+  base: './',
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
@@ -54,6 +57,9 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see uno.config.ts for config
     UnoCSS(),
+
+    ElectionDevPlugin(),
+    ElectronBuildPlugin(),
   ],
 
   // https://github.com/vitest-dev/vitest
