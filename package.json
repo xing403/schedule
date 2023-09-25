@@ -1,6 +1,6 @@
 {
   "name": "schedule",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "packageManager": "pnpm@8.6.0",
   "description": "A Schedule Tools, You can create a scheduled task by using the cron string",
@@ -8,7 +8,10 @@
     "name": "xing403",
     "email": "2983181595@qq.com"
   },
-  "keywords": ["cron", "schedule"],
+  "keywords": [
+    "cron",
+    "schedule"
+  ],
   "main": "background.ts",
   "scripts": {
     "build": "vite build",
@@ -25,6 +28,7 @@
     "@vueuse/core": "^10.1.2",
     "cron-parser": "^4.9.0",
     "element-plus": "^2.3.14",
+    "path-browserify": "^1.0.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"
   },
@@ -32,6 +36,7 @@
     "@antfu/eslint-config": "^0.39.5",
     "@iconify-json/carbon": "^1.1.21",
     "@types/node": "^20.2.5",
+    "@types/path-browserify": "^1.0.0",
     "@unocss/eslint-config": "^0.53.0",
     "@unocss/reset": "^0.53.0",
     "@vitejs/plugin-vue": "^4.2.3",

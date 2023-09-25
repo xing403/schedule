@@ -66,4 +66,12 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
   },
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name][extname]',
+      },
+    },
+
+  },
 })

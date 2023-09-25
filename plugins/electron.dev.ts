@@ -30,7 +30,7 @@ function buildBackground() {
 let electronProcess: ChildProcessWithoutNullStreams
 function startProcess(IP: string) {
   // bug 若为构建: require('electron') 改为 require.resolve("electron")
-  electronProcess = spawn(require.resolve('electron'), [
+  electronProcess = spawn(require('electron'), [
     'dist/background.js',
     IP,
   ])

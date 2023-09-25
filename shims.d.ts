@@ -3,7 +3,7 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
-
+type WindowMap = Map<string, BrowserWindow>
 interface Window {
   OS_API: OS_API;
 }

@@ -1,34 +1,24 @@
 // Electron entry file
-import path from 'node:path'
-import { BrowserWindow, Notification, app, globalShortcut, ipcMain } from 'electron'
-import type { BrowserWindowConstructorOptions } from 'electron'
+import { Notification, app, ipcMain } from 'electron'
+import tray from './electron/tray'
+import { createWindow } from './electron/main'
+import { createGlobalShortcut } from './electron/globalShortcut'
 
-function createWindow(config?: BrowserWindowConstructorOptions) {
-  const win = new BrowserWindow({
-    width: config?.width ?? 1440,
-    height: config?.height ?? 1200,
-    ...config,
-    webPreferences: {
-      sandbox: false,
-      preload: path.join(__dirname, './preload.js'),
-    },
-  })
-  win.menuBarVisible = false
-  return win
-}
-
+const windowMap: WindowMap = new Map()
 app.whenReady().then(() => {
   const mainWindow = createWindow()
+  windowMap.set('main', mainWindow)
+  tray(windowMap)
+  createGlobalShortcut(mainWindow)
   process.argv[2] ? mainWindow.loadURL(process.argv[2]) : mainWindow.loadFile('index.html')
-  globalShortcut.register('CommandOrControl+Shift+I', () => {
-    mainWindow.webContents.isDevToolsOpened()
-      ? mainWindow.webContents.closeDevTools()
-      : mainWindow.webContents.openDevTools()
-  })
+
   ipcMain.handle('notification', (_event, title: string, body: string) => {
     new Notification({
       title,
       body,
     }).show()
+  })
+  mainWindow.on('closed', () => {
+    windowMap.delete('main')
   })
 })
