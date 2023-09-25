@@ -5,7 +5,7 @@ import parser from 'cron-parser'
 import { isDark, toggleDark } from '~/composables'
 
 const theme = ref(isDark.value)
-const form = ref<FormInstance>()
+const insert_form = ref<FormInstance>()
 const update_form = ref<FormInstance>()
 const schedule_form = ref<Schedule>({
   id: new Date().getTime(),
@@ -45,12 +45,25 @@ function handleChangeStatus(schedule: Schedule) {
   schedule.status ? startSchedule(schedule) : stopSchedule(schedule)
 }
 
-function clearForm(form: FormInstance | undefined) {
-  form && form.resetFields()
+function clearForm() {
+  schedule_form.value = {
+    id: new Date().getTime(),
+    title: '',
+    description: '',
+    cron: '',
+    callback: '',
+    callback_type: 'notification',
+    interval: null,
+    status: false,
+    timer: null,
+  }
 }
-
+function handleOpeninsertSchedule() {
+  insertDialog.value = true
+  clearForm()
+}
 function handleAddSchedule() {
-  form.value && form.value.validate((valid: boolean) => {
+  insert_form.value && insert_form.value.validate((valid: boolean) => {
     if (valid) {
       const schedule = generateSchedule(
         schedule_form.value.title,
@@ -62,7 +75,7 @@ function handleAddSchedule() {
       )
       schedules.value.push(schedule)
       ElMessage.success('添加成功')
-      clearForm(form.value)
+      clearForm()
       insertDialog.value = false
     }
   })
@@ -70,15 +83,16 @@ function handleAddSchedule() {
 
 function insertDialogOnClose() {
   insertDialog.value = false
-  clearForm(form.value)
+  clearForm()
 }
 
 function handleRemoveSchedule(schedule: Schedule) {
   schedules.value.splice(schedules.value.indexOf(schedule), 1)
 }
 
-function handleUpdateSchedule(schedule: Schedule) {
+function handleOpenUpdateSchedule(schedule: Schedule) {
   updateDialog.value = true
+  clearForm()
   schedule_form.value = { ...schedule }
 }
 
@@ -101,20 +115,20 @@ function handleSaveUpdateSchedule() {
       )
       updateDialog.value = false
       ElMessage.success('修改成功')
-      clearForm(update_form.value)
+      clearForm()
     }
   })
 }
 
 function handleUpdateDialogClose() {
   updateDialog.value = false
-  clearForm(update_form.value)
+  clearForm()
 }
 </script>
 
 <template>
   <div flex="~ row gap-2 items-center" justify="end" mx-5 my-2 h-50px>
-    <el-button size="default" circle icon="Plus" @click="insertDialog = true" />
+    <el-button size="default" circle icon="Plus" @click="handleOpeninsertSchedule" />
     <el-switch v-model="theme" :active-value="true" :inactive-value="false" @change="toggleDark()" />
   </div>
 
@@ -144,7 +158,7 @@ function handleUpdateDialogClose() {
     </el-table-column>
     <el-table-column width="280" align="center" label="操作">
       <template #default="scope">
-        <el-button type="warning" size="small" @click="handleUpdateSchedule(scope.row)">
+        <el-button type="warning" size="small" @click="handleOpenUpdateSchedule(scope.row)">
           编辑
         </el-button>
         <el-popconfirm title="确认删除这个任务吗?" @confirm="handleRemoveSchedule(scope.row)">
@@ -163,7 +177,7 @@ function handleUpdateDialogClose() {
   </el-table>
 
   <el-dialog v-model="insertDialog" title="添加任务" width="40%" :before-close="insertDialogOnClose">
-    <el-form ref="form" :model="schedule_form" :rules="schedule_form_rules" label-width="80px" :inline="false">
+    <el-form ref="insert_form" :model="schedule_form" :rules="schedule_form_rules" label-width="80px" :inline="false">
       <el-form-item label="标题" prop="title">
         <el-input v-model="schedule_form.title" placeholder="请输入标题" />
       </el-form-item>

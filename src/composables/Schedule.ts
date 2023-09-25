@@ -1,14 +1,12 @@
 import parser from 'cron-parser'
 import { ElNotification } from 'element-plus'
+import { patform } from '.'
 
 export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'custom') {
   if (callback_type === 'notification') {
-    callback = () => {
-      ElNotification({
-        title,
-        message: description,
-      })
-    }
+    callback = patform.value === 'electron'
+      ? () => window.OS_API.notification(title, description)
+      : () => ElNotification({ title, message: description })
   }
 
   const schedule = {

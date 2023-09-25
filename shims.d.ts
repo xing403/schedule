@@ -4,6 +4,10 @@ declare module '*.vue' {
   export default component
 }
 
+interface Window {
+  OS_API: OS_API;
+}
+
 type CallbackType = 'custom' | 'notification'
 
 declare interface Schedule {
