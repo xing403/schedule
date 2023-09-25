@@ -1,11 +1,11 @@
 {
   "name": "schedule",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "packageManager": "pnpm@8.6.0",
-  "description": "cron schedule",
+  "description": "A Schedule Tools, You can create a scheduled task by using the cron string",
   "author": {
-    "name": "Xing403",
+    "name": "xing403",
     "email": "2983181595@qq.com"
   },
   "keywords": ["cron", "schedule"],
