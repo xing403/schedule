@@ -1,5 +1,5 @@
 import parser from 'cron-parser'
-import { ElNotification } from 'element-plus'
+import { ElMessage, ElNotification, dayjs } from 'element-plus'
 import { patform } from '.'
 
 export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'custom') {
@@ -20,6 +20,7 @@ export function generateSchedule(title: string, description: string, cron: strin
       iterator: true,
     }),
     status,
+    next: '-',
     timer: null,
   }
 
@@ -34,6 +35,8 @@ export function startSchedule(schedule: Schedule) {
 }
 export function done(schedule: Schedule) {
   if (schedule.status && schedule.interval.hasNext()) {
+    const date = schedule.interval.next().value
+    schedule.next = dayjs(date).format('YYYY-MM-DD HH:mm:ss')
     schedule.timer = setTimeout(() => {
       try {
         // eslint-disable-next-line no-eval
@@ -41,12 +44,14 @@ export function done(schedule: Schedule) {
       }
       catch (error: any) {
         console.error(error)
+        ElMessage.error(`${schedule.id} 的执行内容好像出现了点问题`)
       }
       done(schedule)
-    }, new Date(schedule.interval.next().value).getTime() - Date.now())
+    }, new Date(date).getTime() - Date.now())
   }
 }
 export function stopSchedule(schedule: Schedule) {
   schedule.status = false
   clearTimeout(schedule.timer)
+  schedule.next = '-'
 }

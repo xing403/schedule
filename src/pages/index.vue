@@ -16,6 +16,7 @@ const schedule_form = ref<Schedule>({
   callback_type: 'notification',
   interval: null,
   status: false,
+  next: '-',
   timer: null,
 })
 const schedule_form_rules = {
@@ -55,6 +56,7 @@ function clearForm() {
     callback_type: 'notification',
     interval: null,
     status: false,
+    next: '-',
     timer: null,
   }
 }
@@ -140,6 +142,7 @@ function handleUpdateDialogClose() {
     <el-table-column prop="title" label="标题" align="center" />
     <el-table-column prop="description" label="描述" align="center" />
     <el-table-column prop="cron" label="cron" align="center" />
+    <el-table-column prop="next" label="预计下次执行时间" align="center" />
     <el-table-column prop="callback_type" label="任务类型" align="center">
       <template #default="scope">
         <template v-for="item in CallbackMap">
@@ -188,7 +191,10 @@ function handleUpdateDialogClose() {
       <el-form-item prop="cron">
         <template #label>
           <el-popover placement="top-start" trigger="hover">
-            <el-link type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html" target="_blank">
+            <el-link
+              type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html"
+              target="_blank"
+            >
               查看 cron 规则
             </el-link>
             <template #reference>
@@ -201,7 +207,10 @@ function handleUpdateDialogClose() {
           <el-alert type="info" show-icon :closable="false">
             <template #title>
               <div>
-                查看 <el-link type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html" target="_blank">
+                查看 <el-link
+                  type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html"
+                  target="_blank"
+                >
                   cron 规则
                 </el-link>
               </div>
@@ -243,7 +252,10 @@ function handleUpdateDialogClose() {
       <el-form-item prop="cron">
         <template #label>
           <el-popover placement="top-start" trigger="hover">
-            <el-link type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html" target="_blank">
+            <el-link
+              type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html"
+              target="_blank"
+            >
               查看 cron 规则
             </el-link>
             <template #reference>
@@ -256,7 +268,10 @@ function handleUpdateDialogClose() {
           <el-alert type="info" show-icon :closable="false">
             <template #title>
               <div>
-                查看 <el-link type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html" target="_blank">
+                查看 <el-link
+                  type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html"
+                  target="_blank"
+                >
                   cron 规则
                 </el-link>
               </div>

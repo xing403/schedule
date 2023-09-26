@@ -19,5 +19,6 @@ declare interface Schedule {
   callback: string | Function
   interval: any
   status: boolean
+  next: string
   timer: any
 }
