@@ -128,7 +128,8 @@ function handleUpdateDialogClose() {
 
 <template>
   <div flex="~ row gap-2 items-center" justify="end" mx-5 my-2 h-50px>
-    <el-button size="default" circle icon="Plus" @click="handleOpeninsertSchedule" />
+    <reload />
+    <el-button circle icon="Plus" @click="handleOpeninsertSchedule" />
     <el-switch v-model="theme" :active-value="true" :inactive-value="false" @change="toggleDark()" />
   </div>
 
