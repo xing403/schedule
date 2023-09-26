@@ -43,10 +43,12 @@ declare global {
   const inject: typeof import('vue')['inject']
   const isDark: typeof import('./src/composables/variable')['isDark']
   const isDefined: typeof import('@vueuse/core')['isDefined']
+  const isLoading: typeof import('./src/composables/application')['isLoading']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const loadingToggle: typeof import('./src/composables/application')['loadingToggle']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
   const name: typeof import('./src/composables/application')['name']
@@ -72,6 +74,7 @@ declare global {
   const onUpdated: typeof import('vue')['onUpdated']
   const patform: typeof import('./src/composables/application')['patform']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
+  const progress: typeof import('./src/composables/application')['progress']
   const provide: typeof import('vue')['provide']
   const reactify: typeof import('@vueuse/core')['reactify']
   const reactifyObject: typeof import('@vueuse/core')['reactifyObject']
@@ -341,10 +344,12 @@ declare module 'vue' {
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isDark: UnwrapRef<typeof import('./src/composables/variable')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isLoading: UnwrapRef<typeof import('./src/composables/application')['isLoading']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly loadingToggle: UnwrapRef<typeof import('./src/composables/application')['loadingToggle']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly name: UnwrapRef<typeof import('./src/composables/application')['name']>
@@ -370,6 +375,7 @@ declare module 'vue' {
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly patform: UnwrapRef<typeof import('./src/composables/application')['patform']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
+    readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
@@ -633,10 +639,12 @@ declare module '@vue/runtime-core' {
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isDark: UnwrapRef<typeof import('./src/composables/variable')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isLoading: UnwrapRef<typeof import('./src/composables/application')['isLoading']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly loadingToggle: UnwrapRef<typeof import('./src/composables/application')['loadingToggle']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly name: UnwrapRef<typeof import('./src/composables/application')['name']>
@@ -662,6 +670,7 @@ declare module '@vue/runtime-core' {
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly patform: UnwrapRef<typeof import('./src/composables/application')['patform']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
+    readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>

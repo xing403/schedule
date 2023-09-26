@@ -5,12 +5,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 
 import router from './router'
-
-import '@unocss/reset/tailwind.css'
-import 'uno.css'
-import 'element-plus/theme-chalk/dark/css-vars.css'
-import 'element-plus/theme-chalk/display.css'
-import 'element-plus/dist/index.css'
+import '~/assets/styles'
 
 const app = createApp(App)
 
