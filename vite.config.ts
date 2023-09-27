@@ -3,6 +3,7 @@
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
+import Layouts from 'vite-plugin-vue-meta-layouts'
 import Pages from 'vite-plugin-pages'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -31,6 +32,10 @@ export default defineConfig({
         }),
       },
     }),
+    // https://github.com/dishait/vite-plugin-vue-meta-layouts
+    Layouts({
+      defaultLayout: 'index',
+    }),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages(),
@@ -52,6 +57,10 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-components
     Components({
       dts: true,
+      dirs: [
+        'src/components',
+        'src/layouts',
+      ],
     }),
 
     // https://github.com/antfu/unocss

@@ -1,4 +1,6 @@
 import { useNProgress } from '@vueuse/integrations/useNProgress'
+import path from 'path-browserify'
+
 import PKGJson from '../../package.json'
 
 const userAgent = navigator.userAgent.toLowerCase()
@@ -10,3 +12,8 @@ export const patform = useStorageAsync<'electron' | 'web'>('patform', userAgent.
 
 export const { isLoading, progress } = useNProgress()
 export const loadingToggle = useToggle(isLoading)
+
+export const favicon_path = path.join('favicon.svg')
+
+export const menuCollapse = ref(false)
+export const menuCollapseToggle = useToggle(menuCollapse)

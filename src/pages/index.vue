@@ -1,10 +1,14 @@
+<route lang="yaml">
+meta:
+  title: 定时任务
+  icon: i-carbon-home
+</route>
+
 <script lang="ts" setup>
 import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import parser from 'cron-parser'
-import { isDark, toggleDark } from '~/composables'
 
-const theme = ref(isDark.value)
 const insert_form = ref<FormInstance>()
 const update_form = ref<FormInstance>()
 const schedule_form = ref<Schedule>({
@@ -130,9 +134,7 @@ function handleUpdateDialogClose() {
 
 <template>
   <div flex="~ row gap-2 items-center" justify="end" mx-5 my-2 h-50px>
-    <reload />
     <el-button circle icon="Plus" @click="handleOpeninsertSchedule" />
-    <el-switch v-model="theme" :active-value="true" :inactive-value="false" @change="toggleDark()" />
   </div>
 
   <el-table :data="schedules" stripe border>

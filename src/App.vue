@@ -10,7 +10,5 @@ window.OS_API?.changeRoute((_event: any, route: string) => {
 </script>
 
 <template>
-  <main font-sans text="gray-700 dark:gray-200">
-    <RouterView />
-  </main>
+  <RouterView />
 </template>

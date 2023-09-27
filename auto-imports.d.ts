@@ -35,6 +35,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const favicon_path: typeof import('./src/composables/application')['favicon_path']
   const generateSchedule: typeof import('./src/composables/Schedule')['generateSchedule']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
@@ -51,6 +52,8 @@ declare global {
   const loadingToggle: typeof import('./src/composables/application')['loadingToggle']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
+  const menuCollapse: typeof import('./src/composables/application')['menuCollapse']
+  const menuCollapseToggle: typeof import('./src/composables/application')['menuCollapseToggle']
   const name: typeof import('./src/composables/application')['name']
   const nextTick: typeof import('vue')['nextTick']
   const onActivated: typeof import('vue')['onActivated']
@@ -336,6 +339,7 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly favicon_path: UnwrapRef<typeof import('./src/composables/application')['favicon_path']>
     readonly generateSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['generateSchedule']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -352,6 +356,8 @@ declare module 'vue' {
     readonly loadingToggle: UnwrapRef<typeof import('./src/composables/application')['loadingToggle']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly menuCollapse: UnwrapRef<typeof import('./src/composables/application')['menuCollapse']>
+    readonly menuCollapseToggle: UnwrapRef<typeof import('./src/composables/application')['menuCollapseToggle']>
     readonly name: UnwrapRef<typeof import('./src/composables/application')['name']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
@@ -631,6 +637,7 @@ declare module '@vue/runtime-core' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly favicon_path: UnwrapRef<typeof import('./src/composables/application')['favicon_path']>
     readonly generateSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['generateSchedule']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -647,6 +654,8 @@ declare module '@vue/runtime-core' {
     readonly loadingToggle: UnwrapRef<typeof import('./src/composables/application')['loadingToggle']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly menuCollapse: UnwrapRef<typeof import('./src/composables/application')['menuCollapse']>
+    readonly menuCollapseToggle: UnwrapRef<typeof import('./src/composables/application')['menuCollapseToggle']>
     readonly name: UnwrapRef<typeof import('./src/composables/application')['name']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>

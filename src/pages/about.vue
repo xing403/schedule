@@ -1,8 +1,8 @@
-<script setup lang="ts">
-import path from 'path-browserify'
-
-const favicon_path = path.join('favicon.svg')
-</script>
+<route lang="yaml">
+meta:
+  title: 关于
+  icon: i-carbon-information
+</route>
 
 <template>
   <div flex="~ col gap-2" ma mt-15 w-500px text-center>

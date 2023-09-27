@@ -1,5 +1,20 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import routes from 'virtual:generated-pages'
+import generatedRoutes from 'virtual:generated-pages'
+import { setupLayouts } from 'virtual:meta-layouts'
+
+// generated has layout
+const layoutRoutes = setupLayouts(generatedRoutes.filter((item) => {
+  return item.meta?.enable !== false && item.meta?.layout !== false
+}))
+
+const restRoutes = generatedRoutes.filter((item) => {
+  return item.meta?.enable !== false && item.meta?.layout === false
+})
+
+const routes = [
+  ...layoutRoutes,
+  ...restRoutes,
+]
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),

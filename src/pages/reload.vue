@@ -1,3 +1,10 @@
+<route lang="yaml">
+meta:
+  title: 404
+  hidden: true
+  layout: false
+</route>
+
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 
