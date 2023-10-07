@@ -17,7 +17,7 @@ const schedule_form = ref<Schedule>({
   description: '',
   cron: '',
   callback: '',
-  callback_type: 'notification',
+  callback_type: 'system-notification',
   interval: null,
   status: false,
   next: '-',
@@ -57,7 +57,7 @@ function clearForm() {
     description: '',
     cron: '',
     callback: '',
-    callback_type: 'notification',
+    callback_type: 'system-notification',
     interval: null,
     status: false,
     next: '-',
@@ -229,7 +229,7 @@ function handleUpdateDialogClose() {
           <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
-      <el-form-item v-if="schedule_form.callback_type === 'custom'" label="执行内容" prop="callback">
+      <el-form-item v-if="schedule_form.callback_type.startsWith('custom-')" label="执行内容" prop="callback">
         <el-input v-model="schedule_form.callback" :rows="5" type="textarea" placeholder="请输入执行表达式" />
       </el-form-item>
     </el-form>
@@ -290,7 +290,7 @@ function handleUpdateDialogClose() {
           <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
-      <el-form-item v-if="schedule_form.callback_type === 'custom'" label="执行内容" prop="callback">
+      <el-form-item v-if="schedule_form.callback_type.startsWith('custom-')" label="执行内容" prop="callback">
         <el-input v-model="schedule_form.callback" :rows="5" type="textarea" placeholder="请输入执行表达式" />
       </el-form-item>
     </el-form>

@@ -15,3 +15,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue))
 app.use(ElementPlus)
 app.use(router)
 app.mount('#app')
+
+// eslint-disable-next-line no-console
+console.log(`%c version %c ${version} `, 'color:#FFF;background:#5c5c5c;border-radius:5px 0 0 5px;padding:5px;margin: 5px 0', 'color:#FFF;background:#E6A23C;border-radius:0 5px 5px 0;padding:5px;margin: 5px 0')

@@ -8,7 +8,7 @@ interface Window {
   OS_API: OS_API;
 }
 
-type CallbackType = 'custom' | 'notification'
+type CallbackType = 'custom-content' | 'custom-notification' | 'system-notification'
 
 declare interface Schedule {
   id: number

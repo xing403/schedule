@@ -2,13 +2,7 @@ import parser from 'cron-parser'
 import { ElMessage, ElNotification, dayjs } from 'element-plus'
 import { patform } from '.'
 
-export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'custom') {
-  if (callback_type === 'notification') {
-    callback = patform.value === 'electron'
-      ? () => window.OS_API.notification(title, description)
-      : () => ElNotification({ title, message: description })
-  }
-
+export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'system-notification') {
   const schedule = {
     id: new Date().getTime(),
     title,
@@ -31,22 +25,39 @@ export function generateSchedule(title: string, description: string, cron: strin
 }
 export function startSchedule(schedule: Schedule) {
   schedule.status = true
-  done(schedule)
+  run(schedule)
 }
 export function done(schedule: Schedule) {
+  if (schedule.callback_type === 'system-notification') {
+    patform.value === 'electron'
+      ? window.OS_API.notification(schedule.title, schedule.description)
+      : ElNotification({ title: schedule.title, message: schedule.description })
+  }
+  else if (schedule.callback_type === 'custom-content') {
+    // eslint-disable-next-line no-eval
+    eval(schedule.callback as string)
+  }
+  else if (schedule.callback_type === 'custom-notification') {
+    // eslint-disable-next-line no-eval
+    const callbackResult = eval(schedule.callback as string) ?? '自定义执行结果为空'
+    patform.value === 'electron'
+      ? window.OS_API.notification(schedule.title, callbackResult)
+      : ElNotification({ title: schedule.title, message: `${callbackResult}` })
+  }
+}
+export function run(schedule: Schedule) {
   if (schedule.status && schedule.interval.hasNext()) {
     const date = schedule.interval.next().value
     schedule.next = dayjs(date).format('YYYY-MM-DD HH:mm:ss')
     schedule.timer = setTimeout(() => {
       try {
-        // eslint-disable-next-line no-eval
-        typeof schedule.callback === 'string' ? eval(schedule.callback) : schedule.callback(schedule)
+        done(schedule)
       }
       catch (error: any) {
         console.error(error)
         ElMessage.error(`${schedule.id} 的执行内容好像出现了点问题`)
       }
-      done(schedule)
+      run(schedule)
     }, new Date(date).getTime() - Date.now())
   }
 }
