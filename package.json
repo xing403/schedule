@@ -1,6 +1,6 @@
 {
   "name": "schedule",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": true,
   "packageManager": "pnpm@8.6.0",
   "description": "A Schedule Tools, You can create a scheduled task by using the cron string",
@@ -42,6 +42,7 @@
     "@types/path-browserify": "^1.0.0",
     "@unocss/eslint-config": "^0.53.0",
     "@unocss/reset": "^0.53.0",
+    "@unocss/transformer-directives": "^0.56.5",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue-macros/volar": "^0.10.2",
     "@vue/test-utils": "^2.3.2",

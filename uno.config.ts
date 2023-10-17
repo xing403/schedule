@@ -5,6 +5,7 @@ import {
   presetUno,
   presetWebFonts,
 } from 'unocss'
+import transformerDirectives from '@unocss/transformer-directives'
 
 export default defineConfig({
   shortcuts: [
@@ -25,5 +26,8 @@ export default defineConfig({
         mono: 'DM Mono',
       },
     }),
+  ],
+  transformers: [
+    transformerDirectives(),
   ],
 })
