@@ -1,3 +1,4 @@
+export * from './core'
 export * from './application'
 export * from './dictionaries'
 export * from './variable'

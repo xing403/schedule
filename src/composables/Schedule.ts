@@ -1,6 +1,4 @@
-import parser from 'cron-parser'
 import { ElMessage, ElNotification, dayjs } from 'element-plus'
-import { patform } from '.'
 
 export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'system-notification') {
   const schedule = {
@@ -10,7 +8,7 @@ export function generateSchedule(title: string, description: string, cron: strin
     cron,
     callback,
     callback_type,
-    interval: parser.parseExpression(cron, {
+    interval: parseExpression(cron, {
       iterator: true,
     }),
     status,
@@ -39,7 +37,7 @@ export function done(schedule: Schedule) {
   }
   else if (schedule.callback_type === 'custom-notification') {
     // eslint-disable-next-line no-eval
-    const callbackResult = eval(schedule.callback as string) ?? '自定义执行结果为空'
+    const callbackResult = eval(schedule.callback as string) ?? '--'
     patform.value === 'electron'
       ? window.OS_API.notification(schedule.title, callbackResult)
       : ElNotification({ title: schedule.title, message: `${callbackResult}` })

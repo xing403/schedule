@@ -7,9 +7,7 @@ meta:
 <script lang="ts" setup>
 import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import parser from 'cron-parser'
 
-const insert_form = ref<FormInstance>()
 const update_form = ref<FormInstance>()
 const schedule_form = ref<Schedule>({
   id: new Date().getTime(),
@@ -29,15 +27,6 @@ const schedule_form_rules = {
   ],
   cron: [
     { required: true, message: '请输入 cron', trigger: 'change' },
-    {
-      validator: (rule: any, value: any, callback: any) => {
-        const parser_res = parser.parseString(value)
-        if (parser_res.errors[value])
-          callback(new Error('表达式不正确，请参考表达式规则'))
-        callback()
-      },
-      trigger: 'change',
-    },
   ],
   callback_type: [
     { required: true, message: '请输入任务执行类型', trigger: 'change' },
@@ -66,29 +55,6 @@ function clearForm() {
 }
 function handleOpeninsertSchedule() {
   insertDialog.value = true
-  clearForm()
-}
-function handleAddSchedule() {
-  insert_form.value && insert_form.value.validate((valid: boolean) => {
-    if (valid) {
-      const schedule = generateSchedule(
-        schedule_form.value.title,
-        schedule_form.value.description,
-        schedule_form.value.cron,
-        schedule_form.value.callback,
-        schedule_form.value.status,
-        schedule_form.value.callback_type,
-      )
-      schedules.value.push(schedule)
-      ElMessage.success('添加成功')
-      clearForm()
-      insertDialog.value = false
-    }
-  })
-}
-
-function insertDialogOnClose() {
-  insertDialog.value = false
   clearForm()
 }
 
@@ -181,67 +147,6 @@ function handleUpdateDialogClose() {
       </template>
     </el-table-column>
   </el-table>
-
-  <el-dialog v-model="insertDialog" title="添加任务" width="40%" :before-close="insertDialogOnClose">
-    <el-form ref="insert_form" :model="schedule_form" :rules="schedule_form_rules" label-width="80px" :inline="false">
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="schedule_form.title" placeholder="请输入标题" />
-      </el-form-item>
-      <el-form-item label="描述" prop="description">
-        <el-input v-model="schedule_form.description" :rows="2" type="textarea" placeholder="请输入描述信息" />
-      </el-form-item>
-      <el-form-item prop="cron">
-        <template #label>
-          <el-popover placement="top-start" trigger="hover">
-            <el-link
-              type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html"
-              target="_blank"
-            >
-              查看 cron 规则
-            </el-link>
-            <template #reference>
-              <span>cron</span>
-            </template>
-          </el-popover>
-        </template>
-        <el-space direction="vertical" :fill="true" w-full>
-          <el-input v-model="schedule_form.cron" placeholder="请输入cron, 例如: */10 * * * * *" />
-          <el-alert type="info" show-icon :closable="false">
-            <template #title>
-              <div>
-                查看 <el-link
-                  type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html"
-                  target="_blank"
-                >
-                  cron 规则
-                </el-link>
-              </div>
-            </template>
-          </el-alert>
-        </el-space>
-      </el-form-item>
-
-      <el-form-item label="状态" prop="status">
-        <el-switch v-model="schedule_form.status" :active-value="true" :inactive-value="false" />
-      </el-form-item>
-      <el-form-item label="任务类型" prop="status">
-        <el-select v-model="schedule_form.callback_type" placeholder="选择任务类型">
-          <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
-      </el-form-item>
-      <el-form-item v-if="schedule_form.callback_type.startsWith('custom-')" label="执行内容" prop="callback">
-        <el-input v-model="schedule_form.callback" :rows="5" type="textarea" placeholder="请输入执行表达式" />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <el-button type="primary" @click="handleAddSchedule">
-        创建
-      </el-button>
-      <el-button type="warning" @click="insertDialogOnClose">
-        取消
-      </el-button>
-    </template>
-  </el-dialog>
 
   <el-dialog v-model="updateDialog" title="修改任务" width="40%" :before-close="handleUpdateDialogClose">
     <el-form ref="update_form" :model="schedule_form" :rules="schedule_form_rules" label-width="80px" :inline="false">
