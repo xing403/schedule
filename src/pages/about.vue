@@ -2,10 +2,12 @@
 meta:
   title: 关于
   icon: i-carbon-information
+  hidden: true
+  layout: false
 </route>
 
 <template>
-  <div flex="~ col gap-2" ma mt-15 w-500px text-center>
+  <div flex="~ col gap-2" ma mt-15 w-500px overflow-hidden text-center>
     <div>
       <el-image bg-transparent :src="favicon_path" :size="150" shape="square" />
     </div>
