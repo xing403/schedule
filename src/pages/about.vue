@@ -2,6 +2,8 @@
 meta:
   title: 关于
   icon: i-carbon-information
+  hidden: true
+  layout: false
 </route>
 
 <template>

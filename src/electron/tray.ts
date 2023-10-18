@@ -1,9 +1,9 @@
 import path from 'node:path'
 import { Menu, Tray, nativeImage } from 'electron'
 
-import { createWindow } from './main'
+import { createWindow } from '.'
 
-export default (windowMap: WindowMap) => {
+export function createTray(windowMap: WindowMap) {
   const tray = new Tray(nativeImage.createFromPath(path.join(__dirname, 'favicon.jpg')))
   const contextMenu = Menu.buildFromTemplate([
     {
@@ -12,14 +12,12 @@ export default (windowMap: WindowMap) => {
         if (windowMap.get('about'))
           return
         const about = createWindow({ width: 600, height: 900 })
-        process.argv[2] ? about.loadURL(process.argv[2]) : about.loadFile('index.html')
-        about.once('ready-to-show', () => {
-          setTimeout(() => {
-            about.webContents.send('change-route', 'about')
-            about.setTitle('schedule - about')
-            about.show()
-          }, 100)
-        })
+        const aboutPath = process.argv[2]
+          ? `${process.argv[2]}/#/about`
+          // eslint-disable-next-line n/no-path-concat
+          : `file://${__dirname}/index.html#/about`
+        about.loadURL(aboutPath)
+
         about.on('closed', () => {
           windowMap.delete('about')
         })
@@ -31,4 +29,6 @@ export default (windowMap: WindowMap) => {
   tray.setContextMenu(contextMenu)
 
   tray.setToolTip('schedule')
+
+  return tray
 }
