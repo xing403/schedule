@@ -13,7 +13,7 @@ export const patform = useStorageAsync<'electron' | 'web'>('patform', userAgent.
 export const { isLoading, progress } = useNProgress()
 export const loadingToggle = useToggle(isLoading)
 
-export const favicon_path = path.join('favicon.svg')
+export const favicon_path = path.join('favicon.ico')
 
 export const menuCollapse = ref(false)
 export const menuCollapseToggle = useToggle(menuCollapse)

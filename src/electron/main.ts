@@ -6,6 +6,7 @@ export function createWindow(config?: BrowserWindowConstructorOptions) {
   const win = new BrowserWindow({
     width: config?.width ?? 1440,
     height: config?.height ?? 1200,
+    icon: path.join(__dirname, '256x256.png'),
     ...config,
     webPreferences: {
       sandbox: false,

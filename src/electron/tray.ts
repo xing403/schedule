@@ -4,7 +4,7 @@ import { Menu, Tray, nativeImage } from 'electron'
 import { createWindow } from '.'
 
 export function createTray(windowMap: WindowMap) {
-  const tray = new Tray(nativeImage.createFromPath(path.join(__dirname, 'favicon.jpg')))
+  const tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '256x256.png')))
   const contextMenu = Menu.buildFromTemplate([
     {
       label: '关于',

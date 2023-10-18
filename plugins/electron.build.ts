@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // Electron production environment
@@ -43,11 +44,19 @@ export default function ElectronBuildPlugin(): Plugin {
             output: path.resolve(process.cwd(), 'release'),
             app: path.resolve(process.cwd(), 'dist'),
           },
+          // 安装界面图标
+          icon: path.relative(process.cwd(), 'dist/256x256.ico'),
+          target: 'nsis',
           files: ['**/*'],
           asar: true,
           nsis: {
-            oneClick: false, // 取消一键安装操作
-            allowToChangeInstallationDirectory: true, // 允许用户自定义安装目录
+            oneClick: false,
+            allowToChangeInstallationDirectory: true,
+            installerHeaderIcon: path.relative(process.cwd(), 'dist/256x256.ico'),
+            installerIcon: path.relative(process.cwd(), 'dist/256x256.ico'),
+            uninstallerIcon: path.relative(process.cwd(), 'dist/256x256.ico'),
+            shortcutName: 'schedule',
+            artifactName: '${productName} ${version}.${ext}',
           },
         },
       })
