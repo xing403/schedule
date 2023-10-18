@@ -59,6 +59,16 @@ function handleAddSchedule() {
       schedules.value.push(schedule)
       ElMessage.success('添加成功')
       insertFormRef.value && insertFormRef.value.resetFields()
+      stepActive.value = 0
+      cron.value = {
+        hour: [],
+        minute: [],
+        dayOfWeek: [],
+        dayOfMonth: [],
+        month: [],
+        second: [0],
+
+      }
     }
   })
 }
@@ -239,7 +249,7 @@ function handleCloseDrawer() {
     </div>
     <template #footer>
       <div flex="~ row gap-2" mt-10px justify-center>
-        <el-button v-if="stepActive > 0" type="info" plain @click="handleBackStep">
+        <el-button v-if="stepActive > 0 && stepActive <= 4" type="info" plain @click="handleBackStep">
           上一步
         </el-button>
         <el-button v-if="stepActive < 4" type="primary" plain @click="handleNextStep">

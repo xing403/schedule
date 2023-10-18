@@ -71,9 +71,8 @@ function handleOpenUpdateSchedule(schedule: Schedule) {
 function handleSaveUpdateSchedule() {
   update_form.value && update_form.value.validate((valid: boolean) => {
     if (valid) {
-      const index = schedules.value.findIndex((item: Schedule) => {
-        return item.id === schedule_form.value.id
-      })
+      const index = schedules.value.findIndex((item: Schedule) => item.id === schedule_form.value.id)
+
       // clear old schedule setTimeOut task
       schedules.value[index].status = false
 
