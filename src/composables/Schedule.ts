@@ -1,8 +1,8 @@
 import { ElMessage, ElNotification, dayjs } from 'element-plus'
 
-export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'system-notification') {
+export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'system-notification', id?: number) {
   const schedule = {
-    id: new Date().getTime(),
+    id: id ?? new Date().getTime(),
     title,
     description,
     cron,
