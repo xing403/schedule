@@ -8,3 +8,6 @@ export function createGlobalShortcut(window: BrowserWindow) {
       : window.webContents.openDevTools()
   })
 }
+export function removeGlobalShortcut() {
+  globalShortcut.unregister('CommandOrControl+Shift+I')
+}

@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { Menu, Tray, nativeImage } from 'electron'
 
-import { createWindow } from '.'
+import { createMainWindow, createWindow } from '.'
 
 export function createTray(windowMap: WindowMap) {
   const tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '256x256.png')))
@@ -29,6 +29,16 @@ export function createTray(windowMap: WindowMap) {
   tray.setContextMenu(contextMenu)
 
   tray.setToolTip('schedule')
-
+  tray.on('click', () => {
+    const mainWindow = windowMap.get('main')
+    if (mainWindow) {
+      mainWindow.isVisible()
+        ? mainWindow.hide()
+        : mainWindow.show()
+    }
+    else {
+      createMainWindow(windowMap)
+    }
+  })
   return tray
 }

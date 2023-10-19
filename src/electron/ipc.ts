@@ -12,9 +12,7 @@ export function createIPC() {
   })
 
   ipcMain.handle('read-schedule', () => {
-    return fs.existsSync(path.join(app.getPath('userData'), 'schedule.json'))
-      ? JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'schedule.json'), 'utf-8'))
-      : { schedules: [] }
+    return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'schedule.json'), 'utf-8'))
   })
 
   ipcMain.handle('save-schedule', (_event, list: string) => {

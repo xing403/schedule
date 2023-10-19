@@ -1,6 +1,7 @@
 import path from 'node:path'
 import type { BrowserWindowConstructorOptions } from 'electron'
 import { BrowserWindow } from 'electron'
+import { createGlobalShortcut, removeGlobalShortcut } from './globalShortcut'
 
 export function createWindow(config?: BrowserWindowConstructorOptions) {
   const win = new BrowserWindow({
@@ -15,4 +16,16 @@ export function createWindow(config?: BrowserWindowConstructorOptions) {
   })
   win.menuBarVisible = false
   return win
+}
+export function createMainWindow(windowMap: WindowMap) {
+  const mainWindow = createWindow()
+  windowMap.set('main', mainWindow)
+  createGlobalShortcut(mainWindow)
+  process.argv[2] ? mainWindow.loadURL(process.argv[2]) : mainWindow.loadFile('index.html')
+
+  mainWindow.on('closed', () => {
+    removeGlobalShortcut()
+    windowMap.delete('main')
+  })
+  return mainWindow
 }
