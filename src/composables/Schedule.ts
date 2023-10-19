@@ -27,7 +27,7 @@ export function startSchedule(schedule: Schedule) {
 }
 export function done(schedule: Schedule) {
   if (schedule.callback_type === 'system-notification') {
-    patform.value === 'electron'
+    platform.value === 'electron'
       ? window.OS_API.notification(schedule.title, schedule.description)
       : ElNotification({ title: schedule.title, message: schedule.description })
   }
@@ -38,7 +38,7 @@ export function done(schedule: Schedule) {
   else if (schedule.callback_type === 'custom-notification') {
     // eslint-disable-next-line no-eval
     const callbackResult = eval(schedule.callback as string) ?? '--'
-    patform.value === 'electron'
+    platform.value === 'electron'
       ? window.OS_API.notification(schedule.title, callbackResult)
       : ElNotification({ title: schedule.title, message: `${callbackResult}` })
   }

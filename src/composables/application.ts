@@ -8,7 +8,7 @@ export const version = PKGJson.version
 export const name = PKGJson.name
 export const description = PKGJson.description
 export const author = PKGJson.author
-export const patform = useStorageAsync<'electron' | 'web'>('patform', userAgent.includes('electron/') ? 'electron' : 'web')
+export const platform = useStorageAsync<'electron' | 'web'>('platform', userAgent.includes('electron/') ? 'electron' : 'web')
 
 export const { isLoading, progress } = useNProgress()
 export const loadingToggle = useToggle(isLoading)

@@ -8,6 +8,8 @@ meta:
 import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
+const router = useRouter()
+
 const update_form = ref<FormInstance>()
 const schedule_form = ref<Schedule>({
   id: new Date().getTime(),
@@ -62,10 +64,22 @@ function handleRemoveSchedule(schedule: Schedule) {
   schedules.value.splice(schedules.value.indexOf(schedule), 1)
 }
 
-function handleOpenUpdateSchedule(schedule: Schedule) {
-  updateDialog.value = true
-  clearForm()
-  schedule_form.value = { ...schedule }
+function handleUpdateSchedule(schedule: Schedule) {
+  router.push({
+    name: 'schedule-update',
+    query: {
+      id: schedule.id,
+    },
+  })
+}
+
+function handleDetailSchedule(schedule: Schedule) {
+  router.push({
+    name: 'schedule-detail',
+    query: {
+      id: schedule.id,
+    },
+  })
 }
 
 function handleSaveUpdateSchedule() {
@@ -74,7 +88,7 @@ function handleSaveUpdateSchedule() {
       const index = schedules.value.findIndex((item: Schedule) => item.id === schedule_form.value.id)
 
       // clear old schedule setTimeOut task
-      schedules.value[index].status = false
+      stopSchedule(schedules.value[index])
 
       schedules.value[index] = generateSchedule(
         schedule_form.value.title,
@@ -129,7 +143,7 @@ function handleUpdateDialogClose() {
     </el-table-column>
     <el-table-column width="280" align="center" label="操作">
       <template #default="scope">
-        <el-button type="warning" size="small" @click="handleOpenUpdateSchedule(scope.row)">
+        <el-button type="warning" size="small" @click="handleUpdateSchedule(scope.row)">
           编辑
         </el-button>
         <el-popconfirm title="确认删除这个任务吗?" @confirm="handleRemoveSchedule(scope.row)">
@@ -140,7 +154,7 @@ function handleUpdateDialogClose() {
           </template>
         </el-popconfirm>
 
-        <el-button type="info" size="small">
+        <el-button type="info" size="small" @click="handleDetailSchedule(scope.row)">
           详情
         </el-button>
       </template>

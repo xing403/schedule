@@ -1,22 +1,24 @@
 <script setup lang="ts">
-window.OS_API.readSchedule().then((res: any) => {
-  const history_schedules = JSON.parse(res.schedules)
-  const initSchedules: Schedule[] = []
-  for (const schedule of history_schedules) {
-    const s = generateSchedule(
-      schedule.title,
-      schedule.description,
-      schedule.cron,
-      schedule.callback,
-      schedule.status,
-      schedule.callback_type,
-      schedule.id,
-    )
-    initSchedules.push(s)
-  }
+if (platform.value === 'electron') {
+  window.OS_API.readSchedule().then((res: any) => {
+    const history_schedules = JSON.parse(res.schedules)
+    const initSchedules: Schedule[] = []
+    for (const schedule of history_schedules) {
+      const s = generateSchedule(
+        schedule.title,
+        schedule.description,
+        schedule.cron,
+        schedule.callback,
+        schedule.status,
+        schedule.callback_type,
+        schedule.id,
+      )
+      initSchedules.push(s)
+    }
 
-  schedules.value = initSchedules
-})
+    schedules.value = initSchedules
+  })
+}
 </script>
 
 <template>

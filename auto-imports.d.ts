@@ -81,8 +81,8 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const parseExpression: typeof import('./src/composables/core')['parseExpression']
-  const patform: typeof import('./src/composables/application')['patform']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
+  const platform: typeof import('./src/composables/application')['platform']
   const progress: typeof import('./src/composables/application')['progress']
   const provide: typeof import('vue')['provide']
   const reactify: typeof import('@vueuse/core')['reactify']
@@ -392,8 +392,8 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
-    readonly patform: UnwrapRef<typeof import('./src/composables/application')['patform']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
+    readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
@@ -697,8 +697,8 @@ declare module '@vue/runtime-core' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
-    readonly patform: UnwrapRef<typeof import('./src/composables/application')['patform']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
+    readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
