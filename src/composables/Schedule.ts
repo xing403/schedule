@@ -1,6 +1,6 @@
 import { ElMessage, ElNotification, dayjs } from 'element-plus'
 
-export function generateSchedule(title: string, description: string, cron: string, callback: string | Function, status = false, callback_type: CallbackType = 'system-notification', id?: number) {
+export function generateSchedule(title: string, description: string, cron: string, callback: string, status = false, callback_type: CallbackType = 'notification', id?: number) {
   const schedule = {
     id: id ?? new Date().getTime(),
     title,
@@ -26,21 +26,24 @@ export function startSchedule(schedule: Schedule) {
   run(schedule)
 }
 export function done(schedule: Schedule) {
-  if (schedule.callback_type === 'system-notification') {
+  if (schedule.callback_type === 'notification') {
     platform.value === 'electron'
-      ? window.OS_API.notification(schedule.title, schedule.description)
-      : ElNotification({ title: schedule.title, message: schedule.description })
+      ? window.Electron.notification(
+        schedule.title,
+        schedule.callback === '' ? schedule.description : schedule.callback,
+      )
+      : ElNotification({
+        title: schedule.title,
+        message: schedule.callback === '' ? schedule.description : schedule.callback,
+      })
   }
-  else if (schedule.callback_type === 'custom-content') {
+  else if (schedule.callback_type === 'script') {
     // eslint-disable-next-line no-eval
     eval(schedule.callback as string)
   }
-  else if (schedule.callback_type === 'custom-notification') {
-    // eslint-disable-next-line no-eval
-    const callbackResult = eval(schedule.callback as string) ?? '--'
-    platform.value === 'electron'
-      ? window.OS_API.notification(schedule.title, callbackResult)
-      : ElNotification({ title: schedule.title, message: `${callbackResult}` })
+  else if (schedule.callback_type === 'open-external') {
+    if (platform.value === 'electron')
+      window.Electron.openExternal(schedule.callback)
   }
 }
 export function run(schedule: Schedule) {

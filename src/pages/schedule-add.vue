@@ -16,7 +16,7 @@ const schedule_form = ref<Schedule>({
   description: '',
   cron: '',
   callback: '',
-  callback_type: 'system-notification',
+  callback_type: 'notification',
   interval: null,
   status: false,
   next: '-',
@@ -31,6 +31,9 @@ const schedule_form_rules = {
   ],
   callback_type: [
     { required: true, message: '请输入任务执行类型', trigger: 'change' },
+  ],
+  callback: [
+    { validator: validateCallback, trigger: 'change' },
   ],
 }
 const calendarDrawer = ref(false)
@@ -103,6 +106,22 @@ function handleOpenDrawer() {
 function handleCloseDrawer() {
   drawerRef.value.handleClose()
 }
+
+function validateCallback(rule: any, value: any, callback: any) {
+  if (schedule_form.value.callback_type === 'open-external') {
+    if (value === '')
+      callback(new Error('请输入打开网址'))
+
+    else if (!/^(https?|ftp):\/\/([\-A-Za-z0-9+&@#/%?=~_|!:,.;]+[\.])+([A-Za-z]{2,4}[0-9]{1,3}|[A-Za-z]{2,4}|[0-9]{1,3})$/.test(value))
+      callback(new Error('请输入正确的网址'))
+
+    else
+      callback()
+  }
+  else {
+    callback()
+  }
+}
 </script>
 
 <template>
@@ -152,8 +171,8 @@ function handleCloseDrawer() {
         <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
     </el-form-item>
-    <el-form-item v-if="schedule_form.callback_type.startsWith('custom-')" label="执行内容" prop="callback">
-      <el-input v-model="schedule_form.callback" :rows="5" type="textarea" placeholder="请输入执行表达式" />
+    <el-form-item label="执行内容" prop="callback">
+      <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" />
     </el-form-item>
 
     <el-form-item>

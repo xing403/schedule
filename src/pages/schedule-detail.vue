@@ -93,8 +93,8 @@ function handleOpenDrawer() {
         <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
     </el-form-item>
-    <el-form-item v-if="schedule_form.callback_type.startsWith('custom-')" label="执行内容" prop="callback">
-      <el-input v-model="schedule_form.callback" :rows="5" type="textarea" placeholder="请输入执行表达式" disabled />
+    <el-form-item label="执行内容" prop="callback">
+      <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" disabled />
     </el-form-item>
 
     <el-form-item>

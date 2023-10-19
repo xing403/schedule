@@ -5,10 +5,9 @@ declare module '*.vue' {
 }
 type WindowMap = Map<string, BrowserWindow>
 interface Window {
-  OS_API: OS_API;
+  Electron: Electron;
 }
-
-type CallbackType = 'custom-content' | 'custom-notification' | 'system-notification'
+type CallbackType = 'script' | 'notification' | 'open-external'
 
 declare interface Schedule {
   id: number
@@ -16,7 +15,7 @@ declare interface Schedule {
   description: string
   cron: string
   callback_type: CallbackType
-  callback: string | Function
+  callback: string
   interval: any
   status: boolean
   next: string

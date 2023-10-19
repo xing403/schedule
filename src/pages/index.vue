@@ -5,62 +5,14 @@ meta:
 </route>
 
 <script lang="ts" setup>
-import type { FormInstance } from 'element-plus'
-import { ElMessage } from 'element-plus'
-
 const router = useRouter()
-
-const update_form = ref<FormInstance>()
-const schedule_form = ref<Schedule>({
-  id: new Date().getTime(),
-  title: '',
-  description: '',
-  cron: '',
-  callback: '',
-  callback_type: 'system-notification',
-  interval: null,
-  status: false,
-  next: '-',
-  timer: null,
-})
-const schedule_form_rules = {
-  title: [
-    { required: true, message: '请输入标题', trigger: 'change' },
-  ],
-  cron: [
-    { required: true, message: '请输入 cron', trigger: 'change' },
-  ],
-  callback_type: [
-    { required: true, message: '请输入任务执行类型', trigger: 'change' },
-  ],
-}
-const insertDialog = ref(false)
-const updateDialog = ref(false)
 
 function handleChangeStatus(schedule: Schedule) {
   schedule.status ? startSchedule(schedule) : stopSchedule(schedule)
 }
 
-function clearForm() {
-  schedule_form.value = {
-    id: new Date().getTime(),
-    title: '',
-    description: '',
-    cron: '',
-    callback: '',
-    callback_type: 'system-notification',
-    interval: null,
-    status: false,
-    next: '-',
-    timer: null,
-  }
-}
-function handleOpeninsertSchedule() {
-  insertDialog.value = true
-  clearForm()
-}
-
 function handleRemoveSchedule(schedule: Schedule) {
+  stopSchedule(schedule)
   schedules.value.splice(schedules.value.indexOf(schedule), 1)
 }
 
@@ -81,41 +33,9 @@ function handleDetailSchedule(schedule: Schedule) {
     },
   })
 }
-
-function handleSaveUpdateSchedule() {
-  update_form.value && update_form.value.validate((valid: boolean) => {
-    if (valid) {
-      const index = schedules.value.findIndex((item: Schedule) => item.id === schedule_form.value.id)
-
-      // clear old schedule setTimeOut task
-      stopSchedule(schedules.value[index])
-
-      schedules.value[index] = generateSchedule(
-        schedule_form.value.title,
-        schedule_form.value.description,
-        schedule_form.value.cron,
-        schedule_form.value.callback,
-        schedule_form.value.status,
-        schedule_form.value.callback_type,
-      )
-      updateDialog.value = false
-      ElMessage.success('修改成功')
-      clearForm()
-    }
-  })
-}
-
-function handleUpdateDialogClose() {
-  updateDialog.value = false
-  clearForm()
-}
 </script>
 
 <template>
-  <div flex="~ row gap-2 items-center" justify="end" mx-5 my-2 h-50px>
-    <el-button circle icon="Plus" @click="handleOpeninsertSchedule" />
-  </div>
-
   <el-table :data="schedules" stripe border>
     <el-table-column type="selection" width="55" align="center" />
     <el-table-column type="index" width="80" label="编号" align="center" />
@@ -160,65 +80,4 @@ function handleUpdateDialogClose() {
       </template>
     </el-table-column>
   </el-table>
-
-  <el-dialog v-model="updateDialog" title="修改任务" width="40%" :before-close="handleUpdateDialogClose">
-    <el-form ref="update_form" :model="schedule_form" :rules="schedule_form_rules" label-width="80px" :inline="false">
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="schedule_form.title" placeholder="请输入标题" />
-      </el-form-item>
-      <el-form-item label="描述" prop="description">
-        <el-input v-model="schedule_form.description" :rows="2" type="textarea" placeholder="请输入描述信息" />
-      </el-form-item>
-      <el-form-item prop="cron">
-        <template #label>
-          <el-popover placement="top-start" trigger="hover">
-            <el-link
-              type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html"
-              target="_blank"
-            >
-              查看 cron 规则
-            </el-link>
-            <template #reference>
-              <span>cron</span>
-            </template>
-          </el-popover>
-        </template>
-        <el-space direction="vertical" :fill="true" w-full>
-          <el-input v-model="schedule_form.cron" placeholder="请输入cron, 例如: */10 * * * * *" />
-          <el-alert type="info" show-icon :closable="false">
-            <template #title>
-              <div>
-                查看 <el-link
-                  type="primary" :underline="false" href="http://blog.ilstudy.vip/blogs/others/cron-rules.html"
-                  target="_blank"
-                >
-                  cron 规则
-                </el-link>
-              </div>
-            </template>
-          </el-alert>
-        </el-space>
-      </el-form-item>
-
-      <el-form-item label="状态" prop="status">
-        <el-switch v-model="schedule_form.status" :active-value="true" :inactive-value="false" />
-      </el-form-item>
-      <el-form-item label="任务类型" prop="status">
-        <el-select v-model="schedule_form.callback_type" placeholder="选择任务类型">
-          <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
-      </el-form-item>
-      <el-form-item v-if="schedule_form.callback_type.startsWith('custom-')" label="执行内容" prop="callback">
-        <el-input v-model="schedule_form.callback" :rows="5" type="textarea" placeholder="请输入执行表达式" />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <el-button type="primary" @click="handleSaveUpdateSchedule">
-        保存
-      </el-button>
-      <el-button type="warning" @click="handleUpdateDialogClose">
-        取消
-      </el-button>
-    </template>
-  </el-dialog>
 </template>

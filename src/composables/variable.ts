@@ -5,5 +5,5 @@ export const schedules = ref<Schedule[]>([])
 
 watchArray(schedules, (newValue) => {
   if (platform.value === 'electron')
-    window.OS_API.saveSchedule(JSON.stringify(newValue))
+    window.Electron.saveSchedule(JSON.stringify(newValue))
 }, { deep: true })

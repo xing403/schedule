@@ -2,14 +2,14 @@ export const CallbackMap: Array<{
   label: string
   value: CallbackType
 }> = [{
-  label: '系统通知',
-  value: 'system-notification',
+  label: '通知',
+  value: 'notification',
 }, {
-  label: '自定义内容',
-  value: 'custom-content',
+  label: '脚本',
+  value: 'script',
 }, {
-  label: '自定义通知',
-  value: 'custom-notification',
+  label: '打开链接',
+  value: 'open-external',
 }]
 
 export const WeekMap: Array<{
