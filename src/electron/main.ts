@@ -1,7 +1,7 @@
 import path from 'node:path'
 import type { BrowserWindowConstructorOptions } from 'electron'
-import { BrowserWindow } from 'electron'
-import { createGlobalShortcut, removeGlobalShortcut } from './globalShortcut'
+import { BrowserWindow, screen } from 'electron'
+import { createGlobalShortcut, removeGlobalShortcut } from '.'
 
 export function createWindow(config?: BrowserWindowConstructorOptions) {
   const win = new BrowserWindow({
@@ -28,4 +28,29 @@ export function createMainWindow(windowMap: WindowMap) {
     windowMap.delete('main')
   })
   return mainWindow
+}
+
+export function createSuspendedWindow(windowMap: WindowMap) {
+  const primaryDisplay = screen.getPrimaryDisplay()
+  const { width, height } = primaryDisplay.workAreaSize
+  const suspendedWindow = createWindow({
+    x: width - 150,
+    y: height * 0.3,
+    width: 50,
+    height: 50,
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true,
+    resizable: false,
+    fullscreenable: false,
+    skipTaskbar: true,
+  })
+
+  windowMap.set('suspended', suspendedWindow)
+
+  const suspendedPath = process.argv[2]
+    ? `${process.argv[2]}/#/suspended`
+  // eslint-disable-next-line n/no-path-concat
+    : `file://${__dirname}/index.html#/suspended`
+  suspendedWindow.loadURL(suspendedPath)
 }

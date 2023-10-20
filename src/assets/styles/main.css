@@ -5,7 +5,9 @@ body,
   margin: 0;
   padding: 0;
 }
-
+body{
+  -at--apply: font-sans dark="text-white bg-hex-121212"
+}
 html.dark {
   background: #121212;
 }

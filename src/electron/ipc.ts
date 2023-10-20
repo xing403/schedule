@@ -1,6 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import type { BrowserWindow } from 'electron'
 import { Notification, app, ipcMain, shell } from 'electron'
+import { createMainWindow, windowMap } from '.'
 
 export function createIPC() {
   ipcMain.handle('notification', (_event, title: string, body: string) => {
@@ -12,7 +14,9 @@ export function createIPC() {
   })
 
   ipcMain.handle('read-schedule', () => {
-    return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'schedule.json'), 'utf-8'))
+    if (fs.existsSync(path.join(app.getPath('userData'), 'schedule.json')))
+      return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'schedule.json'), 'utf-8'))
+    return { schedules: '[]' }
   })
 
   ipcMain.handle('save-schedule', (_event, list: string) => {
@@ -24,5 +28,32 @@ export function createIPC() {
 
   ipcMain.handle('open-external', (_event, url: string) => {
     shell.openExternal(url)
+  })
+
+  ipcMain.handle('read-setting', () => {
+    if (fs.existsSync(path.join(app.getPath('userData'), 'setting.json')))
+      return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
+    return undefined
+  })
+
+  ipcMain.handle('save-setting', (_event, setting: string) => {
+    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), 'setting.json'), 'w'), setting)
+    return true
+  })
+
+  ipcMain.handle('command', (_event, command: string, argv?: any) => {
+    if (command === 'openMainWindow') {
+      if (windowMap.get('main'))
+        windowMap.get('main')?.show()
+      else
+        createMainWindow(windowMap)
+    }
+    else if (command === 'moveSuspended') {
+      if (windowMap.get('suspended')) {
+        const sus = windowMap.get('suspended') as BrowserWindow
+        const [x, y] = sus.getPosition()
+        sus.setPosition(x + argv.x, y + argv.y)
+      }
+    }
   })
 }

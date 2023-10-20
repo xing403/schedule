@@ -24,6 +24,25 @@ export function createTray(windowMap: WindowMap) {
         windowMap.set('about', about)
       },
     },
+    {
+      label: '设置',
+      click: () => {
+        if (windowMap.get('settings'))
+          return
+        const settings = createWindow({ width: 600, height: 900 })
+        const settingsPath = process.argv[2]
+          ? `${process.argv[2]}/#/settings`
+          // eslint-disable-next-line n/no-path-concat
+          : `file://${__dirname}/index.html#/settings`
+        settings.loadURL(settingsPath)
+
+        settings.on('closed', () => {
+          windowMap.delete('settings')
+        })
+        windowMap.set('settings', settings)
+      },
+    },
+    { type: 'separator' },
     { label: '退出', role: 'quit' },
   ])
   tray.setContextMenu(contextMenu)
