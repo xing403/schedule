@@ -48,8 +48,17 @@ export function done(schedule: Schedule) {
 }
 export function run(schedule: Schedule) {
   if (schedule.status && schedule.interval.hasNext()) {
-    const date = schedule.interval.next().value
-    schedule.next = dayjs(date).format('YYYY-MM-DD HH:mm:ss')
+    let next
+
+    do {
+      if (!schedule.interval.hasNext()) {
+        stopSchedule(schedule)
+        ElMessage.success('任务运行结束')
+      }
+      next = schedule.interval.next().value
+    } while (new Date(next).getTime() - Date.now() < 0)
+
+    schedule.next = dayjs(next).format('YYYY-MM-DD HH:mm:ss')
     schedule.timer = setTimeout(() => {
       try {
         done(schedule)
@@ -59,7 +68,11 @@ export function run(schedule: Schedule) {
         ElMessage.error(`${schedule.id} 的执行内容好像出现了点问题`)
       }
       run(schedule)
-    }, new Date(date).getTime() - Date.now())
+    }, new Date(next).getTime() - Date.now())
+  }
+  else if (!schedule.interval.hasNext()) {
+    stopSchedule(schedule)
+    ElMessage.success('任务运行结束')
   }
 }
 export function stopSchedule(schedule: Schedule) {

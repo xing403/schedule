@@ -17,6 +17,21 @@ A Schedule Tools, You can create a scheduled task by using the cron string
 
 ![index page](./docs/banner2.png)
 
+## Schedule type
+
+> `notification`
+
+Display the entered execution in the notification. When the execution content is empty the schedule will display description information
+
+> `open website`
+
+Open the specified URL through a browser
+
+
+> `script`
+
+Still in the testing phase, you can only execute simple javaScript code.
+
 ## Usage
 > need
 * node >= 16.*
@@ -31,4 +46,7 @@ pnpm i
 ```sh
 pnpm dev
 ```
-
+### build
+```sh
+pnpm build
+```
