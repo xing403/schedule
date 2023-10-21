@@ -47,36 +47,30 @@ export function done(schedule: Schedule) {
   }
 }
 export function run(schedule: Schedule) {
-  if (schedule.status && schedule.interval.hasNext()) {
-    let next
-
-    do {
+  if (schedule.status) {
+    while (schedule.next === '-' || new Date(schedule.next).getTime() - Date.now() < 0) {
       if (!schedule.interval.hasNext()) {
         stopSchedule(schedule)
         ElMessage.success('任务运行结束')
+        return
       }
-      next = schedule.interval.next().value
-    } while (new Date(next).getTime() - Date.now() < 0)
+      schedule.next = dayjs(schedule.interval.next().value).format('YYYY-MM-DD HH:mm:ss')
+    }
 
-    schedule.next = dayjs(next).format('YYYY-MM-DD HH:mm:ss')
     schedule.timer = setTimeout(() => {
       try {
         done(schedule)
       }
       catch (error: any) {
         console.error(error)
+        stopSchedule(schedule)
         ElMessage.error(`${schedule.id} 的执行内容好像出现了点问题`)
       }
       run(schedule)
-    }, new Date(next).getTime() - Date.now())
-  }
-  else if (!schedule.interval.hasNext()) {
-    stopSchedule(schedule)
-    ElMessage.success('任务运行结束')
+    }, new Date(schedule.next).getTime() - Date.now())
   }
 }
 export function stopSchedule(schedule: Schedule) {
   schedule.status = false
   clearTimeout(schedule.timer)
-  schedule.next = '-'
 }

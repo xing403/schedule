@@ -13,7 +13,10 @@ import {
 app.setAppUserModelId('Schedule Notification')
 app.setPath('userData', path.join(app.getPath('userData'), 'data'))
 
-const settings = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
+let settings: any = {}
+
+if (fs.existsSync(path.join(app.getPath('userData'), 'settings.json')))
+  settings = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
 
 app.whenReady().then(() => {
   createMainWindow(windowMap)
