@@ -4,8 +4,8 @@ import {
   presetIcons,
   presetUno,
   presetWebFonts,
+  transformerDirectives,
 } from 'unocss'
-import transformerDirectives from '@unocss/transformer-directives'
 
 export default defineConfig({
   shortcuts: [

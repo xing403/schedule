@@ -94,7 +94,10 @@ function handleOpenDrawer() {
       </el-select>
     </el-form-item>
     <el-form-item label="执行内容" prop="callback">
-      <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" disabled />
+      <el-input
+        v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容"
+        disabled
+      />
     </el-form-item>
 
     <el-form-item>
@@ -105,31 +108,33 @@ function handleOpenDrawer() {
   </el-form>
 
   <el-drawer ref="drawerRef" v-model="calendarDrawer" @close="calendarDrawer = false">
-    <el-steps :active="stepActive" finish-status="success" align-center>
-      <el-step title="选择月份" />
-      <el-step title="选择每月的天" />
-      <el-step title="选择周" />
-      <el-step title="选择小时" />
-      <el-step title="选择分钟" />
+    <el-steps :active="stepActive" finish-status="success" align-center cursor-pointer>
+      <el-step title="选择月份" @click="stepActive = 0" />
+      <el-step title="选择每月的天" @click="stepActive = 1" />
+      <el-step title="选择周" @click="stepActive = 2" />
+      <el-step title="选择小时" @click="stepActive = 3" />
+      <el-step title="选择分钟" @click="stepActive = 4" />
     </el-steps>
     <div class="step-group">
       <Transition mode="out-in" name="bounce">
         <div v-if="stepActive === 0" class="step-item" :class="`step-${stepActive}`">
-          <div class="month" flex="~ row gap-1 wrap" w-full>
+          <div class="month">
             <div
-              v-for="item in MonthMap" :key="item.value" class="month-deatil" m-1 h-3em w-full p-2
+              v-for="item in MonthMap" :key="item.value" class="month-deatil" m-1 h-3em
+              flex="~ row gap-1 wrap justify-between" w-full px-5 lh-3em
               border="1px #EBEEF5 dark:#363637 solid" :class="{
                 'is-selected': cron.month.includes(item.value),
               }"
             >
               <span>{{ item.CN }}</span>
+              <span>{{ item.En }}</span>
             </div>
           </div>
         </div>
         <div v-else-if="stepActive === 1" class="step-item" :class="`step-${stepActive}`">
           <div class="month" flex="~ row gap-1 wrap" w-full>
             <div
-              v-for="item in 31" :key="item" class="month-day" m-1 h-5em w-5.5ch p-2
+              v-for="item in 31" :key="item" class="month-day" m-1 h-5em w-5.5ch text-center lh-5em
               border="1px #EBEEF5 dark:#363637 solid" :class="{
                 'is-selected': cron.dayOfMonth.includes(item),
               }"
@@ -141,19 +146,20 @@ function handleOpenDrawer() {
         <div v-else-if="stepActive === 2" class="step-item" :class="`step-${stepActive}`">
           <div class="week" flex="~ row gap-1 wrap" w-full>
             <div
-              v-for="item, index in WeekMap" :key="index" class="week-day" m-1 h-3em w-full p-2
+              v-for="item, index in WeekMap" :key="index" class="week-day" flex="~ row gap-1 wrap justify-between" m-1 h-3em w-full p-2
               border="1px #EBEEF5 dark:#363637 solid" :class="{
                 'is-selected': cron.dayOfWeek.includes(item.value),
               }"
             >
               <span>{{ item.CN }}</span>
+              <span>{{ item.En }}</span>
             </div>
           </div>
         </div>
         <div v-else-if="stepActive === 3" class="step-item" :class="`step-${stepActive}`">
           <div class="hour" flex="~ row gap-1 wrap" w-full>
             <div
-              v-for="item in 24" :key="item" class="hour-deatil" m-1 h-5em w-5.5ch p-2
+              v-for="item in 24" :key="item" class="hour-deatil" m-1 h-5em w-5.5ch text-center lh-5em
               border="1px #EBEEF5 dark:#363637 solid" :class="{
                 'is-selected': cron.hour.includes(item - 1),
               }"
@@ -165,7 +171,7 @@ function handleOpenDrawer() {
         <div v-else-if="stepActive === 4" class="step-item" :class="`step-${stepActive}`">
           <div class="minute" flex="~ row gap-1 wrap" w-full>
             <div
-              v-for="item in 60" :key="item" class="minute-deatil" m-1 h-5em w-5.5ch p-2
+              v-for="item in 60" :key="item" class="minute-deatil" m-1 h-5em w-5.5ch text-center lh-5em
               border="1px #EBEEF5 dark:#363637 solid" :class="{
                 'is-selected': cron.minute.includes(item - 1),
               }"
@@ -190,34 +196,37 @@ function handleOpenDrawer() {
 </template>
 
 <style lang="postcss">
-    .month-day,
-    .week-day,
-    .month-deatil,
-    .hour-deatil,
-    .minute-deatil {
-      user-select: none;
+.month-day,
+.week-day,
+.month-deatil,
+.hour-deatil,
+.minute-deatil {
+  user-select: none;
 
-      &.is-selected {
-        color: var(--el-color-primary);
-        background: var(--el-color-primary-light-8);
-      }
+  &.is-selected {
+    color: var(--el-color-primary);
+    background: var(--el-color-primary-light-8);
+  }
 
-    }
+}
 
-    .step-item{
-      display: block;
-      --at-apply: w-full;
+.step-item {
+  display: block;
+  --at-apply: w-full;
+}
+
+.el-step__head,
+.el-step__title {
+  &.is-process {
+    color: var(--el-color-primary);
+
+    .is-text {
+      border: 2px var(--el-color-primary) solid;
     }
-    .el-step__head,
-    .el-step__title{
-      &.is-process{
-        color: var(--el-color-primary);
-        .is-text{
-          border: 2px var(--el-color-primary) solid;
-        }
-      }
-    }
-    .bounce-leave-active{
-      --at-apply: animate-bounce-out-left;
-    }
-    </style>
+  }
+}
+
+.bounce-leave-active {
+  --at-apply: animate-bounce-out-right animate-duration-200;
+}
+</style>

@@ -21,3 +21,10 @@ declare interface Schedule {
   next: string
   timer: any
 }
+declare interface MenuItem {
+  name: string
+  path: string
+  redirect?: string
+  children: (MenuItem | RouteRecordRaw)[]
+  meta?: any
+}
