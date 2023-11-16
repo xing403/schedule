@@ -7,6 +7,7 @@ declare global {
   const CRON: typeof import('./src/composables/dictionaries')['CRON']
   const CallbackMap: typeof import('./src/composables/dictionaries')['CallbackMap']
   const EffectScope: typeof import('vue')['EffectScope']
+  const HINTS: typeof import('./src/composables/HINTS')['HINTS']
   const MonthMap: typeof import('./src/composables/dictionaries')['MonthMap']
   const WeekMap: typeof import('./src/composables/dictionaries')['WeekMap']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
@@ -35,6 +36,7 @@ declare global {
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const description: typeof import('./src/composables/application')['description']
+  const directive: typeof import('./src/composables/directive')['default']
   const done: typeof import('./src/composables/Schedule')['done']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
@@ -81,8 +83,11 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const parseExpression: typeof import('./src/composables/core')['parseExpression']
+  const parseYAMLString: typeof import('./src/composables/utils')['parseYAMLString']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const platform: typeof import('./src/composables/application')['platform']
+  const pre: typeof import('./src/composables/directive')['pre']
+  const presuppose: typeof import('./src/composables/index')['presuppose']
   const progress: typeof import('./src/composables/application')['progress']
   const provide: typeof import('vue')['provide']
   const reactify: typeof import('@vueuse/core')['reactify']
@@ -102,6 +107,7 @@ declare global {
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
   const run: typeof import('./src/composables/Schedule')['run']
+  const scheduleNotification: typeof import('./src/composables/utils')['scheduleNotification']
   const schedules: typeof import('./src/composables/variable')['schedules']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
@@ -318,6 +324,7 @@ declare module 'vue' {
     readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
     readonly CallbackMap: UnwrapRef<typeof import('./src/composables/dictionaries')['CallbackMap']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly HINTS: UnwrapRef<typeof import('./src/composables/HINTS')['HINTS']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
@@ -346,6 +353,7 @@ declare module 'vue' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
+    readonly directive: UnwrapRef<typeof import('./src/composables/directive')['default']>
     readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
@@ -392,8 +400,10 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
+    readonly parseYAMLString: UnwrapRef<typeof import('./src/composables/utils')['parseYAMLString']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
+    readonly presuppose: UnwrapRef<typeof import('./src/composables/index')['presuppose']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
@@ -413,6 +423,7 @@ declare module 'vue' {
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
     readonly run: UnwrapRef<typeof import('./src/composables/Schedule')['run']>
+    readonly scheduleNotification: UnwrapRef<typeof import('./src/composables/utils')['scheduleNotification']>
     readonly schedules: UnwrapRef<typeof import('./src/composables/variable')['schedules']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
@@ -623,6 +634,7 @@ declare module '@vue/runtime-core' {
     readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
     readonly CallbackMap: UnwrapRef<typeof import('./src/composables/dictionaries')['CallbackMap']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly HINTS: UnwrapRef<typeof import('./src/composables/HINTS')['HINTS']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
@@ -651,6 +663,7 @@ declare module '@vue/runtime-core' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
+    readonly directive: UnwrapRef<typeof import('./src/composables/directive')['default']>
     readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
@@ -697,8 +710,10 @@ declare module '@vue/runtime-core' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
+    readonly parseYAMLString: UnwrapRef<typeof import('./src/composables/utils')['parseYAMLString']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
+    readonly presuppose: UnwrapRef<typeof import('./src/composables/index')['presuppose']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
@@ -718,6 +733,7 @@ declare module '@vue/runtime-core' {
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
     readonly run: UnwrapRef<typeof import('./src/composables/Schedule')['run']>
+    readonly scheduleNotification: UnwrapRef<typeof import('./src/composables/utils')['scheduleNotification']>
     readonly schedules: UnwrapRef<typeof import('./src/composables/variable')['schedules']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
