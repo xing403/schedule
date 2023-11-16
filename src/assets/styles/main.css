@@ -1,6 +1,7 @@
 html,
 body,
 #app {
+  width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -10,4 +11,7 @@ body{
 }
 html.dark {
   background: #121212;
+}
+.bounce-enter-active {
+  --at-apply: animate-bounce-in-right animate-duration-350;
 }
