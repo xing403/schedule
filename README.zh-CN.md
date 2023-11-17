@@ -30,6 +30,17 @@
 
 仍然处于测试阶段，您只能执行简单的JavaScript代码。
 
+> `指令`
+
+设置 `key` 关键字 执行内部内置指令。
+**例如**
+```yaml
+key: date-time
+args:
+  format: YYYY-MM-dd HH:mm:ss
+```
+
+你能获得当前时间并通过系统展示
 
 ## 使用
 > 环境要求

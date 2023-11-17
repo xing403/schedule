@@ -4,7 +4,7 @@
 <h3 align="center">Schedule</h3>
 
 
-<div style="text-align:center">
+<div style="text-align: center">
   <a href="./README.zh-CN.md">中文</a> | <span>English</span>
 </div>
 
@@ -27,10 +27,20 @@ Display the entered execution in the notification. When the execution content is
 
 Open the specified URL through a browser
 
-
 > `script`
 
-Still in the testing phase, you can only execute simple javaScript code.
+Still in the testing phase, you can only execute simple JavaScript code.
+
+> `directive`
+Default commands can be executed by setting the key
+**for example**
+
+```yaml
+key: date-time
+args:
+  format: YYYY-MM-DD HH:mm:ss
+```
+You can get the current time and display it through notifications
 
 ## Usage
 > need
