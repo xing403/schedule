@@ -1,6 +1,6 @@
 <route lang="yaml">
 meta:
-  title: 定时任务
+  title: 首页
   icon: i-carbon-home
 </route>
 

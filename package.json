@@ -1,6 +1,6 @@
 {
   "name": "schedule",
-  "version": "0.2.0-alpha-0",
+  "version": "0.2.0-alpha-1",
   "private": true,
   "packageManager": "pnpm@8.6.0",
   "description": "A Schedule Tools, You can create a scheduled task by using the cron string",
@@ -38,6 +38,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.5",
     "@iconify-json/carbon": "^1.1.21",
+    "@iconify-json/mdi": "^1.1.55",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.2.5",
     "@types/nprogress": "^0.2.1",
