@@ -42,10 +42,14 @@ function handleSaveUpdateSchedule() {
     if (valid) {
       const index = schedules.value.findIndex((item: Schedule) => item.id === schedule_form.value.id)
 
-      stopSchedule(schedules.value[index])
+      const oldSchedule = schedules.value[index]
 
-      schedules.value[index] = generateSchedule(schedule_form.value)
+      stopSchedule(oldSchedule)
+      const schedule = generateSchedule(schedule_form.value)
+      schedules.value[index] = schedule
       ElMessage.success({ message: '保存成功' })
+
+      logs(`upd from ${scheduleFormatOutput(schedule)} to ${scheduleFormatOutput(schedule)}`, 'warn')
 
       setTimeout(handleRouterBack, 1000)
     }
@@ -149,7 +153,10 @@ function clickPresuppose(type: string, value: any[]) {
       </el-select>
     </el-form-item>
     <el-form-item v-if="schedule_form.callback_type === 'directive'" label="指令内容" prop="directive">
-      <el-input v-model="schedule_form.directive" :autosize="{ minRows: 5 }" type="textarea" :placeholder="HINTS.schedule.directive" />
+      <el-input
+        v-model="schedule_form.directive" :autosize="{ minRows: 5 }" type="textarea"
+        :placeholder="HINTS.schedule.directive"
+      />
     </el-form-item>
     <el-form-item v-else label="执行内容" prop="callback">
       <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" />

@@ -21,18 +21,18 @@ A Schedule Tools, You can create a scheduled task by using the cron string
 
 > `notification`
 
-Display the entered execution in the notification. When the execution content is empty the schedule will display description information
+display the entered execution in the notification. When the execution content is empty the schedule will display description information.
 
 > `open website`
 
-Open the specified URL through a browser
+open the specified URL through a browser.
 
 > `script`
 
-Still in the testing phase, you can only execute simple JavaScript code.
+still in the testing phase, you can only execute simple JavaScript code.
 
 > `directive`
-Default commands can be executed by setting the key
+default directive can be executed by setting the key
 **for example**
 
 ```yaml
@@ -40,7 +40,7 @@ key: date-time
 args:
   format: YYYY-MM-DD HH:mm:ss
 ```
-You can get the current time and display it through notifications
+You can get the current time and display it through notifications. [more directives](./docs/directive.md)
 
 ## Usage
 > need

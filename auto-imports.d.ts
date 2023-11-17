@@ -57,6 +57,7 @@ declare global {
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
   const loadingToggle: typeof import('./src/composables/application')['loadingToggle']
+  const logs: typeof import('./src/composables/utils')['logs']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
   const menuCollapse: typeof import('./src/composables/application')['menuCollapse']
@@ -107,6 +108,7 @@ declare global {
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
   const run: typeof import('./src/composables/Schedule')['run']
+  const scheduleFormatOutput: typeof import('./src/composables/utils')['scheduleFormatOutput']
   const scheduleNotification: typeof import('./src/composables/utils')['scheduleNotification']
   const schedules: typeof import('./src/composables/variable')['schedules']
   const shallowReactive: typeof import('vue')['shallowReactive']
@@ -374,6 +376,7 @@ declare module 'vue' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly loadingToggle: UnwrapRef<typeof import('./src/composables/application')['loadingToggle']>
+    readonly logs: UnwrapRef<typeof import('./src/composables/utils')['logs']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly menuCollapse: UnwrapRef<typeof import('./src/composables/application')['menuCollapse']>
@@ -423,6 +426,7 @@ declare module 'vue' {
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
     readonly run: UnwrapRef<typeof import('./src/composables/Schedule')['run']>
+    readonly scheduleFormatOutput: UnwrapRef<typeof import('./src/composables/utils')['scheduleFormatOutput']>
     readonly scheduleNotification: UnwrapRef<typeof import('./src/composables/utils')['scheduleNotification']>
     readonly schedules: UnwrapRef<typeof import('./src/composables/variable')['schedules']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
@@ -684,6 +688,7 @@ declare module '@vue/runtime-core' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly loadingToggle: UnwrapRef<typeof import('./src/composables/application')['loadingToggle']>
+    readonly logs: UnwrapRef<typeof import('./src/composables/utils')['logs']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly menuCollapse: UnwrapRef<typeof import('./src/composables/application')['menuCollapse']>
@@ -733,6 +738,7 @@ declare module '@vue/runtime-core' {
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
     readonly run: UnwrapRef<typeof import('./src/composables/Schedule')['run']>
+    readonly scheduleFormatOutput: UnwrapRef<typeof import('./src/composables/utils')['scheduleFormatOutput']>
     readonly scheduleNotification: UnwrapRef<typeof import('./src/composables/utils')['scheduleNotification']>
     readonly schedules: UnwrapRef<typeof import('./src/composables/variable')['schedules']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>

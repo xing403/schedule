@@ -6,9 +6,7 @@ export function generateSchedule(schedule: Schedule) {
     callback_type: 'notification',
   }, schedule)
 
-  schedule.interval = parseExpression(schedule.cron, {
-    iterator: true,
-  })
+  schedule.interval = null
 
   if (schedule.status)
     startSchedule(schedule)
@@ -18,11 +16,14 @@ export function generateSchedule(schedule: Schedule) {
       return parseYAMLString(directive) as DirectiveFType
     })
   }
-
   return schedule
 }
 export function startSchedule(schedule: Schedule) {
   schedule.status = true
+  schedule.interval = parseExpression(schedule.cron, {
+    iterator: true,
+  })
+  logs(`running schedule id:${schedule.id}, cron: ${schedule.cron}`, 'info')
   run(schedule)
 }
 
@@ -59,8 +60,9 @@ export function done(schedule: Schedule) {
 export function run(schedule: Schedule) {
   if (schedule.status) {
     while (schedule.next === '-' || new Date(schedule.next).getTime() - Date.now() < 0) {
-      if (!schedule.interval.hasNext()) {
+      if (!schedule.interval?.hasNext()) {
         stopSchedule(schedule)
+        logs(`${schedule.id} run finished, not has next`, 'warning')
         ElMessage.success('任务运行结束')
         return
       }
@@ -73,6 +75,7 @@ export function run(schedule: Schedule) {
       }
       catch (error: any) {
         console.error(error)
+        logs(`${schedule.id} run error, ${error}`, 'error')
         stopSchedule(schedule)
         ElMessage.error(`${schedule.id} 的执行内容好像出现了点问题`)
       }
@@ -83,4 +86,7 @@ export function run(schedule: Schedule) {
 export function stopSchedule(schedule: Schedule) {
   schedule.status = false
   clearTimeout(schedule.timer)
+  schedule.next = '-'
+  schedule.interval = null
+  logs(`${schedule.id} is stopped`, 'info')
 }

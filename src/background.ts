@@ -7,6 +7,8 @@ import {
   createMainWindow,
   createSuspendedWindow,
   createTray,
+  initLogs,
+  logs,
   windowMap,
 } from './electron'
 
@@ -25,6 +27,10 @@ app.whenReady().then(() => {
 
   if (settings?.baseSetting?.suspended_window)
     createSuspendedWindow(windowMap)
+  initLogs()
 })
 
 app.on('window-all-closed', () => {})
+app.on('quit', () => {
+  logs('app closed', 'info')
+})

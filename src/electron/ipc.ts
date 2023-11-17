@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { BrowserWindow } from 'electron'
 import { Notification, app, ipcMain, shell } from 'electron'
+import { logs } from './utils'
 import { createMainWindow, windowMap } from '.'
 
 export function createIPC() {
@@ -55,5 +56,9 @@ export function createIPC() {
         sus.setPosition(x + argv.x, y + argv.y)
       }
     }
+  })
+
+  ipcMain.handle('logs', (_event, context: string, level?: string) => {
+    logs(context, level)
   })
 }

@@ -14,6 +14,7 @@ function handleChangeStatus(schedule: Schedule) {
 function handleRemoveSchedule(schedule: Schedule) {
   stopSchedule(schedule)
   schedules.value.splice(schedules.value.indexOf(schedule), 1)
+  logs(`del ${scheduleFormatOutput(schedule)}`, 'warn')
 }
 
 function handleUpdateSchedule(schedule: Schedule) {

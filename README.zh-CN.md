@@ -40,7 +40,7 @@ args:
   format: YYYY-MM-dd HH:mm:ss
 ```
 
-你能获得当前时间并通过系统展示
+你能获得当前时间并通过系统展示。[更多指令](./docs/directive.md)
 
 ## 使用
 > 环境要求

@@ -68,6 +68,7 @@ function handleAddSchedule() {
         second: [0],
 
       }
+      logs(`add schedule: ${scheduleFormatOutput(schedule)}`, 'info')
     }
   })
 }

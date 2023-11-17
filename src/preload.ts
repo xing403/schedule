@@ -11,4 +11,6 @@ contextBridge.exposeInMainWorld('Electron', {
   openExternal: (url: string) => ipcRenderer.invoke('open-external', url),
 
   command: (command: string, argv?: any) => ipcRenderer.invoke('command', command, argv),
+
+  logs: (context: string, level?: string) => ipcRenderer.invoke('logs', context, level),
 })

@@ -22,3 +22,15 @@ export function parseYAMLString(yamlString: string) {
     execute,
   } as DirectiveFType
 }
+
+export function logs(context: string, level?: string) {
+  if (platform.value === 'electron')
+    window.Electron.logs(context, level)
+}
+export function scheduleFormatOutput(schedule: Schedule) {
+  return `{id: \'${schedule.id}\', `
+          + `cron: \'${schedule.cron}\', `
+          + `directive: \'${schedule.directive}\', `
+          + `callback_type: \'${schedule.callback_type}\', `
+          + `callback: \'${schedule.callback}\'}`
+}
