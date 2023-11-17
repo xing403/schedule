@@ -8,5 +8,14 @@ function reload() {
 </script>
 
 <template>
-  <el-button icon="Refresh" circle @click="reload()" />
+  <div class="refresh i-mdi-refresh" @click="reload()" />
 </template>
+
+<style lang="postcss">
+.refresh{
+  --at-apply: cursor-pointer ;
+  &:hover{
+    color: var(--el-color-primary)
+  }
+}
+</style>

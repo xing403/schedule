@@ -93,11 +93,11 @@ function handleOpenDrawer() {
         <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
     </el-form-item>
-    <el-form-item label="执行内容" prop="callback">
-      <el-input
-        v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容"
-        disabled
-      />
+    <el-form-item v-if="schedule_form.callback_type === 'directive'" label="指令内容" prop="directive">
+      <el-input v-model="schedule_form.directive" :autosize="{ minRows: 5 }" type="textarea" :placeholder="HINTS.schedule.directive" />
+    </el-form-item>
+    <el-form-item v-else label="执行内容" prop="callback">
+      <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" />
     </el-form-item>
 
     <el-form-item>
@@ -109,11 +109,11 @@ function handleOpenDrawer() {
 
   <el-drawer ref="drawerRef" v-model="calendarDrawer" @close="calendarDrawer = false">
     <el-steps :active="stepActive" finish-status="success" align-center cursor-pointer>
-      <el-step title="选择月份" @click="stepActive = 0" />
-      <el-step title="选择每月的天" @click="stepActive = 1" />
-      <el-step title="选择周" @click="stepActive = 2" />
-      <el-step title="选择小时" @click="stepActive = 3" />
-      <el-step title="选择分钟" @click="stepActive = 4" />
+      <el-step title="月份" @click="stepActive = 0" />
+      <el-step title="天" @click="stepActive = 1" />
+      <el-step title="周" @click="stepActive = 2" />
+      <el-step title="小时" @click="stepActive = 3" />
+      <el-step title="分钟" @click="stepActive = 4" />
     </el-steps>
     <div class="step-group">
       <Transition mode="out-in" name="bounce">

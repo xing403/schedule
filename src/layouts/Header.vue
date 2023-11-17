@@ -27,7 +27,7 @@ const theme = ref(isDark.value)
       <el-divider direction="vertical" />
       <reload />
       <el-divider direction="vertical" />
-      <el-switch v-model="theme" :active-value="true" :inactive-value="false" @change="toggleDark()" />
+      <el-switch v-model="theme" size="small" :active-value="true" :inactive-value="false" @change="toggleDark()" />
     </div>
   </div>
 </template>

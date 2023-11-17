@@ -44,15 +44,7 @@ function handleSaveUpdateSchedule() {
 
       stopSchedule(schedules.value[index])
 
-      schedules.value[index] = generateSchedule(
-        schedule_form.value.title,
-        schedule_form.value.description,
-        schedule_form.value.cron,
-        schedule_form.value.callback,
-        schedule_form.value.status,
-        schedule_form.value.callback_type,
-        schedule_form.value.id,
-      )
+      schedules.value[index] = generateSchedule(schedule_form.value)
       ElMessage.success({ message: '保存成功' })
 
       setTimeout(handleRouterBack, 1000)
@@ -104,6 +96,9 @@ function validateCallback(rule: any, value: any, callback: any) {
     callback()
   }
 }
+function clickPresuppose(type: string, value: any[]) {
+  cron.value[type] = value
+}
 </script>
 
 <template>
@@ -153,7 +148,10 @@ function validateCallback(rule: any, value: any, callback: any) {
         <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
     </el-form-item>
-    <el-form-item label="执行内容" prop="callback">
+    <el-form-item v-if="schedule_form.callback_type === 'directive'" label="指令内容" prop="directive">
+      <el-input v-model="schedule_form.directive" :autosize="{ minRows: 5 }" type="textarea" :placeholder="HINTS.schedule.directive" />
+    </el-form-item>
+    <el-form-item v-else label="执行内容" prop="callback">
       <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" />
     </el-form-item>
 
@@ -169,11 +167,11 @@ function validateCallback(rule: any, value: any, callback: any) {
 
   <el-drawer ref="drawerRef" v-model="calendarDrawer" @close="calendarDrawer = false">
     <el-steps :active="stepActive" finish-status="success" align-center>
-      <el-step title="选择月份" @click="stepActive = 0" />
-      <el-step title="选择每月的天" @click="stepActive = 1" />
-      <el-step title="选择周" @click="stepActive = 2" />
-      <el-step title="选择小时" @click="stepActive = 3" />
-      <el-step title="选择分钟" @click="stepActive = 4" />
+      <el-step title="月份" @click="stepActive = 0" />
+      <el-step title="天" @click="stepActive = 1" />
+      <el-step title="周" @click="stepActive = 2" />
+      <el-step title="小时" @click="stepActive = 3" />
+      <el-step title="分钟" @click="stepActive = 4" />
     </el-steps>
     <div class="step-group">
       <Transition mode="out-in" name="bounce">
@@ -202,9 +200,14 @@ function validateCallback(rule: any, value: any, callback: any) {
           </div>
         </div>
         <div v-else-if="stepActive === 2" class="step-item" :class="`step-${stepActive}`">
-          <div class="week">
+          <div class="week" m-1>
+            <div class="presuppose" mb-2>
+              <el-button v-for="item, index in dayOfWeek" :key="index" @click="clickPresuppose('dayOfWeek', item.value)">
+                {{ item.label }}
+              </el-button>
+            </div>
             <div
-              v-for="item, index in WeekMap" :key="index" class="week-day" flex="~ row gap-1 wrap justify-between" m-1
+              v-for="item, index in WeekMap" :key="index" class="week-day" flex="~ row gap-1 wrap justify-between"
               h-3em w-full px-5 lh-3em border="1px #EBEEF5 dark:#363637 solid" :class="{
                 'is-selected': cron.dayOfWeek.includes(item.value),
               }" @click="handleAddCron('dayOfWeek', item.value)"

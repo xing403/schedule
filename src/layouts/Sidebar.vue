@@ -9,15 +9,19 @@ const menu = ref<MenuItem>({
   children: [],
 })
 const router = useRouter()
+
 function buildTree() {
-  routes.filter(route => !route.meta?.hidden).map(async (route: RouteRecordRaw) => {
+  routes.filter(route => !route.meta?.hidden).sort((a, b) => a.path < b.path ? -1 : 1).map(async (route: RouteRecordRaw) => {
     await pathToTree(route.path.split('/').filter(path => path !== ''), route, menu.value)
   })
 }
-async function pathToTree(path: string[], route: RouteRecordRaw, root: MenuItem, startIndex = 0) {
-  const child = root.children.find(child => child.name === path[startIndex])
-  if (!path[startIndex] || startIndex + 1 >= path.length) {
-    root.children.push(route)
+async function pathToTree(path: string[], route: RouteRecordRaw, parent: MenuItem, startIndex = 0) {
+  const child = parent.children.find(child => child.name === path[startIndex])
+  if (!path[startIndex]) {
+    parent.children.push(route)
+  }
+  else if (path[startIndex] === '.config') {
+    parent.meta = route.meta
   }
   else if (child) {
     pathToTree(path, route, child as MenuItem, startIndex + 1)
@@ -26,12 +30,12 @@ async function pathToTree(path: string[], route: RouteRecordRaw, root: MenuItem,
     const node: MenuItem = {
       name: path[startIndex],
       path: `/${path.slice(0, startIndex + 1).join('/')}`,
+      meta: route.meta,
       children: [],
     }
-    root.children.push(node)
+    parent.children.push(node)
     pathToTree(path, route, node, startIndex + 1)
   }
-  root.children.sort((a, b) => a.name > b.name ? 1 : -1)
 }
 
 onMounted(() => {
