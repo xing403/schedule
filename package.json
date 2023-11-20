@@ -1,6 +1,6 @@
 {
   "name": "schedule",
-  "version": "0.2.1-alpha-1",
+  "version": "0.2.1-alpha-2",
   "private": true,
   "packageManager": "pnpm@8.6.0",
   "description": "A Schedule Tools, You can create a scheduled task by using the cron string",

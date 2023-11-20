@@ -87,7 +87,7 @@ declare global {
   const parseYAMLString: typeof import('./src/composables/utils')['parseYAMLString']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const platform: typeof import('./src/composables/application')['platform']
-  const pre: typeof import('./src/composables/directive')['pre']
+  const pre: typeof import('./src/composables/directives')['pre']
   const presuppose: typeof import('./src/composables/index')['presuppose']
   const progress: typeof import('./src/composables/application')['progress']
   const provide: typeof import('vue')['provide']
@@ -355,7 +355,6 @@ declare module 'vue' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
-    readonly directive: UnwrapRef<typeof import('./src/composables/directive')['default']>
     readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
@@ -667,7 +666,6 @@ declare module '@vue/runtime-core' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
-    readonly directive: UnwrapRef<typeof import('./src/composables/directive')['default']>
     readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>

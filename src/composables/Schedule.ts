@@ -46,14 +46,15 @@ export function done(schedule: Schedule) {
       window.Electron.openExternal(schedule.callback)
   }
   else if (schedule.callback_type === 'directive') {
-    schedule.directives.forEach((directive: DirectiveFType) => {
-      if (directive.status === 'notFound')
-        return
+    schedule.directives.reduce((pre_res: any, directive: DirectiveFType) => {
+      logs(`run directive ${directive.key}, pre_res: ${JSON.stringify(pre_res)}`, 'info')
+      if (directive.status === 'notFound') {
+        logs(`directive ${directive.key} not found`, 'error')
+        throw new Error(`directive ${directive.key} not found`)
+      }
 
-      const res = directive.execute(directive.args)
-      if (res)
-        scheduleNotification(schedule.title, res.data)
-    })
+      return directive.execute(schedule, { args: directive.args, pre_res })
+    }, {})
   }
 }
 

@@ -7,16 +7,32 @@ type WindowMap = Map<string, BrowserWindow>
 interface Window {
   Electron: Electron;
 }
-type STATUS_TYPE = 'pending' | 'success' | 'error' | 'ready' | 'notFound'
+type STATUS_TYPE = 'success' | 'error' | 'ready' | 'notFound' | 'stop'
 type CallbackType = 'script' | 'notification' | 'open-external' | 'directive'
 type DirectiveKeyType = 'date-time'
-interface DirectiveType{
+interface DirectiveType {
+  /**
+   * directive key
+   */
   key: DirectiveKeyType,
+  /**
+   * this directive run need args
+   */
   args?: any,
+  /**
+   * pre directive run result, format => {data: any}
+   */
+  pre_res?: any
 }
 
-interface DirectiveFType extends DirectiveType{
-  execute: Function,
+interface DirectiveFType extends DirectiveType {
+  /**
+   * the directive run function
+   */
+  execute: (schedule: Schedule, data: any) => { data: any },
+  /**
+   * directive status
+   */
   status: STATUS_TYPE
 }
 
@@ -32,6 +48,9 @@ declare interface Schedule {
    * The string for performing period comparison
    */
   cron: string
+  /**
+   * this　schedule　run callback type
+   */
   callback_type: CallbackType
   callback: string | Function
   interval: any

@@ -1,6 +1,6 @@
 import { ElNotification } from 'element-plus'
 import parseYAML from 'js-yaml'
-import DIRECTIVE_MAP from './directive'
+import DIRECTIVE_MAP from './directives'
 
 export function scheduleNotification(title: string, message?: string) {
   platform.value === 'electron'

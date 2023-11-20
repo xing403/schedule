@@ -94,10 +94,10 @@ function handleOpenDrawer() {
       </el-select>
     </el-form-item>
     <el-form-item v-if="schedule_form.callback_type === 'directive'" label="指令内容" prop="directive">
-      <el-input v-model="schedule_form.directive" :autosize="{ minRows: 5 }" type="textarea" :placeholder="HINTS.schedule.directive" />
+      <el-input v-model="schedule_form.directive" :autosize="{ minRows: 5 }" type="textarea" :placeholder="HINTS.schedule.directive" disabled />
     </el-form-item>
     <el-form-item v-else label="执行内容" prop="callback">
-      <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" />
+      <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" disabled />
     </el-form-item>
 
     <el-form-item>
