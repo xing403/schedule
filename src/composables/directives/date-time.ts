@@ -1,6 +1,6 @@
 import { dayjs } from 'element-plus'
 
-export default {
+const directive: DirectiveFType = {
   key: 'date-time',
   execute: (schedule: Schedule, data: any) => {
     data.args = Object.assign({
@@ -12,3 +12,5 @@ export default {
     }
   },
 }
+
+export default directive

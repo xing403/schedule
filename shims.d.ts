@@ -9,7 +9,7 @@ interface Window {
 }
 type STATUS_TYPE = 'success' | 'error' | 'ready' | 'notFound' | 'stop'
 type CallbackType = 'script' | 'notification' | 'open-external' | 'directive'
-type DirectiveKeyType = 'date-time'
+type DirectiveKeyType = 'date-time' | string
 interface DirectiveType {
   /**
    * directive key
@@ -29,11 +29,11 @@ interface DirectiveFType extends DirectiveType {
   /**
    * the directive run function
    */
-  execute: (schedule: Schedule, data: any) => { data: any },
+  execute: (schedule: Schedule, data: any) => { data: any } | Promise,
   /**
    * directive status
    */
-  status: STATUS_TYPE
+  status?: STATUS_TYPE
 }
 
 declare interface Schedule {

@@ -1,16 +1,6 @@
 import { ElNotification } from 'element-plus'
 
-/**
- * execute:
- *  args:
- *    title: string
- *    message: string
- *    pre_res?:{
- *      data: any
- *    }
- */
-
-export default {
+const directive: DirectiveFType = {
   key: 'notification',
   execute: (schedule: Schedule, data?: any) => {
     data.args = Object.assign({
@@ -28,3 +18,5 @@ export default {
     }
   },
 }
+
+export default directive

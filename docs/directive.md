@@ -6,7 +6,7 @@ get current date and time
 ```yaml
 key: date-time
 args:
-  format: YYYY-MM-DD HH:mm:ss
+  format?: YYYY-MM-DD HH:mm:ss
 ```
 > format:
 * type: `string`
@@ -49,8 +49,8 @@ send a notification
 ```yaml
 key: notification
 args:
-  title: ''
-  message: ''
+  title?: ''
+  message?: ''
 ```
 ### argument introduce
 > `title`
@@ -61,4 +61,34 @@ args:
 > `message`
 * type: string
 * default: the schedule description
-If this directive follows another directive, this message is the result of the previous directive
+If this directive follows another directive, this `message` is the result of the previous directive
+
+## tts
+text-to-speech: Convert a piece of text to speech
+
+```yaml
+key: tts
+args:
+  text?: ''
+  format?: ''
+```
+### argument introduce
+> `text`
+* type: string
+* default: the schedule title
+If this directive follows another directive, this `text` is the result of the previous directive
+
+> `format`
+* type: string
+If format is set, a `$1` placeholder must be included, which will be replaced by the text. Such as:
+Used with date-time, Implement a simple time telling
+### example
+```yaml
+key: date-time
+args:
+  format: 'HH:mm:ss'
+---
+key: tts
+args:
+  format: The current time is $1
+```
