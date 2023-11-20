@@ -1,17 +1,20 @@
 <script setup lang="ts">
 onMounted(() => {
-  nextTick(() => {
+  nextTick(async () => {
+    let history_schedules
+    const initSchedules: Schedule[] = []
     if (platform.value === 'electron') {
-      window.Electron.readSchedule().then((res: any) => {
-        const history_schedules = JSON.parse(res.schedules)
-        const initSchedules: Schedule[] = []
-        for (const schedule of history_schedules) {
-          const s = generateSchedule(schedule)
-          initSchedules.push(s)
-        }
-        schedules.value = initSchedules
+      history_schedules = await window.Electron.readSchedule().then((res: any) => {
+        return JSON.parse(res.schedules)
       })
     }
+    else if (platform.value === 'web') {
+      history_schedules = useLocalStorage('schedule', []).value
+    }
+    for (const schedule of history_schedules)
+      initSchedules.push(generateSchedule(schedule))
+
+    schedules.value = initSchedules
   })
 })
 </script>
