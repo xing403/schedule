@@ -2,13 +2,20 @@
 Suggestion: You need to add the `notification` directive at the end of the directive list, otherwise the result of the directive cannot be displayed. Or you don't need to see the results please ignore this suggestion
 ## date-time
 get current date and time
-> parameter format
+> argument format
 ```yaml
 key: date-time
 args:
   format?: YYYY-MM-DD HH:mm:ss
 ```
-> format:
+the directive result:
+```json
+{
+  "data": "2018-07-12 15:30:00"
+}
+```
+### argument introduce
+>> format:
 * type: `string`
 * default: YYYY-MM-DD HH:mm:ss
 
@@ -46,11 +53,19 @@ placeholder:
 
 ## notification
 send a notification
+
+> argument format
 ```yaml
 key: notification
 args:
   title?: ''
   message?: ''
+```
+the directive result:
+```json
+{
+  "data": null
+}
 ```
 ### argument introduce
 > `title`
@@ -72,6 +87,12 @@ args:
   text?: ''
   format?: ''
 ```
+the directive result:
+```json
+{
+  "data": null
+}
+```
 ### argument introduce
 > `text`
 * type: string
@@ -91,4 +112,52 @@ args:
 key: tts
 args:
   format: The current time is $1
+```
+## mqtt
+automatically publishes' mqtt 'messages, [what is mqtt?](https://ilstudy.vip/blogs/mqtt/vue3-mqtt.html#什么是mqttt)
+
+```yaml
+key: mqtt
+args:
+  topics: ''
+  message?: ''
+```
+> multi-topic
+
+```yaml
+key: mqtt
+args:
+  topics: hello1,hello2,hello3
+  message?: world
+```
+the directive result:
+```json
+{
+  "data": null
+}
+```
+### argument introduce
+> `topics`
+* type: string
+* required: true
+if you have multiple topics, please use `,` to split
+
+> `message`
+* type: string
+
+> single topic
+```yaml
+key: mqtt
+args:
+  topics: hello
+  message?: world
+```
+
+> multiple topic
+
+```yaml
+key: mqtt
+args:
+  topics: hello1,hello2,hello3
+  message?: world
 ```
