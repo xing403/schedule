@@ -1,5 +1,3 @@
-import { ElNotification } from 'element-plus'
-
 const directive: DirectiveFType = {
   key: 'notification',
   execute: (schedule: Schedule, data?: any) => {
@@ -10,11 +8,10 @@ const directive: DirectiveFType = {
 
     if (data.pre_res.data)
       data.args.message = `${data.pre_res.data}`
+    scheduleNotification(data.args.title, data.args.message)
 
     return {
-      data: platform.value === 'electron'
-        ? window.Electron.notification(data.args.title, data.args.message)
-        : ElNotification({ title: data.args.title, message: data.args.message }),
+      data: null,
     }
   },
 }

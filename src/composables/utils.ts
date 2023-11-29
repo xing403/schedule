@@ -11,15 +11,17 @@ export function scheduleNotification(title: string, message?: string) {
 export function parseYAMLString(yamlString: string) {
   const yaml = parseYAML.load(yamlString) as DirectiveType
   let status: STATUS_TYPE = 'ready'
-  const execute = DIRECTIVE_MAP.find(item => item.key === yaml.key)?.execute
-  if (!yaml.key || !execute)
+  const directive = DIRECTIVE_MAP.find(item => item.key === yaml.key)
+  if (directive)
+    status = directive.status ?? 'running'
+  else
     status = 'notFound'
 
   return {
     key: yaml.key,
     status,
     args: yaml.args,
-    execute,
+    execute: directive?.execute,
   } as DirectiveFType
 }
 
@@ -29,8 +31,8 @@ export function logs(context: string, level?: string) {
 }
 export function scheduleFormatOutput(schedule: Schedule) {
   return `{id: \'${schedule.id}\', `
-          + `cron: \'${schedule.cron}\', `
-          + `directive: \'${schedule.directive}\', `
-          + `callback_type: \'${schedule.callback_type}\', `
-          + `callback: \'${schedule.callback}\'}`
+    + `cron: \'${schedule.cron}\', `
+    + `directive: \'${schedule.directive}\', `
+    + `callback_type: \'${schedule.callback_type}\', `
+    + `callback: \'${schedule.callback}\'}`
 }

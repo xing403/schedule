@@ -7,7 +7,7 @@ type WindowMap = Map<string, BrowserWindow>
 interface Window {
   Electron: Electron;
 }
-type STATUS_TYPE = 'success' | 'error' | 'ready' | 'notFound' | 'stop'
+type STATUS_TYPE = 'success' | 'error' | 'ready' | 'notFound' | 'stop' | 'running'
 type CallbackType = 'script' | 'notification' | 'open-external' | 'directive'
 type DirectiveKeyType = 'date-time' | string
 interface DirectiveType {

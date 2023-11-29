@@ -22,7 +22,7 @@ const directive: DirectiveFType = {
       document.body.removeChild(audio)
     })
     return {
-      data: '',
+      data: null,
     }
   },
 }
