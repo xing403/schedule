@@ -341,7 +341,6 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
-    readonly CallbackMap: UnwrapRef<typeof import('./src/composables/dictionaries')['CallbackMap']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly HINTS: UnwrapRef<typeof import('./src/composables/HINTS')['HINTS']>
     readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
@@ -430,7 +429,6 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
-    readonly parseYAMLString: UnwrapRef<typeof import('./src/composables/utils')['parseYAMLString']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
     readonly presuppose: UnwrapRef<typeof import('./src/composables/index')['presuppose']>
@@ -666,7 +664,6 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
-    readonly CallbackMap: UnwrapRef<typeof import('./src/composables/dictionaries')['CallbackMap']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly HINTS: UnwrapRef<typeof import('./src/composables/HINTS')['HINTS']>
     readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
@@ -755,7 +752,6 @@ declare module '@vue/runtime-core' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
-    readonly parseYAMLString: UnwrapRef<typeof import('./src/composables/utils')['parseYAMLString']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
     readonly presuppose: UnwrapRef<typeof import('./src/composables/index')['presuppose']>

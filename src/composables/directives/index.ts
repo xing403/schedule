@@ -1,13 +1,11 @@
-import dateTime from './date-time'
-import notification from './notification'
-import TTS from './tts'
-import mqtt from './mqtt'
+const Directives: DirectiveFType[] = []
 
-export const Directives: DirectiveFType[] = [
-  dateTime,
-  notification,
-  mqtt,
-  TTS,
-]
-
+export async function getGlobDirectives() {
+  const directives = import.meta.glob('./*.ts')
+  for (const directive in directives) {
+    await directives[directive]().then((res: any) => {
+      Directives.push(res.default)
+    })
+  }
+}
 export default Directives

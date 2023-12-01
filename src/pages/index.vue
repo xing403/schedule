@@ -45,15 +45,6 @@ function handleDetailSchedule(schedule: Schedule) {
     <el-table-column prop="description" label="描述" align="center" />
     <el-table-column prop="cron" label="cron" align="center" />
     <el-table-column prop="next" label="预计下次执行时间" align="center" />
-    <el-table-column prop="callback_type" label="任务类型" align="center">
-      <template #default="scope">
-        <template v-for="item in CallbackMap">
-          <el-tag v-if="scope.row.callback_type === item.value" :key="item.value">
-            {{ item.label }}
-          </el-tag>
-        </template>
-      </template>
-    </el-table-column>
     <el-table-column width="100" align="center" prop="status" label="任务状态">
       <template #default="scope">
         <el-switch

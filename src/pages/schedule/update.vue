@@ -26,12 +26,6 @@ const schedule_form_rules = {
   cron: [
     { required: true, message: '请输入 cron', trigger: 'change' },
   ],
-  callback_type: [
-    { required: true, message: '请输入任务执行类型', trigger: 'change' },
-  ],
-  callback: [
-    { validator: validateCallback, trigger: 'change' },
-  ],
 }
 const calendarDrawer = ref(false)
 const stepActive = ref(0)
@@ -46,7 +40,7 @@ function handleSaveUpdateSchedule() {
 
       stopSchedule(oldSchedule)
       const schedule = generateSchedule(schedule_form.value)
-      schedules.value[index] = schedule
+      schedules.value.splice(index, 1, schedule)
       ElMessage.success({ message: '保存成功' })
 
       logs(`upd from ${scheduleFormatOutput(schedule)} to ${scheduleFormatOutput(schedule)}`, 'warn')
@@ -84,21 +78,6 @@ function handleOpenDrawer() {
 }
 function handleCloseDrawer() {
   drawerRef.value.handleClose()
-}
-function validateCallback(rule: any, value: any, callback: any) {
-  if (schedule_form.value.callback_type === 'open-external') {
-    if (value === '')
-      callback(new Error('请输入打开网址'))
-
-    else if (!/^(https?|ftp):\/\/([\-A-Za-z0-9+&@#/%?=~_|!:,.;]+[\.])+([A-Za-z]{2,4}[0-9]{1,3}|[A-Za-z]{2,4}|[0-9]{1,3})$/.test(value))
-      callback(new Error('请输入正确的网址'))
-
-    else
-      callback()
-  }
-  else {
-    callback()
-  }
 }
 function clickPresuppose(type: string, value: any[]) {
   cron.value[type] = value
@@ -147,19 +126,9 @@ function clickPresuppose(type: string, value: any[]) {
     <el-form-item label="描述" prop="description">
       <el-input v-model="schedule_form.description" :rows="2" type="textarea" placeholder="请输入描述信息" />
     </el-form-item>
-    <el-form-item label="任务类型" prop="status">
-      <el-select v-model="schedule_form.callback_type" placeholder="选择任务类型">
-        <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
-    </el-form-item>
-    <el-form-item v-if="schedule_form.callback_type === 'directive'" label="指令内容" prop="directive">
-      <el-input
-        v-model="schedule_form.directive" :autosize="{ minRows: 5 }" type="textarea"
-        :placeholder="HINTS.schedule.directive"
-      />
-    </el-form-item>
-    <el-form-item v-else label="执行内容" prop="callback">
-      <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" />
+
+    <el-form-item label="执行指令" prop="directives">
+      <directive-group v-model:directives="schedule_form.directives" />
     </el-form-item>
 
     <el-form-item>

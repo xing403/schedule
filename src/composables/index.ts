@@ -1,3 +1,5 @@
+import { getGlobDirectives } from './directives'
+
 export * from './core'
 export * from './application'
 export * from './dictionaries'
@@ -10,6 +12,7 @@ export * from './services'
 
 export function initApp() {
   readHistorySchedules()
+  getGlobDirectives()
   getAppService('mqtt')
 }
 async function getAppService(name: string) {

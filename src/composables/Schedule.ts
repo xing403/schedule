@@ -1,23 +1,25 @@
 import { ElMessage, dayjs } from 'element-plus'
 
-export function generateSchedule(schedule: Schedule) {
-  schedule = Object.assign({
-    status: false,
-    callback_type: 'notification',
-  }, schedule)
+import DIRECTIVE_MAP from './directives'
 
+export function generateSchedule(s: Schedule) {
+  const schedule = { ...s }
   schedule.interval = null
+
+  schedule.directives.forEach((directive, index) => {
+    const d = DIRECTIVE_MAP.find(item => item.key === directive.key)
+    if (d)
+      directive.status = d.status ?? 'success'
+    else
+      directive.status = 'notFound'
+  })
 
   if (schedule.status)
     startSchedule(schedule)
 
-  if (schedule.callback_type === 'directive') {
-    schedule.directives = schedule.directive.split('---').map((directive: string) => {
-      return parseYAMLString(directive) as DirectiveFType
-    })
-  }
   return schedule
 }
+
 export function startSchedule(schedule: Schedule) {
   schedule.status = true
   schedule.interval = parseExpression(schedule.cron, {
@@ -28,34 +30,16 @@ export function startSchedule(schedule: Schedule) {
 }
 
 export function done(schedule: Schedule) {
-  if (schedule.callback_type === 'notification') {
-    scheduleNotification(schedule.title, schedule.callback === '' ? schedule.description : schedule.callback as string)
-  }
-  else if (schedule.callback_type === 'script') {
-    if (typeof schedule.callback === 'function') {
-      schedule.callback()
-    }
-    else if (typeof schedule.callback === 'string') {
-      // eslint-disable-next-line no-new-func
-      schedule.callback = new Function(schedule.callback)
-      schedule.callback()
-    }
-  }
-  else if (schedule.callback_type === 'open-external') {
-    if (platform.value === 'electron')
-      window.Electron.openExternal(schedule.callback)
-  }
-  else if (schedule.callback_type === 'directive') {
-    schedule.directives.reduce((pre_res: any, directive: DirectiveFType) => {
-      logs(`run directive ${directive.key}, pre_res: ${JSON.stringify(pre_res)}`, 'info')
-      if (directive.status === 'notFound') {
-        logs(`directive ${directive.key} not found`, 'error')
-        throw new Error(`directive ${directive.key} not found`)
-      }
+  schedule.directives.reduce((pre_res: any, directive: DirectiveType) => {
+    logs(`run directive ${directive.key}, pre_res: ${JSON.stringify(pre_res)}`, 'info')
 
-      return directive.execute(schedule, { args: directive.args, pre_res })
-    }, {})
-  }
+    if (directive.status === 'notFound') {
+      logs(`directive ${directive.key} not found`, 'error')
+      throw new Error(`directive ${directive.key} not found`)
+    }
+
+    return DIRECTIVE_MAP.find(item => item.key === directive.key)?.execute(schedule, { args: directive.args, pre_res })
+  }, {})
 }
 
 export function run(schedule: Schedule) {

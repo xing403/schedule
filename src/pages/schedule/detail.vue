@@ -88,16 +88,9 @@ function handleOpenDrawer() {
     <el-form-item label="描述" prop="description">
       <el-input v-model="schedule_form.description" :rows="2" type="textarea" placeholder="请输入描述信息" disabled />
     </el-form-item>
-    <el-form-item label="任务类型" prop="status">
-      <el-select v-model="schedule_form.callback_type" placeholder="选择任务类型" disabled>
-        <el-option v-for="item in CallbackMap" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
-    </el-form-item>
-    <el-form-item v-if="schedule_form.callback_type === 'directive'" label="指令内容" prop="directive">
-      <el-input v-model="schedule_form.directive" :autosize="{ minRows: 5 }" type="textarea" :placeholder="HINTS.schedule.directive" disabled />
-    </el-form-item>
-    <el-form-item v-else label="执行内容" prop="callback">
-      <el-input v-model="schedule_form.callback" :autosize="{ minRows: 5 }" type="textarea" placeholder="请输入执行内容" disabled />
+
+    <el-form-item label="执行指令" prop="directives">
+      <directive-group v-model:directives="schedule_form.directives" />
     </el-form-item>
 
     <el-form-item>

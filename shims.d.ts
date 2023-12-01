@@ -8,13 +8,16 @@ interface Window {
   Electron: Electron;
 }
 type STATUS_TYPE = 'success' | 'error' | 'ready' | 'notFound' | 'stop' | 'running'
-type CallbackType = 'script' | 'notification' | 'open-external' | 'directive'
-type DirectiveKeyType = 'date-time' | string
+
 interface DirectiveType {
   /**
    * directive key
    */
-  key: DirectiveKeyType,
+  key: string,
+  /**
+   * user defined alias
+   */
+  alias?: string,
   /**
    * this directive run need args
    */
@@ -22,18 +25,18 @@ interface DirectiveType {
   /**
    * pre directive run result, format => {data: any}
    */
-  pre_res?: any
+  pre_res?: any,
+  /**
+   * directive status
+   */
+  status?: STATUS_TYPE,
 }
 
 interface DirectiveFType extends DirectiveType {
   /**
-   * the directive run function
+   * directive execute function
    */
-  execute: (schedule: Schedule, data: any) => { data: any } | Promise,
-  /**
-   * directive status
-   */
-  status?: STATUS_TYPE
+  execute: (schedule: Schedule, data?: any) => void
 }
 
 declare interface Schedule {
@@ -49,19 +52,26 @@ declare interface Schedule {
    */
   cron: string
   /**
-   * this　schedule　run callback type
+   * The schedule run interval
    */
-  callback_type: CallbackType
-  callback: string | Function
   interval: any
+  /**
+   * The schedule run status
+   * @default false
+   */
   status: boolean
+  /**
+   * schedule next run time
+   */
   next: string
+  /**
+   * schedule next run setOutTime timer
+   */
   timer: any,
   /**
-   * default directive
+   * schedule directives
    */
-  directive: string
-  directives: DirectiveFType[]
+  directives: DirectiveType[]
 }
 
 declare interface MenuItem {
