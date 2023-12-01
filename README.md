@@ -18,20 +18,11 @@ A Schedule Tools, You can create a scheduled task by using the cron string
 ![index page](./docs/banner2.png)
 
 ## Schedule type
-
-> `notification`
-
-display the entered execution in the notification. When the execution content is empty the schedule will display description information.
-
-> `open website`
-
-open the specified URL through a browser.
-
-> `script`
+> `script`(Will be abolished)
 
 still in the testing phase, you can only execute simple JavaScript code.
 
-> `directive`
+## `Schedule directive`
 default directive can be executed by setting the key
 **for example**
 

@@ -1,5 +1,6 @@
 # directives
 Suggestion: You need to add the `notification` directive at the end of the directive list, otherwise the result of the directive cannot be displayed. Or you don't need to see the results please ignore this suggestion
+
 ## date-time
 get current date and time
 > argument format
@@ -160,4 +161,19 @@ key: mqtt
 args:
   topics: hello1,hello2,hello3
   message?: world
+```
+
+## open-external
+open the specified URL through a browser.
+> argument format
+```yaml
+key: open-external
+args:
+  url?: ''
+```
+the directive result:
+```json
+{
+  "data": true
+}
 ```
