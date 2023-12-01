@@ -9,18 +9,13 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Component: typeof import('./src/components/directive-group/component.vue')['default']
     DirectiveForm: typeof import('./src/components/directive-group/directive-form.vue')['default']
     DirectiveGroup: typeof import('./src/components/directive-group/index.vue')['default']
-    Form: typeof import('./src/components/directive-group/form.vue')['default']
     Header: typeof import('./src/layouts/Header.vue')['default']
     Layouts: typeof import('./src/layouts/index.vue')['default']
-    Mqtt: typeof import('./src/components/directive-group/mqtt.vue')['default']
-    MqttConnect: typeof import('./src/components/mqtt/MqttConnect.vue')['default']
     Reload: typeof import('./src/components/reload.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SelectPresuppose: typeof import('./src/components/selectPresuppose.vue')['default']
     Sidebar: typeof import('./src/layouts/Sidebar.vue')['default']
     SidebarItem: typeof import('./src/layouts/SidebarItem.vue')['default']
   }
