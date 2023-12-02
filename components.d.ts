@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     DirectiveGroup: typeof import('./src/components/directive-group/index.vue')['default']
     Header: typeof import('./src/layouts/Header.vue')['default']
     Layouts: typeof import('./src/layouts/index.vue')['default']
+    Mqtt: typeof import('./src/components/service/mqtt.vue')['default']
     Reload: typeof import('./src/components/reload.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

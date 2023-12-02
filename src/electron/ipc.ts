@@ -34,7 +34,7 @@ export function createIPC() {
   ipcMain.handle('read-setting', () => {
     if (fs.existsSync(path.join(app.getPath('userData'), 'setting.json')))
       return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
-    return undefined
+    return {}
   })
 
   ipcMain.handle('save-setting', (_event, setting: string) => {
@@ -65,12 +65,12 @@ export function createIPC() {
   ipcMain.handle('save-service', (_event, service_name: string, argv?: any) => {
     fs.writeFileSync(
       fs.openSync(path.join(app.getPath('userData'), `${service_name}.json`), 'w'),
-      JSON.stringify(argv, null, 4))
+      JSON.stringify({ service: argv }, null, 4))
     return true
   })
   ipcMain.handle('read-service', (_event, service_name: string) => {
     if (fs.existsSync(path.join(app.getPath('userData'), `${service_name}.json`)))
       return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), `${service_name}.json`), 'utf-8'))
-    return { host: '127.0.0.1', port: 8083, username: '', password: '' }
+    return { service: '{ "host": "127.0.0.1", "port": "8083", "username": "", "password": "" }' }
   })
 }

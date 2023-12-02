@@ -1,9 +1,3 @@
-<route lang="yaml">
-meta:
-  title: MQTT连接
-  hidden: true
-</route>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import md5 from 'md5'
@@ -54,7 +48,7 @@ function handleDisconnect() {
 </script>
 
 <template>
-  <el-form ref="formRef" m-a m-t-xl :model="form" :rules="form_rules" label-width="120px" :inline="false" w-xl>
+  <el-form ref="formRef" m-t-xl :model="form" :rules="form_rules" label-width="120px" :inline="false" w-sm>
     <el-form-item label="地址" prop="host">
       <el-input v-model="form.host" :disabled="connected" placeholder="请输入MQTT地址" clearable />
     </el-form-item>
