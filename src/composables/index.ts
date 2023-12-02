@@ -7,7 +7,7 @@ export * from './variable'
 export * from './Schedule'
 export * from './utils'
 export * from './HINTS'
-export * as presuppose from './directives'
+export * from './directives'
 export * from './services'
 
 export function initApp() {
@@ -16,14 +16,11 @@ export function initApp() {
   getAppService('mqtt')
 }
 async function getAppService(name: string) {
-  if (platform.value === 'electron') {
-    MQTT.value = await window.Electron.readService(name).then((res: any) => {
-      return JSON.parse(res.schedules)
-    })
-  }
-  else if (platform.value === 'web') {
+  if (platform.value === 'electron')
+    MQTT.value = await window.Electron.readService(name)
+
+  else if (platform.value === 'web')
     MQTT.value = useLocalStorage(`${name}-service`, { host: '127.0.0.1', port: 8083, username: '', password: '' }).value
-  }
 }
 
 async function readHistorySchedules() {
@@ -31,7 +28,7 @@ async function readHistorySchedules() {
   const initSchedules: Schedule[] = []
   if (platform.value === 'electron') {
     history_schedules = await window.Electron.readSchedule().then((res: any) => {
-      return JSON.parse(res.schedules)
+      return JSON.parse(res.schedules) as Schedule[]
     })
   }
   else if (platform.value === 'web') {

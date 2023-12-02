@@ -44,6 +44,7 @@ declare global {
   const defineStore: typeof import('pinia')['defineStore']
   const description: typeof import('./src/composables/application')['description']
   const directive: typeof import('./src/composables/directive')['default']
+  const directives: typeof import('./src/composables/directives/index')['default']
   const done: typeof import('./src/composables/Schedule')['done']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
@@ -54,6 +55,7 @@ declare global {
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getGlobDirectives: typeof import('./src/composables/directives/index')['getGlobDirectives']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const initApp: typeof import('./src/composables/index')['initApp']
@@ -375,6 +377,7 @@ declare module 'vue' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
+    readonly directives: UnwrapRef<typeof import('./src/composables/directives/index')['default']>
     readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
@@ -385,6 +388,7 @@ declare module 'vue' {
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getGlobDirectives: UnwrapRef<typeof import('./src/composables/directives/index')['getGlobDirectives']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly initApp: UnwrapRef<typeof import('./src/composables/index')['initApp']>
@@ -431,7 +435,6 @@ declare module 'vue' {
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
-    readonly presuppose: UnwrapRef<typeof import('./src/composables/index')['presuppose']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
@@ -698,6 +701,7 @@ declare module '@vue/runtime-core' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
+    readonly directives: UnwrapRef<typeof import('./src/composables/directives/index')['default']>
     readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
@@ -708,6 +712,7 @@ declare module '@vue/runtime-core' {
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getGlobDirectives: UnwrapRef<typeof import('./src/composables/directives/index')['getGlobDirectives']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly initApp: UnwrapRef<typeof import('./src/composables/index')['initApp']>
@@ -754,7 +759,6 @@ declare module '@vue/runtime-core' {
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
-    readonly presuppose: UnwrapRef<typeof import('./src/composables/index')['presuppose']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
