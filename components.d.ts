@@ -9,6 +9,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AdditionSchedule: typeof import('./src/components/schedule/additionSchedule.vue')['default']
+    CronDrawer: typeof import('./src/components/cron-drawer.vue')['default']
+    Detail: typeof import('./src/components/schedule/detail.vue')['default']
+    DetailSchedule: typeof import('./src/components/schedule/detailSchedule.vue')['default']
     DirectiveForm: typeof import('./src/components/directive-group/directive-form.vue')['default']
     DirectiveGroup: typeof import('./src/components/directive-group/index.vue')['default']
     Header: typeof import('./src/layouts/Header.vue')['default']
@@ -19,5 +23,6 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./src/layouts/Sidebar.vue')['default']
     SidebarItem: typeof import('./src/layouts/SidebarItem.vue')['default']
+    UpdateSchedule: typeof import('./src/components/schedule/updateSchedule.vue')['default']
   }
 }

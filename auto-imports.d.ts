@@ -5,13 +5,9 @@
 export {}
 declare global {
   const CRON: typeof import('./src/composables/dictionaries')['CRON']
-  const CallbackMap: typeof import('./src/composables/dictionaries')['CallbackMap']
   const EffectScope: typeof import('vue')['EffectScope']
   const HINTS: typeof import('./src/composables/HINTS')['HINTS']
   const MQTT: typeof import('./src/composables/services')['MQTT']
-  const MQTT_HOST: typeof import('./src/composables/services')['MQTT_HOST']
-  const MQTT_PASSWORD: typeof import('./src/composables/services')['MQTT_PASSWORD']
-  const MQTT_USERNAME: typeof import('./src/composables/services')['MQTT_USERNAME']
   const MonthMap: typeof import('./src/composables/dictionaries')['MonthMap']
   const WeekMap: typeof import('./src/composables/dictionaries')['WeekMap']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
@@ -43,9 +39,7 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
   const description: typeof import('./src/composables/application')['description']
-  const directive: typeof import('./src/composables/directive')['default']
   const directives: typeof import('./src/composables/directives/index')['default']
-  const done: typeof import('./src/composables/Schedule')['done']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
@@ -100,13 +94,11 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const parseExpression: typeof import('./src/composables/core')['parseExpression']
-  const parseYAMLString: typeof import('./src/composables/utils')['parseYAMLString']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const platform: typeof import('./src/composables/application')['platform']
-  const pre: typeof import('./src/composables/directives')['pre']
-  const presuppose: typeof import('./src/composables/index')['presuppose']
   const progress: typeof import('./src/composables/application')['progress']
   const provide: typeof import('vue')['provide']
+  const queues: typeof import('./src/composables/variable')['queues']
   const reactify: typeof import('@vueuse/core')['reactify']
   const reactifyObject: typeof import('@vueuse/core')['reactifyObject']
   const reactive: typeof import('vue')['reactive']
@@ -123,7 +115,8 @@ declare global {
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
-  const run: typeof import('./src/composables/Schedule')['run']
+  const rootSchedule: typeof import('./src/composables/variable')['rootSchedule']
+  const runSchedule: typeof import('./src/composables/Schedule')['runSchedule']
   const scheduleFormatOutput: typeof import('./src/composables/utils')['scheduleFormatOutput']
   const scheduleNotification: typeof import('./src/composables/utils')['scheduleNotification']
   const schedules: typeof import('./src/composables/variable')['schedules']
@@ -344,7 +337,6 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly HINTS: UnwrapRef<typeof import('./src/composables/HINTS')['HINTS']>
     readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
@@ -378,7 +370,6 @@ declare module 'vue' {
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
     readonly directives: UnwrapRef<typeof import('./src/composables/directives/index')['default']>
-    readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
@@ -437,6 +428,7 @@ declare module 'vue' {
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly queues: UnwrapRef<typeof import('./src/composables/variable')['queues']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -453,7 +445,8 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
-    readonly run: UnwrapRef<typeof import('./src/composables/Schedule')['run']>
+    readonly rootSchedule: UnwrapRef<typeof import('./src/composables/variable')['rootSchedule']>
+    readonly runSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['runSchedule']>
     readonly scheduleFormatOutput: UnwrapRef<typeof import('./src/composables/utils')['scheduleFormatOutput']>
     readonly scheduleNotification: UnwrapRef<typeof import('./src/composables/utils')['scheduleNotification']>
     readonly schedules: UnwrapRef<typeof import('./src/composables/variable')['schedules']>
@@ -668,7 +661,6 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly HINTS: UnwrapRef<typeof import('./src/composables/HINTS')['HINTS']>
     readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
@@ -702,7 +694,6 @@ declare module '@vue/runtime-core' {
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
     readonly directives: UnwrapRef<typeof import('./src/composables/directives/index')['default']>
-    readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
@@ -761,6 +752,7 @@ declare module '@vue/runtime-core' {
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly queues: UnwrapRef<typeof import('./src/composables/variable')['queues']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -777,7 +769,8 @@ declare module '@vue/runtime-core' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
-    readonly run: UnwrapRef<typeof import('./src/composables/Schedule')['run']>
+    readonly rootSchedule: UnwrapRef<typeof import('./src/composables/variable')['rootSchedule']>
+    readonly runSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['runSchedule']>
     readonly scheduleFormatOutput: UnwrapRef<typeof import('./src/composables/utils')['scheduleFormatOutput']>
     readonly scheduleNotification: UnwrapRef<typeof import('./src/composables/utils')['scheduleNotification']>
     readonly schedules: UnwrapRef<typeof import('./src/composables/variable')['schedules']>

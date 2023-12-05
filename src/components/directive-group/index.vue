@@ -7,6 +7,10 @@ const props = defineProps({
     type: Array as PropType<any[]>,
     default: () => [],
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emits = defineEmits(['update:directives', 'changed', 'addition', 'deleted'])
@@ -60,24 +64,25 @@ watchArray(directives, (val) => {
 
 <template>
   <div ref="directivesRef" class="directives-group" flex="~ col gap-2 wrap" w-2xl w-full justify-start>
-    <div v-for="item in directives" :key="item.key" class="directive-group-item" flex="~ row gap-2 items-center">
+    <div
+      v-for="item in directives" :key="item.key" class="directive-group-item" flex="~ row gap-2 items-center"
+      :class="{ disabled: props.disabled }"
+    >
       <el-button w-full flex-1 @click="openModifyDialog(item)">
         {{ item.alias !== '' ? `${item.alias}(${item.key})` : item.key }}
       </el-button>
       <button class="close" i-carbon-close-outline icon-btn @click="handleDeleteDirective(item.key)" />
     </div>
-    <div>
-      <el-button w-full @click="addDirective">
-        <template #icon>
-          <div i-carbon-add-large />
-        </template>
-        <span>添加指令</span>
-      </el-button>
-    </div>
+    <el-button v-if="!props.disabled" w-full @click="addDirective">
+      <template #icon>
+        <div i-carbon-add-large />
+      </template>
+      <span>添加指令</span>
+    </el-button>
   </div>
 
-  <el-dialog v-model="modifyDirectiveDialog" title="修改指令" width="30%" align-center>
-    <directive-form :form="directive" @confirm="handleModifyDirective" @cancel="modifyDirectiveDialog = false" />
+  <el-dialog v-model="modifyDirectiveDialog" :title="props.disabled ? '查看指令' : '修改指令'" width="30%" align-center>
+    <directive-form :form="directive" :disabled="props.disabled" @confirm="handleModifyDirective" @cancel="modifyDirectiveDialog = false" />
   </el-dialog>
 
   <el-dialog v-model="additionDirectiveDialog" title="添加指令" width="30%" align-center destroy-on-close>
@@ -91,7 +96,7 @@ watchArray(directives, (val) => {
     display: none;
   }
 
-  &:hover {
+  &:not(.disabled):hover {
     .close {
       display: block;
     }

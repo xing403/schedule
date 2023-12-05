@@ -26,10 +26,10 @@ export function startSchedule(schedule: Schedule) {
     iterator: true,
   })
   logs(`running schedule id:${schedule.id}, cron: ${schedule.cron}`, 'info')
-  run(schedule)
+  runSchedule(schedule)
 }
 
-export function done(schedule: Schedule) {
+function done(schedule: Schedule) {
   schedule.directives.reduce((pre_res: any, directive: DirectiveType) => {
     logs(`run directive ${directive.key}, pre_res: ${JSON.stringify(pre_res)}`, 'info')
 
@@ -42,7 +42,7 @@ export function done(schedule: Schedule) {
   }, {})
 }
 
-export function run(schedule: Schedule) {
+export function runSchedule(schedule: Schedule) {
   if (schedule.status) {
     while (schedule.next === '-' || new Date(schedule.next).getTime() - Date.now() < 0) {
       if (!schedule.interval?.hasNext()) {
@@ -53,24 +53,36 @@ export function run(schedule: Schedule) {
       }
       schedule.next = dayjs(schedule.interval.next().value).format('YYYY-MM-DD HH:mm:ss')
     }
-
-    schedule.timer = setTimeout(() => {
-      try {
-        done(schedule)
-      }
-      catch (error: any) {
-        console.error(error)
-        logs(`${schedule.id} run error, ${error}`, 'error')
-        stopSchedule(schedule)
-        ElMessage.error(`${schedule.id} 的执行内容好像出现了点问题`)
-      }
-      run(schedule)
-    }, new Date(schedule.next).getTime() - Date.now())
+    const next_time = new Date(schedule.next).getTime() - Date.now()
+    if (next_time > 60 * 60 * 1000) { // time is over 1h
+      queues.value.push(schedule)
+    }
+    else {
+      schedule.timer = setTimeout(() => {
+        try {
+          done(schedule)
+          runSchedule(schedule)
+        }
+        catch (error: any) {
+          console.error(error)
+          logs(`${schedule.id} run error, ${error}`, 'error')
+          stopSchedule(schedule)
+          ElMessage.error(`错误:${schedule.id}, ${error}`)
+        }
+      }, new Date(schedule.next).getTime() - Date.now())
+    }
   }
 }
 export function stopSchedule(schedule: Schedule) {
   schedule.status = false
   clearTimeout(schedule.timer)
+  const s = queues.value.find((s: Schedule) => s.id === schedule.id)
+  if (s)
+    queues.value.splice(queues.value.indexOf(s), 1)
+
+  if (schedule.interval)
+    schedule.interval.endDate = new Date()
+
   schedule.next = '-'
   schedule.interval = null
   logs(`${schedule.id} is stopped`, 'info')

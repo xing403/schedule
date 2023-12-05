@@ -44,7 +44,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-menu class="el-menu-vertical" :collapse="menuCollapse" router :default-active="router.currentRoute.value.path">
+  <el-menu v-if="menu.children.length > 0" class="el-menu-vertical" :collapse="menuCollapse" router :default-active="router.currentRoute.value.path">
     <template v-for="route in menu.children" :key="route">
       <sidebar-item :route="route" />
     </template>
