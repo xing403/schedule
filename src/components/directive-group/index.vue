@@ -62,7 +62,7 @@ function handleDeleteDirective(key: string) {
 </script>
 
 <template>
-  <div ref="directivesRef" class="directives-group" flex="~ col gap-2 wrap" w-2xl w-full justify-start>
+  <div ref="directivesRef" class="directives-group" flex="~ col gap-2 wrap" w-full justify-start>
     <div
       v-for="item in directives" :key="item.key" class="directive-group-item" flex="~ row gap-2 items-center"
       :class="{ disabled: props.disabled }"
@@ -72,6 +72,8 @@ function handleDeleteDirective(key: string) {
       </el-button>
       <button class="close" i-carbon-close-outline icon-btn @click="handleDeleteDirective(item.key)" />
     </div>
+  </div>
+  <div mt-2 w-full>
     <el-button v-if="!props.disabled" w-full @click="addDirective">
       <template #icon>
         <div i-carbon-add-large />

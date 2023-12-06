@@ -15,6 +15,10 @@ interface DirectiveType {
    */
   key: string,
   /**
+   * directive name
+   */
+  name?: string,
+  /**
    * user defined alias
    */
   alias?: string,

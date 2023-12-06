@@ -2,10 +2,11 @@ import axios from 'axios'
 
 const directive: DirectiveFType = {
   key: 'tts',
+  name: '文本转语音',
   execute: async (schedule: Schedule, data: any) => {
     let text = data.pre_res.data ?? data.args.text ?? schedule.title
 
-    if (data?.args?.format && data.args.format.includes('$1'))
+    if (data.args?.format && data.args.format.includes('$1'))
       text = data.args.format.replace('$1', text)
 
     const t2s = await getTTS(text)

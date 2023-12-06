@@ -56,7 +56,7 @@ function cancel() {
     <el-form-item label="选择指令">
       <el-select v-model="form.key" placeholder="选择指令" clearable filterable :disabled="props.disabled" w-full>
         <el-option
-          v-for="item in DIRECTIVE_MAP" :key="item.key" :label="item.key" :value="item.key"
+          v-for="item in DIRECTIVE_MAP" :key="item.key" :label="item.name ?? item.key" :value="item.key"
           @change="handleChangeDirectiveKey"
         />
       </el-select>
@@ -83,7 +83,7 @@ function cancel() {
 
     <template v-if="form.key === 'notification'">
       <el-form-item prop="args.message" label="发送消息">
-        <el-input v-model="form.args.message" placeholder="发送发送消息" :disabled="props.disabled" />
+        <el-input v-model="form.args.message" placeholder="发送消息" :disabled="props.disabled" />
       </el-form-item>
     </template>
 
@@ -96,6 +96,12 @@ function cancel() {
     <template v-else-if="form.key === 'tts'">
       <el-form-item prop="args.text" label="文本">
         <el-input v-model="form.args.text" placeholder="发送文本($1 为占位符)" :disabled="props.disabled" />
+      </el-form-item>
+    </template>
+
+    <template v-else-if="form.key === 'open-external'">
+      <el-form-item prop="args.to" label="链接">
+        <el-input v-model="form.args.url" placeholder="链接地址" :disabled="props.disabled" />
       </el-form-item>
     </template>
 
