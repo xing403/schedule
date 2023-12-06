@@ -1,3 +1,6 @@
+import md5 from 'md5'
+import useMQTTStore from '~/store/mqtt'
+
 export * from './core'
 export * from './application'
 export * from './dictionaries'
@@ -7,12 +10,24 @@ export * from './utils'
 export * from './directives'
 export * from './services'
 
-export function initApp() {
+export async function initApp() {
+  logs('app runing')
+  const mqttStore = useMQTTStore()
+
+  await getAppService('mqtt').then(async () => {
+    if (MQTT.value.auto) {
+      await mqttStore.connect(md5(Date()), MQTT.value.host, MQTT.value.username, MQTT.value.password, MQTT.value.port).then(() => {
+        logs('started mqtt service')
+      }).catch(() => {
+        logs('failed to start mqtt service')
+      })
+    }
+  })
+
   initRootSchedule()
   getGlobDirectives().then(() => {
     readHistorySchedules()
   })
-  getAppService('mqtt')
 }
 async function getAppService(name: string) {
   if (platform.value === 'electron') {
@@ -22,7 +37,7 @@ async function getAppService(name: string) {
   }
 
   else if (platform.value === 'web') {
-    MQTT.value = useLocalStorage(`${name}-service`, { host: '127.0.0.1', port: 8083, username: '', password: '' }).value
+    MQTT.value = useLocalStorage(`${name}-service`, { host: '127.0.0.1', port: 8083, username: '', password: '', auto: false }).value
   }
 }
 
@@ -57,8 +72,6 @@ function runRootSchedule() {
   if (rootSchedule.value) {
     rootSchedule.value.timer = setTimeout(() => {
       try {
-        // get all  schedules that status is true
-        logs(`The number of tasks in the queue longer than 1 hour is ${queues.value.length}`)
         for (const schedule of queues.value) {
           if (schedule.next && new Date(schedule.next).getTime() - Date.now() < 60 * 60 * 1000) {
             logs(`schedule ${schedule.title} is in queue`)

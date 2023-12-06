@@ -1,6 +1,6 @@
 import type { IClientOptions, MqttClient } from 'mqtt'
 import mqtt from 'mqtt'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElNotification } from 'element-plus'
 
 interface MqttMessageType {
   topic: string // 消息的主题
@@ -36,12 +36,18 @@ const useMQTTStore = defineStore('mqtt', () => {
       options.hostname = host
       options.username = username
       options.password = password
+      options.port = port
+
       mqtt.connectAsync(options).then((mc: MqttClient) => {
         client.value = mc
         client.value.on('message', (topic: string, message: any) => {
           const decoder = new TextDecoder()
           message = decoder.decode(message)
           messages.value.push({ topic, message })
+          ElNotification.info({
+            title: topic,
+            message,
+          })
         })
         resolve(client.value.connected)
       }).catch((error) => {
@@ -51,26 +57,18 @@ const useMQTTStore = defineStore('mqtt', () => {
     })
   }
   // subscribe topic
-  function subscribe(topics: string[] | string) {
-    if (typeof topics === 'string') {
-      if (subscribe_topics.value.includes(topics))
-        return
-    }
+  function subscribe(topics: string[]) {
+    topics = topics.filter((topic: string) => !subscribe_topics.value.includes(topic))
 
-    else if (Array.isArray(topics)) {
-      topics = topics.filter((topic: string) => !subscribe_topics.value.includes(topic))
-      if (topics.length === 0)
-        return
-      subscribe_topics.value.push(...topics)
-    }
+    if (topics.length === 0)
+      return
 
-    if (client.value?.connected) {
+    subscribe_topics.value.push(...topics)
+
+    if (client.value?.connected)
       client.value?.subscribe(topics)
-      if (typeof topics === 'string')
-        subscribe_topics.value.push(topics)
-      else
-        subscribe_topics.value.push(...topics)
-    }
+    else
+      logs('the service is don\'t connected', 'warning')
   }
   function unsubscribe(topics: string[] | string) {
     if (typeof topics === 'string' && subscribe_topics.value.includes(topics)) {
@@ -107,6 +105,7 @@ const useMQTTStore = defineStore('mqtt', () => {
 
   return {
     client,
+    subscribe_topics,
     messages,
 
     connect,

@@ -11,7 +11,6 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AdditionSchedule: typeof import('./src/components/schedule/additionSchedule.vue')['default']
     CronDrawer: typeof import('./src/components/cron-drawer.vue')['default']
-    Detail: typeof import('./src/components/schedule/detail.vue')['default']
     DetailSchedule: typeof import('./src/components/schedule/detailSchedule.vue')['default']
     DirectiveForm: typeof import('./src/components/directive-group/directive-form.vue')['default']
     DirectiveGroup: typeof import('./src/components/directive-group/index.vue')['default']

@@ -4,9 +4,10 @@ export const MQTT = ref({
   username: '',
   password: '',
   port: 8083,
+  auto: false,
 })
 
-watchDeep(MQTT, (newVal, oldVal) => {
+watchDeep(MQTT, (newVal: any) => {
   if (platform.value === 'electron')
     window.Electron.saveService('mqtt', JSON.stringify(newVal))
   else if (platform.value === 'web')

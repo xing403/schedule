@@ -14,6 +14,7 @@ const form = ref({
   username: MQTT.value.username,
   password: MQTT.value.password,
   port: MQTT.value.port,
+  auto: MQTT.value.auto ?? false,
 })
 const form_rules = {
   host: [{ required: true, message: '请输入MQTT地址', trigger: 'blur' }],
@@ -61,7 +62,10 @@ function handleDisconnect() {
     <el-form-item label="端口" prop="port">
       <el-input v-model="form.port" :disabled="connected" type="number" :control="false" placeholder="请输入MQTT端口" clearable />
     </el-form-item>
-    <el-form-item label="" prop="password">
+    <el-form-item label=" " prop="auto">
+      <el-checkbox v-model="form.auto" label="下次自动连接" />
+    </el-form-item>
+    <el-form-item label="">
       <el-button v-if="connected" :disabled="connected" type="danger" v-text="'已连接'" />
       <el-button v-else :disabled="connected" type="primary" @click="handleConnect" v-text="'连接'" />
       <el-button :disabled="!connected" type="warning" @click="handleDisconnect" v-text="'断开连接'" />
