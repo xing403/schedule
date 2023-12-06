@@ -16,24 +16,11 @@
 
 ![index page](./docs/banner2.png)
 
-## Schedule 类型
+## Schedule 指令
+您可以选择部分指令，进行组合和排序，以达到您想要的效果。例如，通过组合 `date-time`和 `notification` 两个指令，将其设置为每小时执行一次，那么您将得到一个每小时响一次的指令。
+如果您是物联网(IOT)的爱好者，这个App拥有内置的MQTT消息传递服务，那么您只需要配置自己的MQTT服务，以便定期发送MQTT内容。
 
-
-> `脚本(将被废除，统一指令)`
-
-仍然处于测试阶段，您只能执行简单的JavaScript代码。
-
-## `Schedule 指令`
-
-设置 `key` 关键字 执行内部内置指令。
-**例如**
-```yaml
-key: date-time
-args:
-  format: YYYY-MM-dd HH:mm:ss
-```
-
-你能获得当前时间并通过系统展示。[更多指令](./docs/directive.md)
+更多指令介绍查看[这里](./docs/directive.md)
 
 ## 使用
 > 环境要求
@@ -41,17 +28,11 @@ args:
 * typescript >= 5.1.3
 * pnpm >= 8.6.0
 
-### 安装
 ```sh
+# 安装依赖
 pnpm i
-```
-### 运行
-```sh
+# 运行
 pnpm dev
-```
-### 构建
-
-```sh
+# 构建
 pnpm build
 ```
-

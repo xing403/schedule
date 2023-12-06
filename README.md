@@ -27,15 +27,11 @@ more directive see [ here ](./docs/directive.md)
 * typescript >= 5.1.3
 * pnpm >= 8.6.0
 
-### install
-```shell
+```sh
+# install dependencies
 pnpm i
-```
-### run
-```sh
+# run
 pnpm dev
-```
-### build
-```sh
+# build
 pnpm build
 ```

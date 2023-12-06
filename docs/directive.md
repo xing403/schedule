@@ -3,24 +3,8 @@ Suggestion: You need to add the `notification` directive at the end of the direc
 
 ## date-time
 get current date and time
-> argument format
-```yaml
-key: date-time
-args:
-  format?: YYYY-MM-DD HH:mm:ss
-```
-the directive result:
-```json
-{
-  "data": "2018-07-12 15:30:00"
-}
-```
-### argument introduce
->> format:
-* type: `string`
-* default: YYYY-MM-DD HH:mm:ss
-
-placeholder:
+### parameter
+`format`: format of the date and time, Non-required field, default: YYYY-MM-DD HH:mm:ss
 
 | 标识   | 示例               | 描述                    |
 | ----- | ----------------  | ----------------------- |
@@ -52,125 +36,57 @@ placeholder:
 | A     | AM / PM           | 上/下午，大写            |
 | a     | am / pm           | 上/下午，小写            |
 
+
+### the directive run result:
+```json
+{
+  "data": "current date time"
+}
+```
+
 ## notification
 send a notification
 
-> argument format
-```yaml
-key: notification
-args:
-  title?: ''
-  message?: ''
-```
-the directive result:
+### parameter
+`message`: message content, Non-required field, if this directive follows another instruction, send the result of the previous directive run, default: description of the schedule
+
+### the directive result
 ```json
 {
   "data": null
 }
 ```
-### argument introduce
-> `title`
-
-* type: string
-* default: the schedule title
-
-> `message`
-* type: string
-* default: the schedule description
-If this directive follows another directive, this `message` is the result of the previous directive
 
 ## tts
 text-to-speech: Convert a piece of text to speech
+### parameter
+`text`: Text to be converted to speech, if this directive follows another instruction, Convert the result of the previous directive run. You can also use the placeholder `$1` to concatenate with the previous command to convert text to speech
 
-```yaml
-key: tts
-args:
-  text?: ''
-  format?: ''
-```
-the directive result:
+### the directive result
 ```json
 {
   "data": null
 }
-```
-### argument introduce
-> `text`
-* type: string
-* default: the schedule title
-If this directive follows another directive, this `text` is the result of the previous directive
-
-> `format`
-* type: string
-If format is set, a `$1` placeholder must be included, which will be replaced by the text. Such as:
-Used with date-time, Implement a simple time telling
-### example
-```yaml
-key: date-time
-args:
-  format: 'HH:mm:ss'
----
-key: tts
-args:
-  format: The current time is $1
 ```
 ## mqtt
 automatically publishes' mqtt 'messages, [what is mqtt?](https://ilstudy.vip/blogs/mqtt/vue3-mqtt.html#什么是mqttt)
 
-```yaml
-key: mqtt
-args:
-  topics: ''
-  message?: ''
-```
-> multi-topic
+### parameter
+`topics`: topic name, required field.
+`message`: message content, Non-required field, if this directive follows another instruction, send the result of the previous directive run, default: description of the schedule
 
-```yaml
-key: mqtt
-args:
-  topics: hello1,hello2,hello3
-  message?: world
-```
-the directive result:
+### the directive result:
 ```json
 {
   "data": null
 }
 ```
-### argument introduce
-> `topics`
-* type: string
-* required: true
-if you have multiple topics, please use `,` to split
-
-> `message`
-* type: string
-
-> single topic
-```yaml
-key: mqtt
-args:
-  topics: hello
-  message?: world
-```
-
-> multiple topic
-
-```yaml
-key: mqtt
-args:
-  topics: hello1,hello2,hello3
-  message?: world
-```
 
 ## open-external
 open the specified URL through a browser.
-> argument format
-```yaml
-key: open-external
-args:
-  url?: ''
-```
+### parameter
+`url`: url to be opened, required field.
+
 the directive result:
 ```json
 {
