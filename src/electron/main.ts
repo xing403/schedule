@@ -14,7 +14,6 @@ export function createWindow(config?: BrowserWindowConstructorOptions) {
       preload: path.join(__dirname, './preload.js'),
     },
   })
-  win.webContents.openDevTools()
   win.menuBarVisible = false
   return win
 }
