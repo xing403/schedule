@@ -3,8 +3,7 @@
 </div>
 <h3 align="center">Schedule</h3>
 
-
-<div style="text-align: center">
+<div style="text-align: center;width: 100%;">
   <a href="./README.zh-CN.md">中文</a> | <span>English</span>
 </div>
 
@@ -17,30 +16,10 @@ A Schedule Tools, You can create a scheduled task by using the cron string
 
 ![index page](./docs/banner2.png)
 
-## Schedule type
-
-> `notification`
-
-Display the entered execution in the notification. When the execution content is empty the schedule will display description information
-
-> `open website`
-
-Open the specified URL through a browser
-
-> `script`
-
-Still in the testing phase, you can only execute simple JavaScript code.
-
-> `directive`
-Default commands can be executed by setting the key
-**for example**
-
-```yaml
-key: date-time
-args:
-  format: YYYY-MM-DD HH:mm:ss
-```
-You can get the current time and display it through notifications
+## Schedule directive
+You can select part of the instructions, combine and sort, to achieve the effect you want. For example, by the combination of `date-time` and `notification` two directives, set to execute once an hour, then you get an instruction that will ring every hour.
+If you are a fan of the Internet of Things (IOT) and have built-in MQTT messaging service, you only need to configure your own MQTT service to send MQTT content on a regular basis.
+more directive see [ here ](./docs/directive.md)
 
 ## Usage
 > need
