@@ -38,6 +38,8 @@ function confirm(d: any) {
     return
   }
   directives.value.push({ ...d })
+  emits('update:directives', directives.value)
+  emits('changed', directives)
 }
 function handleModifyDirective(d: any) {
   if (directives.value.find(item => item.key === d.key) && directive.value.key !== d.key) {
@@ -47,7 +49,8 @@ function handleModifyDirective(d: any) {
   const di = directives.value.findIndex(item => item.key === directive.value.key)
   directives.value.splice(di, 1, d)
 
-  emits('changed', directives.value[di])
+  emits('update:directives', directives.value)
+  emits('changed', directives)
   modifyDirectiveDialog.value = false
 }
 function handleDeleteDirective(key: string) {
@@ -56,10 +59,6 @@ function handleDeleteDirective(key: string) {
 
   emits('deleted', o)
 }
-watchArray(directives, (val) => {
-  emits('update:directives', val)
-  emits('changed', val)
-})
 </script>
 
 <template>

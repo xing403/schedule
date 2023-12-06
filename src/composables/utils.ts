@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import { ElNotification } from 'element-plus'
 
 export function scheduleNotification(title: string, message?: string) {
@@ -14,7 +13,6 @@ export function logs(context: string, level?: string) {
     console.info(`[${level ?? 'info'}]`, context)
 }
 export function scheduleFormatOutput(schedule: Schedule) {
-  return `{id: \'${schedule.id}\', `
-    + `cron: \'${schedule.cron}\', `
-    + `directive: \'${schedule.directives}\'`
+  return `{id: \'${schedule.id}\', cron: \'${schedule.cron}\', `
+    + `directive: ${JSON.stringify(schedule.directives)}`
 }

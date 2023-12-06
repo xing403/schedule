@@ -51,7 +51,7 @@ function handleCloseCronDrawer() {
 
 <template>
   <button icon-btn class="i-carbon-add-alt" @click="dialog = true" />
-  <el-dialog v-model="dialog" title="添加 Schedule" width="45%">
+  <el-dialog v-model="dialog" title="添加 Schedule" width="45%" destroy-on-close>
     <el-form ref="insertFormRef" :model="schedule_form" :rules="schedule_form_rules" label-width="80px" :inline="false">
       <el-form-item label="标题" prop="title">
         <el-input v-model="schedule_form.title" placeholder="请输入标题" />

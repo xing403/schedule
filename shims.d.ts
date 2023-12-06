@@ -37,6 +37,14 @@ interface DirectiveFType extends DirectiveType {
    * directive execute function
    */
   execute: (schedule: Schedule, data?: any) => void
+  /**
+   * directive init function
+   */
+  init?: (schedule: Schedule, data?: any) => void
+  /**
+   * directive destroy function
+   */
+  destroy?: (schedule: Schedule, data?: any) => void
 }
 
 declare interface Schedule {

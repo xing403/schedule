@@ -6,13 +6,19 @@ export function generateSchedule(s: Schedule) {
   const schedule = { ...s }
   schedule.interval = null
 
-  schedule.directives.forEach((directive, index) => {
+  schedule.directives.reduce((status: boolean, directive: DirectiveType) => {
     const d = DIRECTIVE_MAP.find(item => item.key === directive.key)
-    if (d)
+
+    if (d) {
       directive.status = d.status ?? 'success'
-    else
-      directive.status = 'notFound'
-  })
+      if (typeof d.init === 'function')
+        d.init(schedule, { args: directive.args })
+    }
+
+    else { directive.status = 'notFound' }
+
+    return status && directive.status === 'success'
+  }, true)
 
   if (schedule.status)
     startSchedule(schedule)
