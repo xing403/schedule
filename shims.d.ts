@@ -7,17 +7,48 @@ type WindowMap = Map<string, BrowserWindow>
 interface Window {
   Electron: Electron;
 }
-type STATUS_TYPE = 'pending' | 'success' | 'error' | 'ready' | 'notFound'
-type CallbackType = 'script' | 'notification' | 'open-external' | 'directive'
-type DirectiveKeyType = 'date-time'
-interface DirectiveType{
-  key: DirectiveKeyType,
+type STATUS_TYPE = 'success' | 'error' | 'ready' | 'notFound' | 'stop' | 'running'
+
+interface DirectiveType {
+  /**
+   * directive key
+   */
+  key: string,
+  /**
+   * directive name
+   */
+  name?: string,
+  /**
+   * user defined alias
+   */
+  alias?: string,
+  /**
+   * this directive run need args
+   */
   args?: any,
+  /**
+   * pre directive run result, format => {data: any}
+   */
+  pre_res?: any,
+  /**
+   * directive status
+   */
+  status?: STATUS_TYPE,
 }
 
-interface DirectiveFType extends DirectiveType{
-  execute: Function,
-  status: STATUS_TYPE
+interface DirectiveFType extends DirectiveType {
+  /**
+   * directive execute function
+   */
+  execute: (schedule: Schedule, data?: any) => void
+  /**
+   * directive init function
+   */
+  init?: (schedule: Schedule, data?: any) => void
+  /**
+   * directive destroy function
+   */
+  destroy?: (schedule: Schedule, data?: any) => void
 }
 
 declare interface Schedule {
@@ -32,17 +63,27 @@ declare interface Schedule {
    * The string for performing period comparison
    */
   cron: string
-  callback_type: CallbackType
-  callback: string | Function
+  /**
+   * The schedule run interval
+   */
   interval: any
+  /**
+   * The schedule run status
+   * @default false
+   */
   status: boolean
+  /**
+   * schedule next run time
+   */
   next: string
+  /**
+   * schedule next run setOutTime timer
+   */
   timer: any,
   /**
-   * default directive
+   * schedule directives
    */
-  directive: string
-  directives: DirectiveFType[]
+  directives: DirectiveType[]
 }
 
 declare interface MenuItem {

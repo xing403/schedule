@@ -1,0 +1,179 @@
+# directives
+Suggestion: You need to add the `notification` directive at the end of the directive list, otherwise the result of the directive cannot be displayed. Or you don't need to see the results please ignore this suggestion
+
+## date-time
+get current date and time
+> argument format
+```yaml
+key: date-time
+args:
+  format?: YYYY-MM-DD HH:mm:ss
+```
+the directive result:
+```json
+{
+  "data": "2018-07-12 15:30:00"
+}
+```
+### argument introduce
+>> format:
+* type: `string`
+* default: YYYY-MM-DD HH:mm:ss
+
+placeholder:
+
+| 标识   | 示例               | 描述                    |
+| ----- | ----------------  | ----------------------- |
+| YY    | 18                | 年，两位数                |
+| YYYY  | 2018              | 年，四位数                |
+| M     | 1-12              | 月，从1开始               |
+| MM    | 01-12             | 月，两位数                |
+| MMM   | Jan-Dec           | 月，英文缩写              |
+| MMMM  | January-December  | 月，英文全称              |
+| D     | 1-31              | 日                      |
+| DD    | 01-31             | 日，两位数               |
+| d     | 0-6               | 一周中的一天，星期天是 0    |
+| dd    | Su-Sa             | 最简写的星期几            |
+| ddd   | Sun-Sat           | 简写的星期几              |
+| dddd  | Sunday-Saturday   | 星期几，英文全称           |
+| H     | 0-23              | 小时                    |
+| HH    | 00-23             | 小时，两位数              |
+| h     | 1-12              | 小时, 12 小时制          |
+| hh    | 01-12             | 小时, 12 小时制, 两位数   |
+| m     | 0-59              | 分钟                    |
+| mm    | 00-59             | 分钟，两位数              |
+| s     | 0-59              | 秒                      |
+| ss    | 00-59             | 秒，两位数               |
+| S     | 0-9               | 毫秒（十），一位数         |
+| SS    | 00-99             | 毫秒（百），两位数         |
+| SSS   | 000-999           | 毫秒，三位数              |
+| Z     | -05:00            | UTC 的偏移量，±HH:mm     |
+| ZZ    | -0500             | UTC 的偏移量，±HHmm      |
+| A     | AM / PM           | 上/下午，大写            |
+| a     | am / pm           | 上/下午，小写            |
+
+## notification
+send a notification
+
+> argument format
+```yaml
+key: notification
+args:
+  title?: ''
+  message?: ''
+```
+the directive result:
+```json
+{
+  "data": null
+}
+```
+### argument introduce
+> `title`
+
+* type: string
+* default: the schedule title
+
+> `message`
+* type: string
+* default: the schedule description
+If this directive follows another directive, this `message` is the result of the previous directive
+
+## tts
+text-to-speech: Convert a piece of text to speech
+
+```yaml
+key: tts
+args:
+  text?: ''
+  format?: ''
+```
+the directive result:
+```json
+{
+  "data": null
+}
+```
+### argument introduce
+> `text`
+* type: string
+* default: the schedule title
+If this directive follows another directive, this `text` is the result of the previous directive
+
+> `format`
+* type: string
+If format is set, a `$1` placeholder must be included, which will be replaced by the text. Such as:
+Used with date-time, Implement a simple time telling
+### example
+```yaml
+key: date-time
+args:
+  format: 'HH:mm:ss'
+---
+key: tts
+args:
+  format: The current time is $1
+```
+## mqtt
+automatically publishes' mqtt 'messages, [what is mqtt?](https://ilstudy.vip/blogs/mqtt/vue3-mqtt.html#什么是mqttt)
+
+```yaml
+key: mqtt
+args:
+  topics: ''
+  message?: ''
+```
+> multi-topic
+
+```yaml
+key: mqtt
+args:
+  topics: hello1,hello2,hello3
+  message?: world
+```
+the directive result:
+```json
+{
+  "data": null
+}
+```
+### argument introduce
+> `topics`
+* type: string
+* required: true
+if you have multiple topics, please use `,` to split
+
+> `message`
+* type: string
+
+> single topic
+```yaml
+key: mqtt
+args:
+  topics: hello
+  message?: world
+```
+
+> multiple topic
+
+```yaml
+key: mqtt
+args:
+  topics: hello1,hello2,hello3
+  message?: world
+```
+
+## open-external
+open the specified URL through a browser.
+> argument format
+```yaml
+key: open-external
+args:
+  url?: ''
+```
+the directive result:
+```json
+{
+  "data": true
+}
+```

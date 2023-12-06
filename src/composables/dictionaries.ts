@@ -1,20 +1,3 @@
-export const CallbackMap: Array<{
-  label: string
-  value: CallbackType
-}> = [{
-  label: '发送通知',
-  value: 'notification',
-}, {
-  label: '执行脚本',
-  value: 'script',
-}, {
-  label: '打开链接',
-  value: 'open-external',
-}, {
-  label: '预设指令',
-  value: 'directive',
-}]
-
 export const WeekMap: Array<{
   label: string
   Abbreviated: string

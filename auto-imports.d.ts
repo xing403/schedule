@@ -5,7 +5,6 @@
 export {}
 declare global {
   const CRON: typeof import('./src/composables/dictionaries')['CRON']
-  const CallbackMap: typeof import('./src/composables/dictionaries')['CallbackMap']
   const EffectScope: typeof import('vue')['EffectScope']
   const HINTS: typeof import('./src/composables/HINTS')['HINTS']
   const MQTT: typeof import('./src/composables/services')['MQTT']
@@ -40,9 +39,7 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
   const description: typeof import('./src/composables/application')['description']
-  const directive: typeof import('./src/composables/directive')['default']
   const directives: typeof import('./src/composables/directives/index')['default']
-  const done: typeof import('./src/composables/Schedule')['done']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
@@ -97,11 +94,8 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const parseExpression: typeof import('./src/composables/core')['parseExpression']
-  const parseYAMLString: typeof import('./src/composables/utils')['parseYAMLString']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const platform: typeof import('./src/composables/application')['platform']
-  const pre: typeof import('./src/composables/directive')['pre']
-  const presuppose: typeof import('./src/composables/index')['presuppose']
   const progress: typeof import('./src/composables/application')['progress']
   const provide: typeof import('vue')['provide']
   const queues: typeof import('./src/composables/variable')['queues']
@@ -122,7 +116,6 @@ declare global {
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
   const rootSchedule: typeof import('./src/composables/variable')['rootSchedule']
-  const run: typeof import('./src/composables/Schedule')['run']
   const runSchedule: typeof import('./src/composables/Schedule')['runSchedule']
   const scheduleFormatOutput: typeof import('./src/composables/utils')['scheduleFormatOutput']
   const scheduleNotification: typeof import('./src/composables/utils')['scheduleNotification']
@@ -343,11 +336,11 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
-    readonly CallbackMap: UnwrapRef<typeof import('./src/composables/dictionaries')['CallbackMap']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly HINTS: UnwrapRef<typeof import('./src/composables/HINTS')['HINTS']>
+    readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
+    readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly author: UnwrapRef<typeof import('./src/composables/application')['author']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
@@ -362,6 +355,7 @@ declare module 'vue' {
     readonly createEventHook: UnwrapRef<typeof import('@vueuse/core')['createEventHook']>
     readonly createGlobalState: UnwrapRef<typeof import('@vueuse/core')['createGlobalState']>
     readonly createInjectionState: UnwrapRef<typeof import('@vueuse/core')['createInjectionState']>
+    readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly createReactiveFn: UnwrapRef<typeof import('@vueuse/core')['createReactiveFn']>
     readonly createReusableTemplate: UnwrapRef<typeof import('@vueuse/core')['createReusableTemplate']>
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
@@ -373,19 +367,22 @@ declare module 'vue' {
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
-    readonly directive: UnwrapRef<typeof import('./src/composables/directive')['default']>
-    readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
+    readonly directives: UnwrapRef<typeof import('./src/composables/directives/index')['default']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly favicon_path: UnwrapRef<typeof import('./src/composables/application')['favicon_path']>
     readonly fieldsToExpression: UnwrapRef<typeof import('./src/composables/core')['fieldsToExpression']>
     readonly generateSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['generateSchedule']>
+    readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getGlobDirectives: UnwrapRef<typeof import('./src/composables/directives/index')['getGlobDirectives']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
+    readonly initApp: UnwrapRef<typeof import('./src/composables/index')['initApp']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isDark: UnwrapRef<typeof import('./src/composables/variable')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
@@ -395,7 +392,13 @@ declare module 'vue' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly loadingToggle: UnwrapRef<typeof import('./src/composables/application')['loadingToggle']>
+    readonly logs: UnwrapRef<typeof import('./src/composables/utils')['logs']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
+    readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
+    readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
+    readonly mapState: UnwrapRef<typeof import('pinia')['mapState']>
+    readonly mapStores: UnwrapRef<typeof import('pinia')['mapStores']>
+    readonly mapWritableState: UnwrapRef<typeof import('pinia')['mapWritableState']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly menuCollapse: UnwrapRef<typeof import('./src/composables/application')['menuCollapse']>
     readonly menuCollapseToggle: UnwrapRef<typeof import('./src/composables/application')['menuCollapseToggle']>
@@ -421,12 +424,11 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
-    readonly parseYAMLString: UnwrapRef<typeof import('./src/composables/utils')['parseYAMLString']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
-    readonly presuppose: UnwrapRef<typeof import('./src/composables/index')['presuppose']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly queues: UnwrapRef<typeof import('./src/composables/variable')['queues']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -443,14 +445,19 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
-    readonly run: UnwrapRef<typeof import('./src/composables/Schedule')['run']>
+    readonly rootSchedule: UnwrapRef<typeof import('./src/composables/variable')['rootSchedule']>
+    readonly runSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['runSchedule']>
+    readonly scheduleFormatOutput: UnwrapRef<typeof import('./src/composables/utils')['scheduleFormatOutput']>
     readonly scheduleNotification: UnwrapRef<typeof import('./src/composables/utils')['scheduleNotification']>
     readonly schedules: UnwrapRef<typeof import('./src/composables/variable')['schedules']>
+    readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
+    readonly setMapStoreSuffix: UnwrapRef<typeof import('pinia')['setMapStoreSuffix']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly startSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['startSchedule']>
     readonly stopSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['stopSchedule']>
+    readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
@@ -653,11 +660,11 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
-    readonly CallbackMap: UnwrapRef<typeof import('./src/composables/dictionaries')['CallbackMap']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly HINTS: UnwrapRef<typeof import('./src/composables/HINTS')['HINTS']>
+    readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
+    readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly author: UnwrapRef<typeof import('./src/composables/application')['author']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
@@ -672,6 +679,7 @@ declare module '@vue/runtime-core' {
     readonly createEventHook: UnwrapRef<typeof import('@vueuse/core')['createEventHook']>
     readonly createGlobalState: UnwrapRef<typeof import('@vueuse/core')['createGlobalState']>
     readonly createInjectionState: UnwrapRef<typeof import('@vueuse/core')['createInjectionState']>
+    readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly createReactiveFn: UnwrapRef<typeof import('@vueuse/core')['createReactiveFn']>
     readonly createReusableTemplate: UnwrapRef<typeof import('@vueuse/core')['createReusableTemplate']>
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
@@ -683,19 +691,22 @@ declare module '@vue/runtime-core' {
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly description: UnwrapRef<typeof import('./src/composables/application')['description']>
-    readonly directive: UnwrapRef<typeof import('./src/composables/directive')['default']>
-    readonly done: UnwrapRef<typeof import('./src/composables/Schedule')['done']>
+    readonly directives: UnwrapRef<typeof import('./src/composables/directives/index')['default']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly favicon_path: UnwrapRef<typeof import('./src/composables/application')['favicon_path']>
     readonly fieldsToExpression: UnwrapRef<typeof import('./src/composables/core')['fieldsToExpression']>
     readonly generateSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['generateSchedule']>
+    readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getGlobDirectives: UnwrapRef<typeof import('./src/composables/directives/index')['getGlobDirectives']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
+    readonly initApp: UnwrapRef<typeof import('./src/composables/index')['initApp']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isDark: UnwrapRef<typeof import('./src/composables/variable')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
@@ -705,7 +716,13 @@ declare module '@vue/runtime-core' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly loadingToggle: UnwrapRef<typeof import('./src/composables/application')['loadingToggle']>
+    readonly logs: UnwrapRef<typeof import('./src/composables/utils')['logs']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
+    readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
+    readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
+    readonly mapState: UnwrapRef<typeof import('pinia')['mapState']>
+    readonly mapStores: UnwrapRef<typeof import('pinia')['mapStores']>
+    readonly mapWritableState: UnwrapRef<typeof import('pinia')['mapWritableState']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly menuCollapse: UnwrapRef<typeof import('./src/composables/application')['menuCollapse']>
     readonly menuCollapseToggle: UnwrapRef<typeof import('./src/composables/application')['menuCollapseToggle']>
@@ -731,12 +748,11 @@ declare module '@vue/runtime-core' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
-    readonly parseYAMLString: UnwrapRef<typeof import('./src/composables/utils')['parseYAMLString']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
-    readonly presuppose: UnwrapRef<typeof import('./src/composables/index')['presuppose']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly queues: UnwrapRef<typeof import('./src/composables/variable')['queues']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -753,14 +769,19 @@ declare module '@vue/runtime-core' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
-    readonly run: UnwrapRef<typeof import('./src/composables/Schedule')['run']>
+    readonly rootSchedule: UnwrapRef<typeof import('./src/composables/variable')['rootSchedule']>
+    readonly runSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['runSchedule']>
+    readonly scheduleFormatOutput: UnwrapRef<typeof import('./src/composables/utils')['scheduleFormatOutput']>
     readonly scheduleNotification: UnwrapRef<typeof import('./src/composables/utils')['scheduleNotification']>
     readonly schedules: UnwrapRef<typeof import('./src/composables/variable')['schedules']>
+    readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
+    readonly setMapStoreSuffix: UnwrapRef<typeof import('pinia')['setMapStoreSuffix']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly startSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['startSchedule']>
     readonly stopSchedule: UnwrapRef<typeof import('./src/composables/Schedule')['stopSchedule']>
+    readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>

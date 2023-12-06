@@ -14,16 +14,11 @@ const theme = ref(isDark.value)
 <template>
   <div flex="~ row gap-1 items-center" justify="between" h-full>
     <div flex="~ row gap-1 items-center">
-      <div
-        :class="menuCollapse ? 'i-carbon-arrow-right' : 'i-carbon-arrow-left'" cursor="pointer"
-        @click="menuCollapseToggle()"
-      />
+      <div :class="menuCollapse ? 'i-carbon-playlist' : 'i-carbon-list'" cursor="pointer" @click="menuCollapseToggle()" />
+      <div text-xl v-text="current" />
     </div>
     <div flex="~ row gap-1 items-center" justify="between">
-      <div i-carbon-time />
-      <div text-xl>
-        {{ current }}
-      </div>
+      <addition-schedule />
       <el-divider direction="vertical" />
       <reload />
       <el-divider direction="vertical" />

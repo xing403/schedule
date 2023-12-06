@@ -46,6 +46,7 @@ export default defineConfig({
         'vue',
         'vue-router',
         '@vueuse/core',
+        'pinia',
       ],
       dts: true,
       dirs: [
