@@ -1,19 +1,23 @@
-name: Sync Github Repos To Gitee
-on: [push, delete, create]
+name: repo-sync
+
+on: 
+  # 每天自动同步
+  schedule:
+    - cron: '0 0 * * *'
+  # 手动触发部署
+  workflow_dispatch:
+
 jobs:
-  build:
+  sync-to-gitee:
     runs-on: ubuntu-latest
     steps:
-      - name: Sync Github Repos To Gitee              # 名字随便起
-        uses: Yikun/hub-mirror-action@master          # Yikun/hub-mirror-acti
+      - name: Sync to Gitee
+        uses: wearerequired/git-mirror-action@master
+        env:
+          # 注意在 Settings->Secrets 配置 GITEE_RSA_PRIVATE_KEY
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE_PRIVATE_KEY }}
         with:
-          src: github/xing403                         # 源端账户名(github)
-          dst: gitee/xing403                          # 目的端账户名(gitee)
-          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
-          dst_token: ${{ secrets.GITEE_TOKEN }}       # Gitee,账户的私人令牌
-          account_type: user                          # 账户类型
-          clone_style: "ssh"                         # 使用https,方式进行clone,也可以使用ssh
-          debug: true                                 # 启用后会显示所有执行命令
-          force_update: true                         # 启用后，强制同步，即强制覆盖目的瑞仓库
-          static_list:  "schedule"                   # 静态同步列表，在此填写需要同步的仓库名
-          timeout: '600s'                            # git超时设置，超时后会自动重试oit操作
+          # 注意替换为你的 GitHub 源仓库地址
+          source-repo: git@github.com:xing403/schedule.git
+          # 注意替换为你的 Gitee 目标仓库地址
+          destination-repo: git@gitee.com:xing403/schedule.git
