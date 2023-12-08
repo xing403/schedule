@@ -42,7 +42,9 @@ function handleSaveSetting() {
           </div>
         </template>
         <div flex="~ row gap-1 items-center justify-between">
-          <div v-if="'悬浮窗'" />
+          <el-badge value="test">
+            <el-button v-text="'悬浮窗'" />
+          </el-badge>
           <el-switch v-model="settingConfig.baseSetting.suspended_window" />
         </div>
       </el-card>
