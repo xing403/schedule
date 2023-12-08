@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     Reload: typeof import('./src/components/reload.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Settings: typeof import('./src/components/settings.vue')['default']
     Sidebar: typeof import('./src/layouts/Sidebar.vue')['default']
     SidebarItem: typeof import('./src/layouts/SidebarItem.vue')['default']
     UpdateSchedule: typeof import('./src/components/schedule/updateSchedule.vue')['default']

@@ -46,7 +46,10 @@ function handleCloseCronDrawer() {
 
 <template>
   <div>
-    <el-form v-if="schedule_form" ref="updateFormRef" :model="schedule_form" :rules="rules" label-width="80px">
+    <el-form
+      v-if="schedule_form" ref="updateFormRef" :model="schedule_form" :rules="rules" label-width="80px"
+      :label-position="windowWidth.value < 768 ? 'top' : 'right'" require-asterisk-position="right"
+    >
       <el-form-item label="标题" prop="title">
         <el-input v-model="schedule_form.title" placeholder="请输入标题" disabled />
       </el-form-item>
@@ -60,8 +63,7 @@ function handleCloseCronDrawer() {
             <template #title>
               <el-link
                 type="primary" :underline="false" href="https://ilstudy.vip/blogs/others/cron-rules.html"
-                target="_blank"
-                v-text="'查看 cron 规则'"
+                target="_blank" v-text="'查看 cron 规则'"
               />
             </template>
           </el-alert>
@@ -76,7 +78,11 @@ function handleCloseCronDrawer() {
         <directive-group v-model:directives="schedule_form.directives" disabled />
       </el-form-item>
 
-      <el-drawer v-model="drawer" title="Cron 表达式" direction="rtl" size="30%" destroy-on-close @close="handleCloseCronDrawer">
+      <el-drawer
+        v-model="drawer" title="Cron 表达式" direction="rtl"
+        :size="windowWidth.value < 768 ? '100%' : windowWidth.value < 1200 ? '50%' : '30%'" destroy-on-close
+        @close="handleCloseCronDrawer"
+      >
         <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" disabled @success="drawer = false" />
       </el-drawer>
     </el-form>

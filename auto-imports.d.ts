@@ -5,9 +5,12 @@
 export {}
 declare global {
   const CRON: typeof import('./src/composables/dictionaries')['CRON']
+  const DayOfMonthMap: typeof import('./src/composables/dictionaries')['DayOfMonthMap']
   const EffectScope: typeof import('vue')['EffectScope']
   const HINTS: typeof import('./src/composables/HINTS')['HINTS']
+  const HourMap: typeof import('./src/composables/dictionaries')['HourMap']
   const MQTT: typeof import('./src/composables/services')['MQTT']
+  const MinuteMap: typeof import('./src/composables/dictionaries')['MinuteMap']
   const MonthMap: typeof import('./src/composables/dictionaries')['MonthMap']
   const WeekMap: typeof import('./src/composables/dictionaries')['WeekMap']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
@@ -32,7 +35,9 @@ declare global {
   const createTemplatePromise: typeof import('@vueuse/core')['createTemplatePromise']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
   const customRef: typeof import('vue')['customRef']
+  const dayOfMonthQuickSelection: typeof import('./src/composables/dictionaries')['dayOfMonthQuickSelection']
   const dayOfWeek: typeof import('./src/composables/dictionaries')['dayOfWeek']
+  const dayOfWeekQuickSelection: typeof import('./src/composables/dictionaries')['dayOfWeekQuickSelection']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
@@ -51,6 +56,8 @@ declare global {
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getGlobDirectives: typeof import('./src/composables/directives/index')['getGlobDirectives']
   const h: typeof import('vue')['h']
+  const height: typeof import('./src/composables/variable')['height']
+  const hourQuickSelection: typeof import('./src/composables/dictionaries')['hourQuickSelection']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const initApp: typeof import('./src/composables/index')['initApp']
   const inject: typeof import('vue')['inject']
@@ -72,6 +79,8 @@ declare global {
   const markRaw: typeof import('vue')['markRaw']
   const menuCollapse: typeof import('./src/composables/application')['menuCollapse']
   const menuCollapseToggle: typeof import('./src/composables/application')['menuCollapseToggle']
+  const minuteQuickSelection: typeof import('./src/composables/dictionaries')['minuteQuickSelection']
+  const monthQuickSelection: typeof import('./src/composables/dictionaries')['monthQuickSelection']
   const name: typeof import('./src/composables/application')['name']
   const nextTick: typeof import('vue')['nextTick']
   const onActivated: typeof import('vue')['onActivated']
@@ -325,6 +334,9 @@ declare global {
   const watchTriggerable: typeof import('@vueuse/core')['watchTriggerable']
   const watchWithFilter: typeof import('@vueuse/core')['watchWithFilter']
   const whenever: typeof import('@vueuse/core')['whenever']
+  const width: typeof import('./src/composables/variable')['width']
+  const windowHeight: typeof import('./src/composables/variable')['windowHeight']
+  const windowWidth: typeof import('./src/composables/variable')['windowWidth']
 }
 // for type re-export
 declare global {
@@ -335,9 +347,11 @@ declare global {
 import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
-    readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
+    readonly DayOfMonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['DayOfMonthMap']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly HourMap: UnwrapRef<typeof import('./src/composables/dictionaries')['HourMap']>
     readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
+    readonly MinuteMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MinuteMap']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
@@ -362,7 +376,8 @@ declare module 'vue' {
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
-    readonly dayOfWeek: UnwrapRef<typeof import('./src/composables/dictionaries')['dayOfWeek']>
+    readonly dayOfMonthQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['dayOfMonthQuickSelection']>
+    readonly dayOfWeekQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['dayOfWeekQuickSelection']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
@@ -381,6 +396,8 @@ declare module 'vue' {
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getGlobDirectives: UnwrapRef<typeof import('./src/composables/directives/index')['getGlobDirectives']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly height: UnwrapRef<typeof import('./src/composables/variable')['height']>
+    readonly hourQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['hourQuickSelection']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly initApp: UnwrapRef<typeof import('./src/composables/index')['initApp']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
@@ -402,6 +419,8 @@ declare module 'vue' {
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly menuCollapse: UnwrapRef<typeof import('./src/composables/application')['menuCollapse']>
     readonly menuCollapseToggle: UnwrapRef<typeof import('./src/composables/application')['menuCollapseToggle']>
+    readonly minuteQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['minuteQuickSelection']>
+    readonly monthQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['monthQuickSelection']>
     readonly name: UnwrapRef<typeof import('./src/composables/application')['name']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
@@ -655,13 +674,18 @@ declare module 'vue' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
+    readonly width: UnwrapRef<typeof import('./src/composables/variable')['width']>
+    readonly windowHeight: UnwrapRef<typeof import('./src/composables/variable')['windowHeight']>
+    readonly windowWidth: UnwrapRef<typeof import('./src/composables/variable')['windowWidth']>
   }
 }
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    readonly CRON: UnwrapRef<typeof import('./src/composables/dictionaries')['CRON']>
+    readonly DayOfMonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['DayOfMonthMap']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly HourMap: UnwrapRef<typeof import('./src/composables/dictionaries')['HourMap']>
     readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
+    readonly MinuteMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MinuteMap']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
@@ -686,7 +710,8 @@ declare module '@vue/runtime-core' {
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
-    readonly dayOfWeek: UnwrapRef<typeof import('./src/composables/dictionaries')['dayOfWeek']>
+    readonly dayOfMonthQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['dayOfMonthQuickSelection']>
+    readonly dayOfWeekQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['dayOfWeekQuickSelection']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
@@ -705,6 +730,8 @@ declare module '@vue/runtime-core' {
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getGlobDirectives: UnwrapRef<typeof import('./src/composables/directives/index')['getGlobDirectives']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly height: UnwrapRef<typeof import('./src/composables/variable')['height']>
+    readonly hourQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['hourQuickSelection']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly initApp: UnwrapRef<typeof import('./src/composables/index')['initApp']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
@@ -726,6 +753,8 @@ declare module '@vue/runtime-core' {
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly menuCollapse: UnwrapRef<typeof import('./src/composables/application')['menuCollapse']>
     readonly menuCollapseToggle: UnwrapRef<typeof import('./src/composables/application')['menuCollapseToggle']>
+    readonly minuteQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['minuteQuickSelection']>
+    readonly monthQuickSelection: UnwrapRef<typeof import('./src/composables/dictionaries')['monthQuickSelection']>
     readonly name: UnwrapRef<typeof import('./src/composables/application')['name']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
@@ -979,5 +1008,8 @@ declare module '@vue/runtime-core' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
+    readonly width: UnwrapRef<typeof import('./src/composables/variable')['width']>
+    readonly windowHeight: UnwrapRef<typeof import('./src/composables/variable')['windowHeight']>
+    readonly windowWidth: UnwrapRef<typeof import('./src/composables/variable')['windowWidth']>
   }
 }

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { FormInstance, FormRules } from 'element-plus'
+
 const props = withDefaults(defineProps<{
   cron: string
   disabled?: boolean
@@ -6,7 +8,8 @@ const props = withDefaults(defineProps<{
   disabled: false,
 })
 const emits = defineEmits(['update:cron', 'close', 'success', 'cancel'])
-const stepActive = ref(0)
+const form = ref<FormInstance>()
+const currentField = ref<string>('')
 const cron = ref<any>({
   hour: [],
   minute: [],
@@ -15,175 +18,242 @@ const cron = ref<any>({
   month: [],
   second: [0],
 })
-function handleAddCron(type: string, value: number) {
-  if (props.disabled)
-    return
-  cron.value[type].includes(value)
-    ? cron.value[type].splice(cron.value[type].indexOf(value), 1)
-    : cron.value[type].push(value)
-}
 
-function handleNextStep() {
-  stepActive.value = stepActive.value + 1
-}
-function handleBackStep() {
-  stepActive.value = stepActive.value - 1
-}
-function handleFinishStep() {
-  if (props.disabled)
-    return
-  for (const key in cron.value) {
-    if (cron.value[key].length === 0)
-      cron.value[key] = CRON.value[key]
+const rules = reactive<FormRules<any>>({
+  month: [{ required: true, message: '请选择月份', trigger: 'blur' }],
+  dayOfMonth: [{ required: true, message: '请求选择月份的第几天', trigger: 'blur' }],
+  dayOfWeek: [{ required: true, message: '请选择星期几', trigger: 'blur' }],
+  hour: [{ required: true, message: '请选择小时', trigger: 'blur' }],
+  minute: [{ required: true, message: '请选择分钟', trigger: 'blur' }],
+})
+
+const option = ref<any>({
+  monthQuickSelection: Array<string>(),
+
+  dayOfMonthQuickSelection: Array<string>(),
+
+  dayOfWeekQuickSelection: Array<string>(),
+
+  hourQuickSelection: Array<string>(),
+
+  minuteQuickSelection: Array<string>(),
+})
+
+function handleQuickChange(_event: MouseEvent, item: any, key: string, quickKey: string) {
+  if (option.value[quickKey].includes(item.key as string)) { // checked
+    item.value.forEach((e: number) => {
+      if (!cron.value[key].includes(e))
+        cron.value[key].push(e)
+    })
   }
-  stepActive.value = 5
-  const c = fieldsToExpression(cron.value).stringify()
-  emits('update:cron', c)
-  setTimeout(() => {
-    emits('success', c)
-  }, 1000)
+  else {
+    item.value.forEach((e: number) => {
+      if (cron.value[key].includes(e))
+        cron.value[key].splice(cron.value[key].indexOf(e), 1)
+    })
+  }
+}
+function checkQuickSelection(Cron: any, quickSelection: Array<any>, cronKey: string, quickKey: string) {
+  quickSelection.forEach((item) => {
+    const [num, len] = checkIndeterminate(Cron[cronKey], item.value)
+    if (num === len && !option.value[quickKey].includes(item.key))
+      option.value[quickKey].push(item.key)
+
+    else if (num !== len && option.value[quickKey].includes(item.key))
+      option.value[quickKey].splice(option.value[quickKey].indexOf(item.key), 1)
+
+    if (num === 0 && option.value[quickKey].includes(item.key))
+      option.value[quickKey].splice(option.value[quickKey].indexOf(item.key), 1)
+  })
+}
+function handleCreateCron() {
+  form.value?.validate((valid: boolean) => {
+    if (valid) {
+      const c = fieldsToExpression(cron.value).stringify()
+      emits('update:cron', c)
+      setTimeout(() => {
+        emits('success', c)
+      }, 1000)
+    }
+  })
+}
+function handleCancelCron() {
+  form.value && form.value.resetFields()
+
+  checkQuickSelection(cron.value, monthQuickSelection, 'month', 'monthQuickSelection')
+  checkQuickSelection(cron.value, dayOfMonthQuickSelection, 'dayOfMonth', 'dayOfMonthQuickSelection')
+  checkQuickSelection(cron.value, dayOfWeekQuickSelection, 'dayOfWeek', 'dayOfWeekQuickSelection')
+  checkQuickSelection(cron.value, hourQuickSelection, 'hour', 'hourQuickSelection')
+  checkQuickSelection(cron.value, minuteQuickSelection, 'minute', 'minuteQuickSelection')
 }
 
-function clickPresuppose(type: string, value: any[]) {
-  if (props.disabled)
-    return
-  cron.value[type] = value
+function checkIndeterminateStatus<T>(source: Array<T>, target: Array<T>) {
+  const [num, len] = checkIndeterminate(source, target)
+  return num < len && num > 0
 }
+function checkIndeterminate<T>(source: Array<T>, target: Array<T>) {
+  const num = source.reduce((pre, item) => target.includes(item) ? pre + 1 : pre, 0)
+  return [num, target.length]
+}
+
+watchDeep(cron.value, (val: any) => {
+  switch (currentField.value) {
+    case 'month':
+      checkQuickSelection(val, monthQuickSelection, 'month', 'monthQuickSelection')
+      break
+    case 'dayOfMonth':
+      checkQuickSelection(val, dayOfMonthQuickSelection, 'dayOfMonth', 'dayOfMonthQuickSelection')
+      break
+    case 'dayOfWeek':
+      checkQuickSelection(val, dayOfWeekQuickSelection, 'dayOfWeek', 'dayOfWeekQuickSelection')
+      break
+    case 'hour':
+      checkQuickSelection(val, hourQuickSelection, 'hour', 'hourQuickSelection')
+      break
+    case 'minute':
+      checkQuickSelection(val, minuteQuickSelection, 'minute', 'minuteQuickSelection')
+      break
+  }
+})
+
 onMounted(() => {
   nextTick(() => {
-    if (props.cron !== '')
-      cron.value = JSON.parse(JSON.stringify(parseExpression(props.cron).fields))
+    if (props.cron !== '') {
+      cron.value = Object.assign(cron.value, JSON.parse(JSON.stringify(parseExpression(props.cron).fields)))
+      if (cron.value.dayOfWeek.includes(7))
+        cron.value.dayOfWeek.splice(cron.value.dayOfWeek.indexOf(7), 1)
+
+      checkQuickSelection(cron.value, monthQuickSelection, 'month', 'monthQuickSelection')
+      checkQuickSelection(cron.value, dayOfMonthQuickSelection, 'dayOfMonth', 'dayOfMonthQuickSelection')
+      checkQuickSelection(cron.value, dayOfWeekQuickSelection, 'dayOfWeek', 'dayOfWeekQuickSelection')
+      checkQuickSelection(cron.value, hourQuickSelection, 'hour', 'hourQuickSelection')
+      checkQuickSelection(cron.value, minuteQuickSelection, 'minute', 'minuteQuickSelection')
+    }
   })
 })
 </script>
 
 <template>
   <div flex="~ col" h-full>
-    <el-steps :active="stepActive" finish-status="success" align-center>
-      <el-step title="月份" @click="stepActive = 0" />
-      <el-step title="天" @click="stepActive = 1" />
-      <el-step title="周" @click="stepActive = 2" />
-      <el-step title="小时" @click="stepActive = 3" />
-      <el-step title="分钟" @click="stepActive = 4" />
-    </el-steps>
-    <div class="step-group" flex-1 overflow-x-hidden overflow-y-auto>
-      <Transition mode="out-in" name="bounce">
-        <div v-if="stepActive === 0" class="step-item" :class="`step-${stepActive}`">
-          <div class="month">
-            <div
-              v-for="item in MonthMap" :key="item.value" class="month-deatil" m-1 h-3em
-              flex="~ row gap-1 wrap justify-between" w-full px-5 lh-3em border="1px #EBEEF5 dark:#363637 solid" :class="{
-                'is-selected': cron.month.includes(item.value),
-              }" @click="handleAddCron('month', item.value)"
-            >
-              <span v-text="item.CN" />
-              <span v-text="item.En" />
-            </div>
-          </div>
-        </div>
-        <div v-else-if="stepActive === 1" class="step-item" :class="`step-${stepActive}`">
-          <div class="month" flex="~ row gap-1 wrap" w-full>
-            <div
-              v-for="item in 31" :key="item" class="month-day" m-1 h-5em w-5.5ch text-center text-1em lh-5em
-              border="1px #EBEEF5 dark:#363637 solid" :class="{ 'is-selected': cron.dayOfMonth.includes(item) }"
-              @click="handleAddCron('dayOfMonth', item)"
-            >
-              <span>{{ item }}</span>
-            </div>
-          </div>
-        </div>
-        <div v-else-if="stepActive === 2" class="step-item" :class="`step-${stepActive}`">
-          <div class="week" m-1>
-            <div class="presuppose" mb-2>
-              <el-button v-for="item, index in dayOfWeek" :key="index" @click="clickPresuppose('dayOfWeek', item.value)" v-text="item.label" />
-            </div>
-            <div
-              v-for="item, index in WeekMap" :key="index" class="week-day" flex="~ row gap-1 wrap justify-between"
-              h-3em w-full px-5 lh-3em border="1px #EBEEF5 dark:#363637 solid" :class="{
-                'is-selected': cron.dayOfWeek.includes(item.value),
-              }" @click="handleAddCron('dayOfWeek', item.value)"
-            >
-              <span v-text="item.CN" />
-              <span v-text="item.En" />
-            </div>
-          </div>
-        </div>
-        <div v-else-if="stepActive === 3" class="step-item" :class="`step-${stepActive}`">
-          <div class="hour" flex="~ row gap-1 wrap" w-full>
-            <div
-              v-for="item in 24" :key="item" class="hour-deatil" m-1 h-5em w-5.5ch text-center lh-5em
-              border="1px #EBEEF5 dark:#363637 solid" :class="{
-                'is-selected': cron.hour.includes(item - 1),
-              }" @click="handleAddCron('hour', item - 1)"
-            >
-              <span>{{ item - 1 }}</span>
-            </div>
-          </div>
-        </div>
-        <div v-else-if="stepActive === 4" class="step-item" :class="`step-${stepActive}`">
-          <div class="minute" flex="~ row gap-1 wrap" w-full>
-            <div
-              v-for="item in 60" :key="item" class="minute-deatil" m-1 h-5em w-5.5ch text-center lh-5em
-              border="1px #EBEEF5 dark:#363637 solid" :class="{
-                'is-selected': cron.minute.includes(item - 1),
-              }" @click="handleAddCron('minute', item - 1)"
-            >
-              <span>{{ item - 1 }}</span>
-            </div>
-          </div>
-        </div>
-        <div v-else-if="stepActive === 5" class="step-item success" :class="`step-${stepActive}`">
-          <el-result icon="success" title="cron 创建成功" :sub-title="props.cron" />
-        </div>
-      </Transition>
-    </div>
-    <div flex="~ row" mt-10px justify-center>
-      <el-button v-if="stepActive > 0 && stepActive <= 4" type="info" plain @click="handleBackStep" v-text="'上一步'" />
-      <el-button v-if="stepActive < 4" type="primary" plain @click="handleNextStep" v-text="'下一步'" />
-      <el-button v-if="stepActive <= 4 && !props.disabled" type="success" plain @click="handleFinishStep" v-text="'生成 cron'" />
-    </div>
+    <el-form ref="form" :model="cron" :rules="rules" h-full w-full label-position="top" require-asterisk-position="right">
+      <el-form-item label="月份" prop="month">
+        <el-select
+          v-model="cron.month" placeholder="选择月份" :max-collapse-tags="4" collapse-tags clearable multiple w-full
+          :disabled="props.disabled" @focus="currentField = 'month'" @blur="currentField = ''"
+        >
+          <template v-if="!props.disabled" #header>
+            <el-checkbox-group v-model="option.monthQuickSelection">
+              <el-checkbox
+                v-for="item in monthQuickSelection" :key="item.key"
+                :indeterminate="checkIndeterminateStatus(cron.month, item.value)" :label="item.key"
+                @change="handleQuickChange($event, item, 'month', 'monthQuickSelection')"
+              >
+                {{ item.label }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+          <el-option v-for="item in MonthMap" :key="item.value" :label="item.CN" :value="item.value">
+            <span style="float: left" v-text="item.CN" />
+            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
+          </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="天" prop="dayOfMonth">
+        <el-select
+          v-model="cron.dayOfMonth" placeholder="选择月份的第几天" collapse-tags :max-collapse-tags="4" multiple
+          clearable w-full :disabled="props.disabled" @focus="currentField = 'dayOfMonth'" @blur="currentField = ''"
+        >
+          <template v-if="!props.disabled" #header>
+            <el-checkbox-group v-model="option.dayOfMonthQuickSelection">
+              <el-checkbox
+                v-for="item in dayOfMonthQuickSelection" :key="item.key"
+                :indeterminate="checkIndeterminateStatus(cron.dayOfMonth, item.value)" :label="item.key"
+                @change="handleQuickChange($event, item, 'dayOfMonth', 'dayOfMonthQuickSelection')"
+              >
+                {{ item.label }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+          <el-option v-for="item in DayOfMonthMap" :key="item.value" :label="item.CN" :value="item.value">
+            <span style="float: left" v-text="item.CN" />
+            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
+          </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="周" prop="dayOfWeek">
+        <el-select
+          v-model="cron.dayOfWeek" placeholder="选择星期几" collapse-tags :max-collapse-tags="4" multiple clearable
+          w-full :disabled="props.disabled" @focus="currentField = 'dayOfWeek'" @blur="currentField = ''"
+        >
+          <template v-if="!props.disabled" #header>
+            <el-checkbox-group v-model="option.dayOfWeekQuickSelection">
+              <el-checkbox
+                v-for="item in dayOfWeekQuickSelection" :key="item.key"
+                :indeterminate="checkIndeterminateStatus(cron.dayOfWeek, item.value)" :label="item.key"
+                @change="handleQuickChange($event, item, 'dayOfWeek', 'dayOfWeekQuickSelection')"
+              >
+                {{ item.label }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+          <el-option v-for="item in WeekMap" :key="item.value" :label="item.CN" :value="item.value">
+            <span style="float: left" v-text="item.CN" />
+            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
+          </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="小时" prop="hour">
+        <el-select
+          v-model="cron.hour" placeholder="选择小时" collapse-tags :max-collapse-tags="4" multiple clearable w-full
+          :disabled="props.disabled" @focus="currentField = 'hour'" @blur="currentField = ''"
+        >
+          <template v-if="!props.disabled" #header>
+            <el-checkbox-group v-model="option.hourQuickSelection">
+              <el-checkbox
+                v-for="item in hourQuickSelection" :key="item.key"
+                :indeterminate="checkIndeterminateStatus(cron.hour, item.value)" :label="item.key"
+                @change="handleQuickChange($event, item, 'hour', 'hourQuickSelection')"
+              >
+                {{ item.label }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+          <el-option v-for="item in HourMap" :key="item.value" :label="item.CN" :value="item.value">
+            <span style="float: left" v-text="item.CN" />
+            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
+          </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="分钟" prop="minute">
+        <el-select
+          v-model="cron.minute" placeholder="选择分钟" collapse-tags :max-collapse-tags="4" multiple clearable w-full
+          :disabled="props.disabled" @focus="currentField = 'minute'" @blur="currentField = ''"
+        >
+          <template v-if="!props.disabled" #header>
+            <el-checkbox-group v-model="option.minuteQuickSelection">
+              <el-checkbox
+                v-for="item in minuteQuickSelection" :key="item.key"
+                :indeterminate="checkIndeterminateStatus(cron.minute, item.value)" :label="item.key"
+                @change="handleQuickChange($event, item, 'minute', 'minuteQuickSelection')"
+              >
+                {{ item.label }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+          <el-option v-for="item in MinuteMap" :key="item.value" :label="item.CN" :value="item.value">
+            <span style="float: left" v-text="item.CN" />
+            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label=" ">
+        <el-button v-if="!props.disabled" type="primary" @click="handleCreateCron" v-text="'立即创建'" />
+        <el-button v-if="!props.disabled" @click="handleCancelCron" v-text="'重置'" />
+      </el-form-item>
+    </el-form>
   </div>
 </template>
-
-<style lang="postcss" scoped>
-.month-day,
-.week-day,
-.month-deatil,
-.hour-deatil,
-.minute-deatil {
-  user-select: none;
-  cursor: pointer;
-  border-radius: 4px;
-
-  &:hover {
-    --at-apply: dark:bg-gray-5 dark:text-gray-300;
-    --at-apply: bg-gray-200 text-gray-5;
-  }
-
-  &.is-selected {
-    color: var(--el-color-primary);
-    background: var(--el-color-primary-light-8);
-  }
-
-}
-
-.step-item {
-  display: block;
-  --at-apply: w-full;
-}
-
-.el-step__head,
-.el-step__title {
-  &.is-process {
-    color: var(--el-color-primary);
-
-    .is-text {
-      border: 2px var(--el-color-primary) solid;
-    }
-  }
-}
-
-.bounce-leave-active {
-  --at-apply: animate-bounce-out-right animate-duration-200;
-}
-</style>
