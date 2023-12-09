@@ -7,5 +7,5 @@ meta:
 </route>
 
 <template>
-  <settings />
+  <settings-component h-full p-2 />
 </template>

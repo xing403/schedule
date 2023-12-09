@@ -21,8 +21,10 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Settings: typeof import('./src/components/settings.vue')['default']
+    SettingsComponent: typeof import('./src/components/settings-component.vue')['default']
     Sidebar: typeof import('./src/layouts/Sidebar.vue')['default']
     SidebarItem: typeof import('./src/layouts/SidebarItem.vue')['default']
+    TheSettings: typeof import('./src/components/the-settings.vue')['default']
     UpdateSchedule: typeof import('./src/components/schedule/updateSchedule.vue')['default']
   }
 }

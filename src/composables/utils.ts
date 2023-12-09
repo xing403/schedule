@@ -6,6 +6,12 @@ export function scheduleNotification(title: string, message?: string) {
     ? window.Electron.notification(title, message)
     : ElNotification({ title, message })
 }
+export function openExternal(url: string) {
+  if (platform.value === 'electron')
+    window.Electron.openExternal(url)
+  else
+    window.open(url, '_blank')
+}
 export function logs(context: string, level?: string) {
   if (platform.value === 'electron')
     window.Electron.logs(context, level)

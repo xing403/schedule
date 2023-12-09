@@ -13,7 +13,7 @@ const theme = ref(isDark.value)
 </script>
 
 <template>
-  <div flex="~ row gap-1 items-center" justify="between" h-full>
+  <div flex="~ row gap-1 items-center" justify="between">
     <div flex="~ row gap-1 items-center">
       <div v-if="windowWidth.value > 768" text-xl v-text="current" />
     </div>
@@ -27,7 +27,7 @@ const theme = ref(isDark.value)
       <el-switch v-model="theme" size="small" :active-value="true" :inactive-value="false" @change="toggleDark()" />
     </div>
     <el-dialog v-model="settingsDialog" title="设置" width="45%" destroy-on-close>
-      <settings />
+      <settings-component />
     </el-dialog>
   </div>
 </template>

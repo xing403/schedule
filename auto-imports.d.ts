@@ -12,6 +12,7 @@ declare global {
   const MQTT: typeof import('./src/composables/services')['MQTT']
   const MinuteMap: typeof import('./src/composables/dictionaries')['MinuteMap']
   const MonthMap: typeof import('./src/composables/dictionaries')['MonthMap']
+  const PkgJson: typeof import('./src/composables/application')['PkgJson']
   const WeekMap: typeof import('./src/composables/dictionaries')['WeekMap']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
@@ -61,6 +62,7 @@ declare global {
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const initApp: typeof import('./src/composables/index')['initApp']
   const inject: typeof import('vue')['inject']
+  const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDark: typeof import('./src/composables/variable')['isDark']
   const isDefined: typeof import('@vueuse/core')['isDefined']
   const isLoading: typeof import('./src/composables/application')['isLoading']
@@ -102,11 +104,13 @@ declare global {
   const onStartTyping: typeof import('@vueuse/core')['onStartTyping']
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
+  const openExternal: typeof import('./src/composables/utils')['openExternal']
   const parseExpression: typeof import('./src/composables/core')['parseExpression']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const platform: typeof import('./src/composables/application')['platform']
   const progress: typeof import('./src/composables/application')['progress']
   const provide: typeof import('vue')['provide']
+  const provideLocal: typeof import('@vueuse/core')['provideLocal']
   const queues: typeof import('./src/composables/variable')['queues']
   const reactify: typeof import('@vueuse/core')['reactify']
   const reactifyObject: typeof import('@vueuse/core')['reactifyObject']
@@ -182,6 +186,7 @@ declare global {
   const useBrowserLocation: typeof import('@vueuse/core')['useBrowserLocation']
   const useCached: typeof import('@vueuse/core')['useCached']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
+  const useClipboardItems: typeof import('@vueuse/core')['useClipboardItems']
   const useCloned: typeof import('@vueuse/core')['useCloned']
   const useColorMode: typeof import('@vueuse/core')['useColorMode']
   const useConfirmDialog: typeof import('@vueuse/core')['useConfirmDialog']
@@ -353,6 +358,7 @@ declare module 'vue' {
     readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
     readonly MinuteMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MinuteMap']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
+    readonly PkgJson: UnwrapRef<typeof import('./src/composables/application')['PkgJson']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
@@ -401,6 +407,7 @@ declare module 'vue' {
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly initApp: UnwrapRef<typeof import('./src/composables/index')['initApp']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDark: UnwrapRef<typeof import('./src/composables/variable')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isLoading: UnwrapRef<typeof import('./src/composables/application')['isLoading']>
@@ -442,11 +449,13 @@ declare module 'vue' {
     readonly onStartTyping: UnwrapRef<typeof import('@vueuse/core')['onStartTyping']>
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
+    readonly openExternal: UnwrapRef<typeof import('./src/composables/utils')['openExternal']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly queues: UnwrapRef<typeof import('./src/composables/variable')['queues']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
@@ -522,6 +531,7 @@ declare module 'vue' {
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
+    readonly useClipboardItems: UnwrapRef<typeof import('@vueuse/core')['useClipboardItems']>
     readonly useCloned: UnwrapRef<typeof import('@vueuse/core')['useCloned']>
     readonly useColorMode: UnwrapRef<typeof import('@vueuse/core')['useColorMode']>
     readonly useConfirmDialog: UnwrapRef<typeof import('@vueuse/core')['useConfirmDialog']>
@@ -687,6 +697,7 @@ declare module '@vue/runtime-core' {
     readonly MQTT: UnwrapRef<typeof import('./src/composables/services')['MQTT']>
     readonly MinuteMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MinuteMap']>
     readonly MonthMap: UnwrapRef<typeof import('./src/composables/dictionaries')['MonthMap']>
+    readonly PkgJson: UnwrapRef<typeof import('./src/composables/application')['PkgJson']>
     readonly WeekMap: UnwrapRef<typeof import('./src/composables/dictionaries')['WeekMap']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
@@ -735,6 +746,7 @@ declare module '@vue/runtime-core' {
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly initApp: UnwrapRef<typeof import('./src/composables/index')['initApp']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDark: UnwrapRef<typeof import('./src/composables/variable')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isLoading: UnwrapRef<typeof import('./src/composables/application')['isLoading']>
@@ -776,11 +788,13 @@ declare module '@vue/runtime-core' {
     readonly onStartTyping: UnwrapRef<typeof import('@vueuse/core')['onStartTyping']>
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
+    readonly openExternal: UnwrapRef<typeof import('./src/composables/utils')['openExternal']>
     readonly parseExpression: UnwrapRef<typeof import('./src/composables/core')['parseExpression']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('./src/composables/application')['platform']>
     readonly progress: UnwrapRef<typeof import('./src/composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly queues: UnwrapRef<typeof import('./src/composables/variable')['queues']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
@@ -856,6 +870,7 @@ declare module '@vue/runtime-core' {
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
+    readonly useClipboardItems: UnwrapRef<typeof import('@vueuse/core')['useClipboardItems']>
     readonly useCloned: UnwrapRef<typeof import('@vueuse/core')['useCloned']>
     readonly useColorMode: UnwrapRef<typeof import('@vueuse/core')['useColorMode']>
     readonly useConfirmDialog: UnwrapRef<typeof import('@vueuse/core')['useConfirmDialog']>

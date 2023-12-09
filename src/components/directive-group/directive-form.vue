@@ -70,9 +70,9 @@ function cancel() {
       <el-form-item prop="args.topics" label="订阅主题">
         <el-select
           v-model="topic"
-          :max-collapse-tags="2" filterable allow-create collapse-tags collapse-tags-tooltip multiple default-first-option w-full placeholder="选择需要的主题"
+          :max-collapse-tags="2" filterable collapse-tags allow-create collapse-tags-tooltip multiple default-first-option w-full placeholder="选择需要的主题"
         >
-          <el-option v-for="topic in topics" :key="topic" :label="topic" :value="topic" />
+          <el-option v-for="t in topics" :key="t" :label="t" :value="t" />
         </el-select>
       </el-form-item>
 

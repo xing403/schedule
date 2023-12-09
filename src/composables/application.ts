@@ -4,6 +4,7 @@ import path from 'path-browserify'
 import PKGJson from '../../package.json'
 
 const userAgent = navigator.userAgent.toLowerCase()
+export const PkgJson = PKGJson
 export const version = PKGJson.version
 export const name = PKGJson.name
 export const description = PKGJson.description
