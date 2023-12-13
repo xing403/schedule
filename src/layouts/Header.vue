@@ -13,7 +13,7 @@ const theme = ref(isDark.value)
 </script>
 
 <template>
-  <div flex="~ row gap-1 items-center" justify="between">
+  <div flex="~ row gap-1 items-center" justify="between" h-full>
     <div flex="~ row gap-1 items-center">
       <div v-if="windowWidth.value > 768" text-xl v-text="current" />
     </div>
