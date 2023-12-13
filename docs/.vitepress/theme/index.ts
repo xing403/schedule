@@ -13,7 +13,7 @@ import './style.css'
 export default {
   ...DefaultTheme,
   Layout: () => h(Layout),
-  enhanceApp({ app, router, siteData }) {
+  enhanceApp({ app }) {
     app.use(ElementPlus)
     // ...
   },

@@ -4,7 +4,7 @@ import UnoCSS from 'unocss/vite'
 
 import Components from 'unplugin-vue-components/vite'
 
-export default defineConfig(async ({ mode }) => {
+export default defineConfig(async () => {
   return {
 
     plugins: [
