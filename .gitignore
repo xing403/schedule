@@ -8,3 +8,4 @@ node_modules
 release/**
 .idea/
 *.log
+docs/.vitepress/cache/*
