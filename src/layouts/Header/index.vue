@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { dayjs } from 'element-plus'
 
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 const router = useRouter()
 const current = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
 const additionScheduleRef = ref()
@@ -9,7 +11,7 @@ const reload = () => router.push({ name: 'reload' })
 
 const timer = setInterval(setCurrentTime, 1000)
 const settingsDialog = ref(false)
-const theme = ref(isDark.value)
+const theme = computed(() => isDark.value ? createIconComponents('carbon:moon') : createIconComponents('carbon:sun'))
 function handleCommandEvent(cmd: string) {
   switch (cmd) {
     case 'addition-schedule':
@@ -29,38 +31,33 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <el-header>
-    <el-menu mode="horizontal" :ellipsis="false">
-      <el-menu-item index="0">
-        <div v-if="windowWidth.value > 768" text-xl v-text="current" />
-      </el-menu-item>
+  <el-header border-b="1px light:hex-dcdfe6 dark:hex-4C4D4F solid">
+    <div flex="~ row items-center gap-2" h-full>
+      <div v-if="windowWidth.value > 768" text-xl v-text="current" />
       <div class="flex-grow" />
-      <el-menu-item index="2">
-        <div class="refresh i-mdi-refresh" @click="reload()" />
-      </el-menu-item>
-      <el-menu-item>
-        <el-dropdown @command="handleCommandEvent">
-          <div class="i-carbon-menu" />
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="addition-schedule">
-                新增Schedule
-              </el-dropdown-item>
-              <el-dropdown-item command="theme">
-                <el-switch
-                  v-model="theme" size="small" :active-value="true" :inactive-value="false"
-                  @change="toggleDark()"
-                />
-              </el-dropdown-item>
-              <el-dropdown-item command="settings" divided>
-                <div icon-btn class="i-carbon-settings" />
-                打开设置
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </el-menu-item>
-    </el-menu>
+      <svg-icon icon-hover name="mdi:refresh" size="1.2em" @click="reload()" />
+      <el-dropdown trigger="click" @command="handleCommandEvent">
+        <el-icon>
+          <svg-icon icon-hover name="carbon:menu" size="1.5em" />
+        </el-icon>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="addition-schedule" :icon="createIconComponents('carbon:add-large')">
+              <el-text>新增计划</el-text>
+            </el-dropdown-item>
+            <el-dropdown-item command="theme">
+              <el-icon>
+                <component :is="theme" />
+              </el-icon>
+              <el-text>切换主题</el-text>
+            </el-dropdown-item>
+            <el-dropdown-item command="settings" divided :icon="createIconComponents('carbon:settings')">
+              <el-text>更多设置</el-text>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
 
     <addition-schedule ref="additionScheduleRef" />
 

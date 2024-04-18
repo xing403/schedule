@@ -1,5 +1,3 @@
-export const isDark = useDark()
-export const toggleDark = useToggle(isDark)
 export const { width, height } = useWindowSize()
 export const schedules = ref<Schedule[]>([])
 export const rootSchedule = ref<Schedule>()
