@@ -6,8 +6,8 @@ meta:
 </route>
 
 <script lang="ts" setup>
-const edit = ref<Boolean>(false)
-const detail = ref<Boolean>(false)
+const edit = ref<boolean>(false)
+const detail = ref<boolean>(false)
 const schedule = ref<Schedule>({
   id: 0,
   title: '',

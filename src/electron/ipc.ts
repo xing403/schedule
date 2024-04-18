@@ -10,6 +10,7 @@ export function createIPC() {
     new Notification({
       title,
       body,
+      // eslint-disable-next-line n/prefer-global/process
       icon: path.relative(process.cwd(), path.join('dist/256x256.ico')),
     }).show()
   })

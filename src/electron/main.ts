@@ -21,6 +21,8 @@ export function createMainWindow(windowMap: WindowMap) {
   const mainWindow = createWindow()
   windowMap.set('main', mainWindow)
   createGlobalShortcut(mainWindow)
+
+  // eslint-disable-next-line n/prefer-global/process
   process.argv[2] ? mainWindow.loadURL(process.argv[2]) : mainWindow.loadFile('index.html')
 
   mainWindow.on('closed', () => {
@@ -47,10 +49,7 @@ export function createSuspendedWindow(windowMap: WindowMap) {
   })
 
   windowMap.set('suspended', suspendedWindow)
-
-  const suspendedPath = process.argv[2]
-    ? `${process.argv[2]}/#/suspended`
-  // eslint-disable-next-line n/no-path-concat
-    : `file://${__dirname}/index.html#/suspended`
+  // eslint-disable-next-line n/no-path-concat, n/prefer-global/process
+  const suspendedPath = process.argv[2] ? `${process.argv[2]}/#/suspended` : `file://${__dirname}/index.html#/suspended`
   suspendedWindow.loadURL(suspendedPath)
 }

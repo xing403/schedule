@@ -12,10 +12,8 @@ export function createTray(windowMap: WindowMap) {
         if (windowMap.get('about'))
           return
         const about = createWindow({ width: 600, height: 900 })
-        const aboutPath = process.argv[2]
-          ? `${process.argv[2]}/#/about`
-          // eslint-disable-next-line n/no-path-concat
-          : `file://${__dirname}/index.html#/about`
+        // eslint-disable-next-line n/no-path-concat, n/prefer-global/process
+        const aboutPath = process.argv[2] ? `${process.argv[2]}/#/about` : `file://${__dirname}/index.html#/about`
         about.loadURL(aboutPath)
 
         about.on('closed', () => {
@@ -30,10 +28,8 @@ export function createTray(windowMap: WindowMap) {
         if (windowMap.get('settings'))
           return
         const settings = createWindow({ width: 600, height: 900 })
-        const settingsPath = process.argv[2]
-          ? `${process.argv[2]}/#/settings`
-          // eslint-disable-next-line n/no-path-concat
-          : `file://${__dirname}/index.html#/settings`
+        // eslint-disable-next-line n/prefer-global/process, n/no-path-concat
+        const settingsPath = process.argv[2] ? `${process.argv[2]}/#/settings` : `file://${__dirname}/index.html#/settings`
         settings.loadURL(settingsPath)
 
         settings.on('closed', () => {

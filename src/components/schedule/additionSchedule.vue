@@ -47,10 +47,13 @@ function openCronDrawer() {
 function handleCloseCronDrawer() {
   cronInputRef.value.blur()
 }
+
+defineExpose({
+  dialog,
+})
 </script>
 
 <template>
-  <button icon-btn class="i-carbon-add-alt" @click="dialog = true" />
   <el-dialog
     v-model="dialog" title="添加 Schedule"
     :width="windowWidth.value < 768 ? '95%' : windowWidth.value < 1200 ? '60%' : '40%'" destroy-on-close
