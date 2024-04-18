@@ -6,11 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.ico">
   <title>Schedule</title>
+  <link rel="stylesheet" href="/loading.css">
   <meta name="description" content="A Schedule Tools, You can create a scheduled task by using the cron string">
 </head>
 
-<body>
-  <div id="app"></div>
+<body dark="text-white bg-hex-121212" overflow-hidden>
+  <div id="app">
+    <div class="loading">
+      <svg class="loading-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+        <circle cx="12" cy="2" r="0" fill="currentColor">
+          <animate attributeName="r" begin="0" calcMode="spline" dur="1s"
+            keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
+        </circle>
+        <circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(45 12 12)">
+          <animate attributeName="r" begin="0.125s" calcMode="spline" dur="1s"
+            keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
+        </circle>
+        <circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(90 12 12)">
+          <animate attributeName="r" begin="0.25s" calcMode="spline" dur="1s"
+            keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
+        </circle>
+        <circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(135 12 12)">
+          <animate attributeName="r" begin="0.375s" calcMode="spline" dur="1s"
+            keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
+        </circle>
+        <circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(180 12 12)">
+          <animate attributeName="r" begin="0.5s" calcMode="spline" dur="1s"
+            keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
+        </circle>
+        <circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(225 12 12)">
+          <animate attributeName="r" begin="0.625s" calcMode="spline" dur="1s"
+            keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
+        </circle>
+        <circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(270 12 12)">
+          <animate attributeName="r" begin="0.75s" calcMode="spline" dur="1s"
+            keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
+        </circle>
+        <circle cx="12" cy="2" r="0" fill="currentColor" transform="rotate(315 12 12)">
+          <animate attributeName="r" begin="0.875s" calcMode="spline" dur="1s"
+            keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0" />
+        </circle>
+      </svg>
+      <span>加载中请稍后</span>
+    </div>
+  </div>
   <noscript>
     <div>Please enable JavaScript to use this application.</div>
   </noscript>
