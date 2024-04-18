@@ -1,0 +1,9 @@
+{
+  "lang": "English",
+  "theme": "Theme",
+  "schedule": "schedule",
+  "setting": "setting",
+  "addition": "addition {name}",
+  "change": "Change {name}",
+  "more": "More {name}"
+}

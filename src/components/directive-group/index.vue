@@ -70,7 +70,7 @@ function handleDeleteDirective(key: string) {
       <el-button w-full flex-1 @click="openModifyDialog(item)">
         {{ item.alias !== '' ? `${item.alias}(${item.key})` : item.key }}
       </el-button>
-      <button class="close" i-carbon-close-outline icon-btn @click="handleDeleteDirective(item.key)" />
+      <svg-icon class="close" name="carbon:close-outline" icon-hover @click="handleDeleteDirective(item.key)" />
     </div>
   </div>
   <div mt-2 w-full>

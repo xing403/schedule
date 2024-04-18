@@ -35,6 +35,7 @@ onBeforeUnmount(() => {
     <div flex="~ row items-center gap-2" h-full>
       <div v-if="windowWidth.value > 768" text-xl v-text="current" />
       <div class="flex-grow" />
+      <I18n />
       <svg-icon icon-hover name="mdi:refresh" size="1.2em" @click="reload()" />
       <el-dropdown trigger="click" @command="handleCommandEvent">
         <el-icon>
@@ -43,16 +44,16 @@ onBeforeUnmount(() => {
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="addition-schedule" :icon="createIconComponents('carbon:add-large')">
-              <el-text>新增计划</el-text>
+              <el-text>{{ $t('addition', { name: $t('schedule') }) }}</el-text>
             </el-dropdown-item>
             <el-dropdown-item command="theme">
               <el-icon>
                 <component :is="theme" />
               </el-icon>
-              <el-text>切换主题</el-text>
+              <el-text>{{ $t('change', { name: $t('theme') }) }}</el-text>
             </el-dropdown-item>
             <el-dropdown-item command="settings" divided :icon="createIconComponents('carbon:settings')">
-              <el-text>更多设置</el-text>
+              <el-text>{{ $t('more', { name: $t('setting') }) }}</el-text>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

@@ -69,7 +69,6 @@ function handleDetailSchedule(s: Schedule) {
         </template>
       </el-table-column>
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column v-if="windowWidth.value >= 768" type="index" width="80" label="编号" align="center" />
       <el-table-column v-if="windowWidth.value >= 768" prop="id" width="180" label="Id" align="center" />
       <el-table-column prop="title" label="标题" align="center" />
       <el-table-column v-if="windowWidth.value >= 992" prop="description" label="描述" align="center" />

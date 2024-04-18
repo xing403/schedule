@@ -12,6 +12,7 @@ declare module 'vue' {
     DetailSchedule: typeof import('./../components/schedule/detailSchedule.vue')['default']
     DirectiveForm: typeof import('./../components/directive-group/directive-form.vue')['default']
     DirectiveGroup: typeof import('./../components/directive-group/index.vue')['default']
+    I18n: typeof import('./../components/I18n/index.vue')['default']
     Mqtt: typeof import('./../components/service/mqtt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

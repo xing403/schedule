@@ -9,6 +9,7 @@ import createPages from './pages'
 import createUnocss from './unocss'
 import createSvgIcon from './svg-icon'
 import createVueMacros from './vue-macros'
+import createI18n from './I18n'
 
 export default function createVitePlugins(_viteEnv: Record<string, string>, isBuild = false) {
   const vitePlugins: (PluginOption | PluginOption[])[] = []
@@ -21,5 +22,6 @@ export default function createVitePlugins(_viteEnv: Record<string, string>, isBu
   vitePlugins.push(createElectronBuild())
   vitePlugins.push(createElectronDev())
   vitePlugins.push(createVueMacros())
+  vitePlugins.push(createI18n())
   return vitePlugins
 }
