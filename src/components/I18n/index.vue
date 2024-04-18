@@ -22,7 +22,7 @@ function handleChangeLang(cmd: string) {
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item v-for="item in items" :key="item.key" :command="item.command">
-          <el-text :type="item.command === i18nStore.locale ? 'primary' : 'default'">
+          <el-text :type="item.command === i18nStore.locale ? 'primary' : ''">
             {{ item.title }}
           </el-text>
         </el-dropdown-item>
