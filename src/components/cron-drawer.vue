@@ -136,36 +136,33 @@ onMounted(() => {
 <template>
   <div flex="~ col" h-full>
     <el-form ref="form" :model="cron" :rules="rules" h-full w-full label-position="top" require-asterisk-position="right">
-      <el-form-item label="月份" prop="month">
+      <el-form-item :label="$t('month')" prop="month">
         <el-select
           v-model="cron.month" placeholder="选择月份" :max-collapse-tags="4" collapse-tags clearable multiple w-full
           :disabled="props.disabled" @focus="currentField = 'month'" @blur="currentField = ''"
         >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.monthQuickSelection">
+          <template #header>
+            <el-checkbox-group v-if="!props.disabled" v-model="option.monthQuickSelection">
               <el-checkbox
                 v-for="item in monthQuickSelection" :key="item.key"
-                :indeterminate="checkIndeterminateStatus(cron.month, item.value)" :label="item.key"
+                :indeterminate="checkIndeterminateStatus(cron.month, item.value)" :value="item.key"
                 @change="handleQuickChange($event, item, 'month', 'monthQuickSelection')"
               >
                 {{ item.label }}
               </el-checkbox>
             </el-checkbox-group>
           </template>
-          <el-option v-for="item in MonthMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
+          <el-option v-for="item in MonthMap" :key="item" :label="$t(`el.datepicker.month${item}`)" :value="item" />
         </el-select>
       </el-form-item>
 
-      <el-form-item label="天" prop="dayOfMonth">
+      <el-form-item :label="$t('day')" prop="dayOfMonth">
         <el-select
           v-model="cron.dayOfMonth" placeholder="选择月份的第几天" collapse-tags :max-collapse-tags="4" multiple
           clearable w-full :disabled="props.disabled" @focus="currentField = 'dayOfMonth'" @blur="currentField = ''"
         >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.dayOfMonthQuickSelection">
+          <template #header>
+            <el-checkbox-group v-if="!props.disabled" v-model="option.dayOfMonthQuickSelection">
               <el-checkbox
                 v-for="item in dayOfMonthQuickSelection" :key="item.key"
                 :indeterminate="checkIndeterminateStatus(cron.dayOfMonth, item.value)" :label="item.key"
@@ -182,13 +179,13 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
-      <el-form-item label="周" prop="dayOfWeek">
+      <el-form-item :label="$t('week')" prop="dayOfWeek">
         <el-select
           v-model="cron.dayOfWeek" placeholder="选择星期几" collapse-tags :max-collapse-tags="4" multiple clearable
           w-full :disabled="props.disabled" @focus="currentField = 'dayOfWeek'" @blur="currentField = ''"
         >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.dayOfWeekQuickSelection">
+          <template #header>
+            <el-checkbox-group v-if="!props.disabled" v-model="option.dayOfWeekQuickSelection">
               <el-checkbox
                 v-for="item in dayOfWeekQuickSelection" :key="item.key"
                 :indeterminate="checkIndeterminateStatus(cron.dayOfWeek, item.value)" :label="item.key"
@@ -198,20 +195,17 @@ onMounted(() => {
               </el-checkbox>
             </el-checkbox-group>
           </template>
-          <el-option v-for="item in WeekMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
+          <el-option v-for="item, index in WeekMap" :key="item" :label="$t(`el.datepicker.weeks.${item}`)" :value="index" />
         </el-select>
       </el-form-item>
 
-      <el-form-item label="小时" prop="hour">
+      <el-form-item :label="$t('hour')" prop="hour">
         <el-select
           v-model="cron.hour" placeholder="选择小时" collapse-tags :max-collapse-tags="4" multiple clearable w-full
           :disabled="props.disabled" @focus="currentField = 'hour'" @blur="currentField = ''"
         >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.hourQuickSelection">
+          <template #header>
+            <el-checkbox-group v-if="!props.disabled" v-model="option.hourQuickSelection">
               <el-checkbox
                 v-for="item in hourQuickSelection" :key="item.key"
                 :indeterminate="checkIndeterminateStatus(cron.hour, item.value)" :label="item.key"
@@ -221,20 +215,17 @@ onMounted(() => {
               </el-checkbox>
             </el-checkbox-group>
           </template>
-          <el-option v-for="item in HourMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
+          <el-option v-for="item in HourMap" :key="item" :label="item" :value="item" />
         </el-select>
       </el-form-item>
 
-      <el-form-item label="分钟" prop="minute">
+      <el-form-item :label="$t('minute')" prop="minute">
         <el-select
           v-model="cron.minute" placeholder="选择分钟" collapse-tags :max-collapse-tags="4" multiple clearable w-full
           :disabled="props.disabled" @focus="currentField = 'minute'" @blur="currentField = ''"
         >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.minuteQuickSelection">
+          <template #header>
+            <el-checkbox-group v-if="!props.disabled" v-model="option.minuteQuickSelection">
               <el-checkbox
                 v-for="item in minuteQuickSelection" :key="item.key"
                 :indeterminate="checkIndeterminateStatus(cron.minute, item.value)" :label="item.key"
@@ -244,15 +235,12 @@ onMounted(() => {
               </el-checkbox>
             </el-checkbox-group>
           </template>
-          <el-option v-for="item in MinuteMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
+          <el-option v-for="item in MinuteMap" :key="item" :label="item" :value="item" />
         </el-select>
       </el-form-item>
       <el-form-item label=" ">
-        <el-button v-if="!props.disabled" type="primary" @click="handleCreateCron" v-text="'立即创建'" />
-        <el-button v-if="!props.disabled" @click="handleCancelCron" v-text="'重置'" />
+        <el-button v-if="!props.disabled" type="primary" @click="handleCreateCron" v-text="$t('save')" />
+        <el-button v-if="!props.disabled" @click="handleCancelCron" v-text="$t('reset')" />
       </el-form-item>
     </el-form>
   </div>

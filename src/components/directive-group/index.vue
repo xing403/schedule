@@ -78,15 +78,15 @@ function handleDeleteDirective(key: string) {
       <template #icon>
         <div i-carbon-add-large />
       </template>
-      <span>添加指令</span>
+      <span>{{ $t('flexible', { flexible: ['addition', 'directives'] }) }}</span>
     </el-button>
   </div>
 
-  <el-dialog v-model="modifyDirectiveDialog" :title="props.disabled ? '查看指令' : '修改指令'" width="30%" align-center>
+  <el-dialog v-model="modifyDirectiveDialog" :title="props.disabled ? $t('flexible', { flexible: ['see', 'directives'] }) : $t('flexible', { flexible: ['change', 'directives'] })" width="30%" align-center>
     <directive-form :form="directive" :disabled="props.disabled" @confirm="handleModifyDirective" @cancel="modifyDirectiveDialog = false" />
   </el-dialog>
 
-  <el-dialog v-model="additionDirectiveDialog" title="添加指令" width="30%" align-center destroy-on-close>
+  <el-dialog v-model="additionDirectiveDialog" :title="$t('flexible', { flexible: ['addition', 'directives'] })" width="30%" align-center destroy-on-close>
     <directive-form new-directive @confirm="confirm" @cancel="additionDirectiveDialog = false" />
   </el-dialog>
 </template>

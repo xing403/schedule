@@ -53,31 +53,34 @@ function handleDisconnect() {
     ref="formRef" :model="form" :rules="form_rules" label-width="70px" require-asterisk-position="right"
     :label-position="windowWidth.value < 768 ? 'top' : 'right'" :inline="false" w-full
   >
-    <el-form-item label="地址" prop="host">
+    <el-form-item :label="$t('path')" prop="host">
       <el-input v-model="form.host" :disabled="connected" placeholder="请输入MQTT地址" clearable />
     </el-form-item>
-    <el-form-item label="用户名" prop="username">
+    <el-form-item :label="$t('username')" prop="username">
       <el-input v-model="form.username" :disabled="connected" placeholder="请输入MQTT用户名" clearable />
     </el-form-item>
-    <el-form-item label="密码" prop="password">
+    <el-form-item :label="$t('password')" prop="password">
       <el-input
         v-model="form.password" :disabled="connected" type="password" placeholder="请输入MQTT密码" clearable
         show-password
       />
     </el-form-item>
-    <el-form-item label="端口" prop="port">
+    <el-form-item :label="$t('port')" prop="port">
       <el-input
         v-model="form.port" :disabled="connected" type="number" :control="false" placeholder="请输入MQTT端口"
         clearable
       />
     </el-form-item>
     <el-form-item label=" " prop="auto">
-      <el-checkbox v-model="form.auto" label="下次自动连接" />
+      <el-checkbox v-model="form.auto" :label="$t('flexible', { flexible: ['next', 'auto', 'connect'] })" />
     </el-form-item>
     <el-form-item label="">
-      <el-button v-if="connected" :disabled="connected" type="danger" v-text="'已连接'" />
-      <el-button v-else :disabled="connected" type="primary" @click="handleConnect" v-text="'连接'" />
-      <el-button :disabled="!connected" type="warning" @click="handleDisconnect" v-text="'断开连接'" />
+      <el-button v-if="connected" :disabled="connected" type="danger" v-text="$t('connected')" />
+      <el-button v-else :disabled="connected" type="primary" @click="handleConnect" v-text="$t('connect')" />
+      <el-button
+        :disabled="!connected" type="warning" @click="handleDisconnect"
+        v-text="$t('flexible', { flexible: ['cancel', 'connect'] })"
+      />
     </el-form-item>
   </el-form>
 </template>

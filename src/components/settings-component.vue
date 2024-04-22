@@ -33,12 +33,12 @@ function handleSaveSetting() {
 
 <template>
   <el-tabs v-model="currentTabPane" tab-position="top">
-    <el-tab-pane label="基础设置" name="base-setting">
+    <el-tab-pane :label="$t('flexible', { flexible: ['base', 'setting'] })" name="base-setting">
       <el-card>
         <template #header>
           <div flex="~ row gap-1 items-center justify-between">
-            <div v-text="'基础设置'" />
-            <el-button type="primary" @click="handleSaveSetting" v-text="'保存'" />
+            <div v-text="$t('flexible', { flexible: ['base', 'setting'] })" />
+            <el-button type="primary" @click="handleSaveSetting" v-text="$t('save')" />
           </div>
         </template>
         <div flex="~ row gap-1 items-center justify-between">
@@ -49,10 +49,10 @@ function handleSaveSetting() {
         </div>
       </el-card>
     </el-tab-pane>
-    <el-tab-pane label="服务设置" name="service-setting">
+    <el-tab-pane :label="$t('flexible', { flexible: ['service', 'setting'] })" name="service-setting">
       <el-card>
         <template #header>
-          <div v-text="'mqtt 服务设置'" />
+          <div v-text="$t('flexible', { flexible: ['mqtt', 'service', 'setting'] })" />
         </template>
         <mqtt />
       </el-card>

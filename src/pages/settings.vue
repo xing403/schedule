@@ -1,6 +1,6 @@
 <route lang="yaml">
 meta:
-  title: 设置
+  title: setting
   icon: i-carbon-settings
   hidden: true
   layout: false

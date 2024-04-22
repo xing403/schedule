@@ -55,44 +55,44 @@ defineExpose({
 
 <template>
   <el-dialog
-    v-model="dialog" title="添加 Schedule"
+    v-model="dialog" :title="$t('flexible', { flexible: ['addition', 'schedule'] })"
     :width="windowWidth.value < 768 ? '95%' : windowWidth.value < 1200 ? '60%' : '40%'" destroy-on-close
   >
     <el-form
       ref="insertFormRef" :model="schedule_form" :rules="schedule_form_rules" label-width="80px"
       require-asterisk-position="right" :label-position="windowWidth.value < 768 ? 'top' : 'right'" :inline="false"
     >
-      <el-form-item label="标题" prop="title">
+      <el-form-item :label="$t('title')" prop="title">
         <el-input v-model="schedule_form.title" placeholder="请输入标题" />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item :label="$t('status')" prop="status">
         <el-switch v-model="schedule_form.status" :active-value="true" :inactive-value="false" />
       </el-form-item>
-      <el-form-item prop="cron" label="cron">
+      <el-form-item :label="$t('cron')" prop="cron">
         <el-space direction="vertical" :fill="true" w-full>
           <el-input ref="cronInputRef" v-model="schedule_form.cron" placeholder="点击生成 cron" @focus="openCronDrawer" />
           <el-alert :closable="false">
-            <el-link
+            <ElLink
               type="primary" :underline="false" href="https://ilstudy.vip/blogs/others/cron-rules.html"
-              target="_blank" v-text="' 查看 cron 规则'"
+              target="_blank" v-text="$t('flexible', { flexible: ['see', 'corn', 'rule'] })"
             />
           </el-alert>
         </el-space>
       </el-form-item>
 
-      <el-form-item label="描述" prop="description">
+      <el-form-item :label="$t('description')" prop="description">
         <el-input v-model="schedule_form.description" :rows="2" type="textarea" placeholder="请输入描述信息" />
       </el-form-item>
-      <el-form-item label="执行指令" prop="directives">
+      <el-form-item :label="$t('directives')" prop="directives">
         <directive-group v-model:directives="schedule_form.directives" />
       </el-form-item>
       <el-form-item label=" ">
-        <el-button type="primary" @click="handleAddSchedule" v-text="'创建'" />
-        <el-button type="warning" @click="resetFrom" v-text="'重置'" />
+        <el-button type="primary" @click="handleAddSchedule" v-text="$t('addition')" />
+        <el-button type="warning" @click="resetFrom" v-text="$t('reset')" />
       </el-form-item>
 
       <el-drawer
-        v-model="drawer" title="Cron 表达式" direction="rtl"
+        v-model="drawer" :title="$t('cron')" direction="rtl"
         :size="windowWidth.value < 768 ? '100%' : windowWidth.value < 1200 ? '50%' : '30%'" destroy-on-close
         @close="handleCloseCronDrawer"
       >

@@ -63,12 +63,10 @@ declare global {
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDefined: typeof import('@vueuse/core')['isDefined']
-  const isLoading: typeof import('../composables/application')['isLoading']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
-  const loadingToggle: typeof import('../composables/application')['loadingToggle']
   const logs: typeof import('../composables/utils')['logs']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const mapActions: typeof import('pinia')['mapActions']
@@ -106,7 +104,6 @@ declare global {
   const parseExpression: typeof import('../composables/core')['parseExpression']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const platform: typeof import('../composables/application')['platform']
-  const progress: typeof import('../composables/application')['progress']
   const provide: typeof import('vue')['provide']
   const provideLocal: typeof import('@vueuse/core')['provideLocal']
   const queues: typeof import('../composables/variable')['queues']
@@ -408,12 +405,10 @@ declare module 'vue' {
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
-    readonly isLoading: UnwrapRef<typeof import('../composables/application')['isLoading']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
-    readonly loadingToggle: UnwrapRef<typeof import('../composables/application')['loadingToggle']>
     readonly logs: UnwrapRef<typeof import('../composables/utils')['logs']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
@@ -451,7 +446,6 @@ declare module 'vue' {
     readonly parseExpression: UnwrapRef<typeof import('../composables/core')['parseExpression']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('../composables/application')['platform']>
-    readonly progress: UnwrapRef<typeof import('../composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly queues: UnwrapRef<typeof import('../composables/variable')['queues']>
@@ -746,12 +740,10 @@ declare module '@vue/runtime-core' {
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
-    readonly isLoading: UnwrapRef<typeof import('../composables/application')['isLoading']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
-    readonly loadingToggle: UnwrapRef<typeof import('../composables/application')['loadingToggle']>
     readonly logs: UnwrapRef<typeof import('../composables/utils')['logs']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
@@ -789,7 +781,6 @@ declare module '@vue/runtime-core' {
     readonly parseExpression: UnwrapRef<typeof import('../composables/core')['parseExpression']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly platform: UnwrapRef<typeof import('../composables/application')['platform']>
-    readonly progress: UnwrapRef<typeof import('../composables/application')['progress']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly queues: UnwrapRef<typeof import('../composables/variable')['queues']>

@@ -1,17 +1,16 @@
 <route lang="yaml">
 meta:
-  title: 404
+  title: reload
   hidden: true
-  layout: false
 </route>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-
 const router = useRouter()
-setTimeout(() => {
-  router.back()
-}, 500)
+onMounted(() => {
+  setTimeout(() => {
+    router.back()
+  }, 500)
+})
 const theme_color = ref('#409eff')
 </script>
 
