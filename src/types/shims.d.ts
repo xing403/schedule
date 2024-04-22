@@ -81,9 +81,21 @@ declare interface Schedule {
    */
   timer: any,
   /**
+   * schedule start time
+   */
+  startTime?: string
+  /**
+   * schedule end time
+   */
+  endTime?: string
+  /**
    * schedule directives
    */
   directives: DirectiveType[]
+  /**
+   * last modify time
+   */
+  modifyTime?: string
 }
 
 declare interface MenuItem {

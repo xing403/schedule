@@ -48,5 +48,7 @@
   "alias": "别名",
   "link": "链接",
   "text": "文本",
-  "format": "格式"
+  "format": "格式",
+  "start stop": "开始/结束",
+  "time": "时间"
 }

@@ -5,7 +5,7 @@ import DIRECTIVE_MAP from './directives'
 export function generateSchedule(s: Schedule) {
   const schedule = { ...s }
   schedule.interval = null
-
+  schedule.modifyTime = dayjs().format('YYYY-MM-DD HH:mm:ss,SSS')
   schedule.directives.reduce((status: boolean, directive: DirectiveType) => {
     const d = DIRECTIVE_MAP.find(item => item.key === directive.key)
 
@@ -49,34 +49,39 @@ function done(schedule: Schedule) {
 }
 
 export function runSchedule(schedule: Schedule) {
-  if (schedule.status) {
-    while (schedule.next === '-' || new Date(schedule.next).getTime() - Date.now() < 0) {
-      if (!schedule.interval?.hasNext()) {
-        stopSchedule(schedule)
-        logs(`${schedule.id} run finished, not has next`, 'warning')
-        ElMessage.success('任务运行结束')
-        return
+  if (!schedule.status)
+    return
+
+  while (
+    schedule.next === '-'
+    || dayjs(schedule.next).isBefore(dayjs())
+    || (schedule.startTime && dayjs(schedule.next).isBefore(dayjs(schedule.startTime)))
+  ) {
+    if (!schedule.interval?.hasNext() || (schedule.endTime && dayjs(schedule.endTime).isBefore(dayjs()))) {
+      stopSchedule(schedule)
+      logs(`${schedule.id} run finished, not has next`, 'warning')
+      ElMessage.success('任务运行结束')
+      return
+    }
+    schedule.next = dayjs(schedule.interval.next().value).format('YYYY-MM-DD HH:mm:ss')
+  }
+  const next_time = new Date(schedule.next).getTime() - Date.now()
+  if (next_time > 60 * 60 * 1000) { // time is over 1h
+    queues.value.push(schedule)
+  }
+  else {
+    schedule.timer = setTimeout(() => {
+      try {
+        done(schedule)
+        runSchedule(schedule)
       }
-      schedule.next = dayjs(schedule.interval.next().value).format('YYYY-MM-DD HH:mm:ss')
-    }
-    const next_time = new Date(schedule.next).getTime() - Date.now()
-    if (next_time > 60 * 60 * 1000) { // time is over 1h
-      queues.value.push(schedule)
-    }
-    else {
-      schedule.timer = setTimeout(() => {
-        try {
-          done(schedule)
-          runSchedule(schedule)
-        }
-        catch (error: any) {
-          console.error(error)
-          logs(`${schedule.id} run error, ${error}`, 'error')
-          stopSchedule(schedule)
-          ElMessage.error(`错误:${schedule.id}, ${error}`)
-        }
-      }, new Date(schedule.next).getTime() - Date.now())
-    }
+      catch (error: any) {
+        console.error(error)
+        logs(`${schedule.id} run error, ${error}`, 'error')
+        stopSchedule(schedule)
+        ElMessage.error(`错误:${schedule.id}, ${error}`)
+      }
+    }, new Date(schedule.next).getTime() - Date.now())
   }
 }
 export function stopSchedule(schedule: Schedule) {

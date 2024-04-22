@@ -46,7 +46,7 @@ function handleCloseCronDrawer() {
 <template>
   <div>
     <el-form
-      v-if="schedule_form" ref="updateFormRef" :model="schedule_form" :rules="rules" label-width="80px"
+      v-if="schedule_form" ref="updateFormRef" :model="schedule_form" :rules="rules" label-width="120px"
       :label-position="windowWidth.value < 768 ? 'top' : 'right'" require-asterisk-position="right"
     >
       <el-form-item :label="$t('title')" prop="title">
@@ -68,7 +68,22 @@ function handleCloseCronDrawer() {
           </el-alert>
         </el-space>
       </el-form-item>
-
+      <el-form-item :label="$t('flexible', { flexible: ['start stop', 'time'] })">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-date-picker
+              v-model="schedule_form.startTime" type="datetime" placeholder="开始日期"
+              format="YYYY-MM-DD HH:mm:ss" disabled
+            />
+          </el-col>
+          <el-col :span="12">
+            <el-date-picker
+              v-model="schedule_form.endTime" type="datetime" placeholder="结束日期"
+              format="YYYY-MM-DD HH:mm:ss" disabled
+            />
+          </el-col>
+        </el-row>
+      </el-form-item>
       <el-form-item :label="$t('description')" prop="description">
         <el-input v-model="schedule_form.description" :rows="2" type="textarea" placeholder="请输入描述信息" disabled />
       </el-form-item>

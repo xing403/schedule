@@ -36,11 +36,15 @@ function handleDetailSchedule(s: Schedule) {
   schedule.value = { ...s }
   detail.value = true
 }
+
+function handleCloseUpdateSchedule() {
+  edit.value = false
+}
 </script>
 
 <template>
   <div class="index">
-    <el-table :data="schedules" stripe border>
+    <el-table :data="schedules" stripe border row-key="modifyTime">
       <el-table-column v-if="windowWidth.value < 768" type="expand">
         <template #default="{ row }">
           <el-descriptions :title="row.title" :column="1" m-2 border>
@@ -95,7 +99,7 @@ function handleDetailSchedule(s: Schedule) {
       v-model="edit" :title="$t('flexible', { flexible: ['edit', 'schedule'] })" destroy-on-close
       :width="windowWidth.value < 768 ? '95%' : windowWidth.value < 1200 ? '60%' : '40%'"
     >
-      <update-schedule v-model:schedule="schedule" @change="edit = false" @close="edit = false" />
+      <update-schedule v-model:schedule="schedule" @change="handleCloseUpdateSchedule" @close="edit = false" />
     </el-dialog>
     <el-dialog
       v-model="detail" :title="$t('flexible', { flexible: ['schedule', 'detail'] })" destroy-on-close

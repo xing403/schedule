@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { FormInstance } from 'element-plus'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type FormInstance } from 'element-plus'
 
 const insertFormRef = ref<FormInstance>()
 
@@ -59,7 +58,7 @@ defineExpose({
     :width="windowWidth.value < 768 ? '95%' : windowWidth.value < 1200 ? '60%' : '40%'" destroy-on-close
   >
     <el-form
-      ref="insertFormRef" :model="schedule_form" :rules="schedule_form_rules" label-width="80px"
+      ref="insertFormRef" :model="schedule_form" :rules="schedule_form_rules" label-width="120px"
       require-asterisk-position="right" :label-position="windowWidth.value < 768 ? 'top' : 'right'" :inline="false"
     >
       <el-form-item :label="$t('title')" prop="title">
@@ -79,7 +78,22 @@ defineExpose({
           </el-alert>
         </el-space>
       </el-form-item>
-
+      <el-form-item :label="$t('flexible', { flexible: ['start stop', 'time'] })">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-date-picker
+              v-model="schedule_form.startTime" type="datetime" placeholder="开始日期"
+              format="YYYY-MM-DD HH:mm:ss"
+            />
+          </el-col>
+          <el-col :span="12">
+            <el-date-picker
+              v-model="schedule_form.endTime" type="datetime" placeholder="结束日期"
+              format="YYYY-MM-DD HH:mm:ss"
+            />
+          </el-col>
+        </el-row>
+      </el-form-item>
       <el-form-item :label="$t('description')" prop="description">
         <el-input v-model="schedule_form.description" :rows="2" type="textarea" placeholder="请输入描述信息" />
       </el-form-item>
@@ -93,7 +107,7 @@ defineExpose({
 
       <el-drawer
         v-model="drawer" :title="$t('cron')" direction="rtl"
-        :size="windowWidth.value < 768 ? '100%' : windowWidth.value < 1200 ? '50%' : '30%'" destroy-on-close
+        :size="windowWidth.value < 768 ? '100%' : windowWidth.value < 1200 ? '50%' : '30%'"
         @close="handleCloseCronDrawer"
       >
         <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" @success="drawer = false" />

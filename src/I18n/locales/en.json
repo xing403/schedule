@@ -49,5 +49,7 @@
   "alias": "alias",
   "link": "link",
   "text": "text",
-  "format": "format"
+  "format": "format",
+  "start stop": "start/stop",
+  "time": "time"
 }
