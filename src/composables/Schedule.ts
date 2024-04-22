@@ -5,6 +5,7 @@ import DIRECTIVE_MAP from './directives'
 export function generateSchedule(s: Schedule) {
   const schedule = { ...s }
   schedule.interval = null
+  schedule.next = '-'
   schedule.modifyTime = dayjs().format('YYYY-MM-DD HH:mm:ss,SSS')
   schedule.directives.reduce((status: boolean, directive: DirectiveType) => {
     const d = DIRECTIVE_MAP.find(item => item.key === directive.key)
