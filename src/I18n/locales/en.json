@@ -1,9 +1,9 @@
 {
   "lang": "English",
-  "theme": "Theme",
+  "theme": "theme",
   "schedule": "schedule",
   "setting": "setting",
-  "addition": "addition {name}",
-  "change": "Change {name}",
-  "more": "More {name}"
+  "addition": "addition",
+  "change": "change",
+  "more": "more"
 }

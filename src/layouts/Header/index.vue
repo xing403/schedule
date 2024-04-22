@@ -44,16 +44,16 @@ onBeforeUnmount(() => {
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="addition-schedule" :icon="createIconComponents('carbon:add-large')">
-              <el-text>{{ $t('addition', { name: $t('schedule') }) }}</el-text>
+              <el-text>{{ $t('flexible', { flexible: ['addition', 'schedule'] }) }}</el-text>
             </el-dropdown-item>
             <el-dropdown-item command="theme">
               <el-icon>
                 <component :is="theme" />
               </el-icon>
-              <el-text>{{ $t('change', { name: $t('theme') }) }}</el-text>
+              <el-text>{{ $t('flexible', { flexible: ['change', 'theme'] }) }}</el-text>
             </el-dropdown-item>
             <el-dropdown-item command="settings" divided :icon="createIconComponents('carbon:settings')">
-              <el-text>{{ $t('more', { name: $t('setting') }) }}</el-text>
+              <el-text>{{ $t('flexible', { flexible: ['more', 'setting'] }) }}</el-text>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
