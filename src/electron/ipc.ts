@@ -7,12 +7,8 @@ import { createMainWindow, windowMap } from '.'
 
 export function createIPC() {
   ipcMain.handle('notification', (_event, title: string, body: string) => {
-    new Notification({
-      title,
-      body,
-      // eslint-disable-next-line n/prefer-global/process
-      icon: path.relative(process.cwd(), path.join('dist/256x256.ico')),
-    }).show()
+    // eslint-disable-next-line n/prefer-global/process
+    new Notification({ title, body, icon: path.relative(process.cwd(), path.join('dist/256x256.ico')) }).show()
   })
 
   ipcMain.handle('read-schedule', () => {
@@ -22,9 +18,7 @@ export function createIPC() {
   })
 
   ipcMain.handle('save-schedule', (_event, list: string) => {
-    fs.writeFileSync(
-      fs.openSync(path.join(app.getPath('userData'), 'schedule.json'), 'w'),
-      JSON.stringify({ schedules: list }, null, 4))
+    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), 'schedule.json'), 'w'), JSON.stringify({ schedules: list }, null, 4))
     return true
   })
 
