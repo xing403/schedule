@@ -1,15 +1,10 @@
 export const WeekMap: Array<string> = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+export const WeekMapExtend: Array<string> = ['1L', '2L', '3L', '4L', '5L', '6L', '7L'] // '?', 'L', 'C', '#'
 
 export const MonthMap: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-export const DayOfMonthMap = Array.from({ length: 31 }, (_, i) => {
-  return {
-    label: `第 ${i + 1} 天`,
-    Abbreviated: `第 ${i + 1} 天`,
-    CN: `第 ${i + 1} 天`,
-    En: `Day ${i + 1}`,
-    value: i + 1,
-  }
-})
+
+export const DayOfMonthMap: Array<number | string> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+export const DayOfMonthMapExtend: Array<string> = ['L']
 
 export const HourMap: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 
@@ -69,10 +64,6 @@ export const dayOfMonthQuickSelection: Array<{
   key: 'EveryFiveDays',
   label: '每五天',
   value: Array.from({ length: 6 }, (_, i) => i * 5 + 1),
-}, {
-  key: 'EveryTenDays',
-  label: '每十天',
-  value: Array.from({ length: 3 }, (_, i) => i * 10 + 1),
 }]
 
 export const dayOfWeekQuickSelection: Array<{

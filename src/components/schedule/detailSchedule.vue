@@ -12,7 +12,6 @@ const props = defineProps<{
 }>()
 const emits = defineEmits(['update:schedule', 'error', 'change'])
 const schedule = shallowRef(props.schedule)
-const drawer = ref<boolean>(false)
 const updateFormRef = ref<FormInstance>()
 const cronDrawerRef = ref()
 const cronInputRef = ref()
@@ -24,7 +23,7 @@ const rules = {
 }
 
 function handleOpenDrawer() {
-  drawer.value = true
+  cronDrawerRef.value.drawer = true
 }
 onMounted(() => {
   if (!schedule.value) {
@@ -91,14 +90,7 @@ function handleCloseCronDrawer() {
       <el-form-item :label="$t('directives')" prop="directives">
         <directive-group v-model:directives="schedule_form.directives" disabled />
       </el-form-item>
-
-      <el-drawer
-        v-model="drawer" :title="$t('cron')" direction="rtl"
-        :size="windowWidth.value < 768 ? '100%' : windowWidth.value < 1200 ? '50%' : '30%'" destroy-on-close
-        @close="handleCloseCronDrawer"
-      >
-        <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" disabled @success="drawer = false" />
-      </el-drawer>
+      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" disabled @success="handleCloseCronDrawer" />
     </el-form>
   </div>
 </template>

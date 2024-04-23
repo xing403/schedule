@@ -13,7 +13,6 @@ const props = defineProps<{
 }>()
 const emits = defineEmits(['update:schedule', 'error', 'change', 'close'])
 const schedule = shallowRef(props.schedule)
-const drawer = ref<boolean>(false)
 const updateFormRef = ref<FormInstance>()
 const cronDrawerRef = ref()
 const cronInputRef = ref()
@@ -43,7 +42,7 @@ function handleSaveUpdateSchedule() {
 }
 
 function handleOpenDrawer() {
-  drawer.value = true
+  cronDrawerRef.value.drawer = true
 }
 onMounted(() => {
   if (!schedule.value) {
@@ -121,13 +120,7 @@ function handleCloseCronDrawer() {
         <el-button type="warning" @click="$emit('close')" v-text="$t('cancel')" />
       </el-form-item>
 
-      <el-drawer
-        v-model="drawer" :title="$t('cron')" direction="rtl"
-        :size="windowWidth.value < 768 ? '100%' : windowWidth.value < 1200 ? '50%' : '30%'" destroy-on-close
-        @close="handleCloseCronDrawer"
-      >
-        <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" @success="drawer = false" />
-      </el-drawer>
+      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" @success="handleCloseCronDrawer" @cancel="handleCloseCronDrawer" />>
     </el-form>
   </div>
 </template>

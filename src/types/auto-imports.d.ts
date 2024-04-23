@@ -6,6 +6,7 @@
 export {}
 declare global {
   const DayOfMonthMap: typeof import('../composables/dictionaries')['DayOfMonthMap']
+  const DayOfMonthMapExtend: typeof import('../composables/dictionaries')['DayOfMonthMapExtend']
   const EffectScope: typeof import('vue')['EffectScope']
   const HourMap: typeof import('../composables/dictionaries')['HourMap']
   const MQTT: typeof import('../composables/services')['MQTT']
@@ -13,6 +14,7 @@ declare global {
   const MonthMap: typeof import('../composables/dictionaries')['MonthMap']
   const PkgJson: typeof import('../composables/application')['PkgJson']
   const WeekMap: typeof import('../composables/dictionaries')['WeekMap']
+  const WeekMapExtend: typeof import('../composables/dictionaries')['WeekMapExtend']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const author: typeof import('../composables/application')['author']
@@ -348,6 +350,7 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly DayOfMonthMap: UnwrapRef<typeof import('../composables/dictionaries')['DayOfMonthMap']>
+    readonly DayOfMonthMapExtend: UnwrapRef<typeof import('../composables/dictionaries')['DayOfMonthMapExtend']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly HourMap: UnwrapRef<typeof import('../composables/dictionaries')['HourMap']>
     readonly MQTT: UnwrapRef<typeof import('../composables/services')['MQTT']>
@@ -355,6 +358,7 @@ declare module 'vue' {
     readonly MonthMap: UnwrapRef<typeof import('../composables/dictionaries')['MonthMap']>
     readonly PkgJson: UnwrapRef<typeof import('../composables/application')['PkgJson']>
     readonly WeekMap: UnwrapRef<typeof import('../composables/dictionaries')['WeekMap']>
+    readonly WeekMapExtend: UnwrapRef<typeof import('../composables/dictionaries')['WeekMapExtend']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly author: UnwrapRef<typeof import('../composables/application')['author']>
@@ -683,6 +687,7 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly DayOfMonthMap: UnwrapRef<typeof import('../composables/dictionaries')['DayOfMonthMap']>
+    readonly DayOfMonthMapExtend: UnwrapRef<typeof import('../composables/dictionaries')['DayOfMonthMapExtend']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly HourMap: UnwrapRef<typeof import('../composables/dictionaries')['HourMap']>
     readonly MQTT: UnwrapRef<typeof import('../composables/services')['MQTT']>
@@ -690,6 +695,7 @@ declare module '@vue/runtime-core' {
     readonly MonthMap: UnwrapRef<typeof import('../composables/dictionaries')['MonthMap']>
     readonly PkgJson: UnwrapRef<typeof import('../composables/application')['PkgJson']>
     readonly WeekMap: UnwrapRef<typeof import('../composables/dictionaries')['WeekMap']>
+    readonly WeekMapExtend: UnwrapRef<typeof import('../composables/dictionaries')['WeekMapExtend']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly author: UnwrapRef<typeof import('../composables/application')['author']>

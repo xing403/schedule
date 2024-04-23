@@ -51,5 +51,6 @@
   "text": "text",
   "format": "format",
   "start stop": "start/stop",
-  "time": "time"
+  "time": "time",
+  "parse": "parse"
 }
