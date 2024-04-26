@@ -1,6 +1,6 @@
 <route lang="yaml">
 meta:
-  title: 首页
+  title: home
   icon: i-carbon-home
   hidden: true
 </route>

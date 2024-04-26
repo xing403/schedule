@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:meta-layouts'
 import { useNProgress } from '@vueuse/integrations/useNProgress'
+import useI18nStore from '~/store/I18n'
 
 const { isLoading } = useNProgress()
 const loadingToggle = useToggle(isLoading)
@@ -24,6 +25,8 @@ const router = createRouter({
 })
 
 router.beforeEach(async (_to, _from, next) => {
+  const { t } = useI18nStore()
+  useTitle(t('schedule'))
   loadingToggle()
   next()
 })

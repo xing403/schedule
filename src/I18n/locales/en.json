@@ -1,5 +1,6 @@
 {
   "lang": "English",
+  "language": "language",
   "theme": "theme",
   "schedule": "schedule",
   "setting": "setting",
@@ -52,5 +53,16 @@
   "format": "format",
   "start stop": "start/stop",
   "time": "time",
-  "parse": "parse"
+  "parse": "parse",
+  "cron-label": {
+    "L": "last day of every month",
+    "1L": "last Mon of every month",
+    "2L": "last Tue of every month",
+    "3L": "last Wed of every month",
+    "4L": "last Thu of every month",
+    "5L": "last Fri of every month",
+    "6L": "last Sat of every month",
+    "7L": "last Sun of every month"
+  },
+  "home": "home"
 }

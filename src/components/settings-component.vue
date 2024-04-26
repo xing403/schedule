@@ -42,6 +42,11 @@ function handleSaveSetting() {
           </div>
         </template>
         <div flex="~ row gap-1 items-center justify-between">
+          <el-button text v-text="$t('flexible', { flexible: ['change', 'language'] })" />
+          <i18n type="select" />
+        </div>
+        <el-divider />
+        <div flex="~ row gap-1 items-center justify-between">
           <el-badge value="test">
             <el-button v-text="'悬浮窗'" />
           </el-badge>
