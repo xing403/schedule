@@ -9,9 +9,9 @@ export function flexibleValue(key: string | string[]) {
     return resolveValue(locale, key) || key
 
   const messages = key.map(item => resolveValue(locale, item) || item)
-  if (i18n.locale.value === 'zh')
+  if (i18n.locale.value.startsWith('zh'))
     return (messages || key).join('')
-  else if (i18n.locale.value === 'en')
+  else if (i18n.locale.value.startsWith('en'))
     return (messages || key).join(' ')
   else
     return (messages || key).join(' ')

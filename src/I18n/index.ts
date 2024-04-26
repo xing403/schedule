@@ -10,12 +10,12 @@ import enUs from './locales/en'
 //   return message
 // })
 export const messages = {
-  zh: zhCn,
-  en: enUs,
+  'zh-cn': zhCn,
+  'en': enUs,
 }
 const i18n = createI18n({
-  locale: localStorage.getItem('locale') || 'zh',
-  fallbackLocale: 'zh',
+  locale: localStorage.getItem('locale') || 'zh-cn',
+  fallbackLocale: 'zh-cn',
   messages,
   // messageResolver: (obj: unknown, path: Path) => {
   //   const message: PathValue = resolveValue(obj, path)

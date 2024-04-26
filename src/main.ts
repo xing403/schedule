@@ -5,10 +5,12 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import '~/assets/styles'
-import i18n from './I18n'
+import i18n, { messages } from './I18n'
 
 const app = createApp(App)
-app.use(ElementPlus)
+app.use(ElementPlus, {
+  locale: messages['zh-cn'],
+})
 app.use(router)
 app.use(store)
 app.use(i18n)

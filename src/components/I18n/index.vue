@@ -4,7 +4,7 @@ import useI18nStore from '~/store/I18n'
 const i18nStore = useI18nStore()
 const items = [{
   title: '中文',
-  command: 'zh',
+  command: 'zh-cn',
 }, {
   title: 'English',
   command: 'en',
