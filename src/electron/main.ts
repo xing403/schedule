@@ -1,3 +1,4 @@
+/* eslint-disable n/prefer-global/process */
 import path from 'node:path'
 import type { BrowserWindowConstructorOptions } from 'electron'
 import { BrowserWindow, screen } from 'electron'
@@ -22,7 +23,6 @@ export function createMainWindow(windowMap: WindowMap) {
   windowMap.set('main', mainWindow)
   createGlobalShortcut(mainWindow)
 
-  // eslint-disable-next-line n/prefer-global/process
   process.argv[2] ? mainWindow.loadURL(process.argv[2]) : mainWindow.loadFile('index.html')
 
   mainWindow.on('closed', () => {
@@ -34,22 +34,22 @@ export function createMainWindow(windowMap: WindowMap) {
 
 export function createSuspendedWindow(windowMap: WindowMap) {
   const primaryDisplay = screen.getPrimaryDisplay()
-  const { width, height } = primaryDisplay.workAreaSize
+  const { width } = primaryDisplay.workAreaSize
   const suspendedWindow = createWindow({
-    x: width - 150,
-    y: height * 0.3,
+    x: width - 100,
+    y: 240,
     width: 50,
     height: 50,
     transparent: true,
     frame: false,
     alwaysOnTop: true,
     resizable: false,
+    hasShadow: false,
     fullscreenable: false,
     skipTaskbar: true,
   })
 
   windowMap.set('suspended', suspendedWindow)
-  // eslint-disable-next-line n/no-path-concat, n/prefer-global/process
-  const suspendedPath = process.argv[2] ? `${process.argv[2]}/#/suspended` : `file://${__dirname}/index.html#/suspended`
+  const suspendedPath = process.argv[2] ? `${process.argv[2]}/#/suspended` : path.join('file://', __dirname, 'index.html#/float-ball')
   suspendedWindow.loadURL(suspendedPath)
 }

@@ -15,10 +15,16 @@ import {
 app.setAppUserModelId('Schedule Notification')
 app.setPath('userData', path.join(app.getPath('userData'), 'data'))
 
-let settings: any = {}
+let settings: any = {
+  baseSetting: {
+    suspended_window: true,
+  },
+}
 
 if (fs.existsSync(path.join(app.getPath('userData'), 'settings.json')))
   settings = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
+else
+  fs.writeFileSync(path.join(app.getPath('userData'), 'settings.json'), JSON.stringify(settings))
 
 app.whenReady().then(() => {
   createMainWindow(windowMap)
