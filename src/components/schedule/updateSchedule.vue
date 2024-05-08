@@ -1,6 +1,6 @@
 <route lang="yaml">
 meta:
-  title: 修改任务
+  title: [change,schedule]
   icon: i-carbon-calendar-settings
   hidden: true
 </route>
@@ -13,7 +13,6 @@ const props = defineProps<{
 }>()
 const emits = defineEmits(['update:schedule', 'error', 'change', 'close'])
 const schedule = shallowRef(props.schedule)
-const drawer = ref<boolean>(false)
 const updateFormRef = ref<FormInstance>()
 const cronDrawerRef = ref()
 const cronInputRef = ref()
@@ -43,7 +42,8 @@ function handleSaveUpdateSchedule() {
 }
 
 function handleOpenDrawer() {
-  drawer.value = true
+  cronInputRef.value.blur()
+  cronDrawerRef.value.drawer = true
 }
 onMounted(() => {
   if (!schedule.value) {
@@ -57,25 +57,21 @@ onMounted(() => {
     JSON.parse(JSON.stringify(parseExpression(schedule_form.value.cron).fields))
   })
 })
-
-function handleCloseCronDrawer() {
-  cronInputRef.value.blur()
-}
 </script>
 
 <template>
   <div>
     <el-form
-      v-if="schedule_form" ref="updateFormRef" :model="schedule_form" :rules="rules" label-width="80px"
+      v-if="schedule_form" ref="updateFormRef" :model="schedule_form" :rules="rules" label-width="120px"
       :label-position="windowWidth.value < 768 ? 'top' : 'right'" require-asterisk-position="right"
     >
-      <el-form-item label="标题" prop="title">
+      <el-form-item :label="$t('title')" prop="title">
         <el-input v-model="schedule_form.title" placeholder="请输入标题" />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item :label="$t('status')" prop="status">
         <el-switch v-model="schedule_form.status" :active-value="true" :inactive-value="false" />
       </el-form-item>
-      <el-form-item prop="cron" label="cron">
+      <el-form-item :label="$t('cron')" prop="cron">
         <el-space direction="vertical" :fill="true" w-full>
           <el-input
             ref="cronInputRef" v-model="schedule_form.cron" placeholder="请输入cron, 例如: */10 * * * * *"
@@ -85,33 +81,43 @@ function handleCloseCronDrawer() {
             <template #title>
               <el-link
                 type="primary" :underline="false" href="https://ilstudy.vip/blogs/others/cron-rules.html"
-                target="_blank" v-text="'查看 cron 规则'"
+                target="_blank" v-text="$t('flexible', { flexible: ['see', 'corn', 'rule'] })"
               />
             </template>
           </el-alert>
         </el-space>
       </el-form-item>
+      <el-form-item :label="$t('flexible', { flexible: ['start stop', 'time'] })">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-date-picker
+              v-model="schedule_form.startTime" type="datetime" placeholder="开始日期"
+              format="YYYY-MM-DD HH:mm:ss"
+            />
+          </el-col>
+          <el-col :span="12">
+            <el-date-picker
+              v-model="schedule_form.endTime" type="datetime" placeholder="结束日期"
+              format="YYYY-MM-DD HH:mm:ss"
+            />
+          </el-col>
+        </el-row>
+      </el-form-item>
 
-      <el-form-item label="描述" prop="description">
+      <el-form-item :label="$t('description')" prop="description">
         <el-input v-model="schedule_form.description" :rows="2" type="textarea" placeholder="请输入描述信息" />
       </el-form-item>
 
-      <el-form-item label="执行指令" prop="directives">
+      <el-form-item :label="$t('directives')" prop="directives">
         <directive-group v-model:directives="schedule_form.directives" />
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="handleSaveUpdateSchedule" v-text="'保存'" />
-        <el-button type="warning" @click="$emit('close')" v-text="'取消'" />
+        <el-button type="primary" @click="handleSaveUpdateSchedule" v-text="$t('save')" />
+        <el-button type="warning" @click="$emit('close')" v-text="$t('cancel')" />
       </el-form-item>
 
-      <el-drawer
-        v-model="drawer" title="Cron 表达式" direction="rtl"
-        :size="windowWidth.value < 768 ? '100%' : windowWidth.value < 1200 ? '50%' : '30%'" destroy-on-close
-        @close="handleCloseCronDrawer"
-      >
-        <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" @success="drawer = false" />
-      </el-drawer>
+      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" />
     </el-form>
   </div>
 </template>

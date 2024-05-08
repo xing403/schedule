@@ -3,12 +3,9 @@ import md5 from 'md5'
 
 export function initLogs() {
   // Optional, initialize the logger for any renderer process
-  log.initialize({
-    preload: true,
-  })
+  log.initialize({ preload: true })
   const date = new Date()
-  log.transports.file.fileName
-    = `${md5(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`)}.log`
+  log.transports.file.fileName = `${md5(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`)}.log`
 }
 
 export function logs(context: string, level?: string) {

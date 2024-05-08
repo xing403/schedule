@@ -10,7 +10,7 @@ defineProps<{
       <div :class="route.children[0].meta?.icon" />
     </el-icon>
     <template #title>
-      <span>{{ route.children[0].meta?.title ?? route.children[0].name ?? '未命名' }}</span>
+      <span>{{ route.children[0].meta?.title ?? route.children[0].name ?? '未定义' }}</span>
     </template>
   </el-menu-item>
   <el-sub-menu v-else-if="route.children?.length >= 2" :index="route.path">
@@ -18,7 +18,7 @@ defineProps<{
       <el-icon>
         <div :class="route.meta?.icon" />
       </el-icon>
-      <span>{{ route.meta?.title ?? route.name ?? '未命名' }}</span>
+      <span>{{ route.meta?.title ?? route.name ?? '未定义' }}</span>
     </template>
     <sidebar-item v-for="r in route.children" :key="r.name" :route="r" />
   </el-sub-menu>
@@ -27,7 +27,7 @@ defineProps<{
       <div :class="route.meta?.icon" />
     </el-icon>
     <template #title>
-      <span>{{ route.meta?.title ?? route.name ?? '未命名' }}</span>
+      <span>{{ route.meta?.title ?? route.name ?? '未定义' }}</span>
     </template>
   </el-menu-item>
 </template>

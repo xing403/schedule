@@ -70,7 +70,7 @@ function handleDeleteDirective(key: string) {
       <el-button w-full flex-1 @click="openModifyDialog(item)">
         {{ item.alias !== '' ? `${item.alias}(${item.key})` : item.key }}
       </el-button>
-      <button class="close" i-carbon-close-outline icon-btn @click="handleDeleteDirective(item.key)" />
+      <svg-icon class="close" name="carbon:close-outline" icon-hover @click="handleDeleteDirective(item.key)" />
     </div>
   </div>
   <div mt-2 w-full>
@@ -78,15 +78,15 @@ function handleDeleteDirective(key: string) {
       <template #icon>
         <div i-carbon-add-large />
       </template>
-      <span>添加指令</span>
+      <span>{{ $t('flexible', { flexible: ['addition', 'directives'] }) }}</span>
     </el-button>
   </div>
 
-  <el-dialog v-model="modifyDirectiveDialog" :title="props.disabled ? '查看指令' : '修改指令'" width="30%" align-center>
+  <el-dialog v-model="modifyDirectiveDialog" :title="props.disabled ? $t('flexible', { flexible: ['see', 'directives'] }) : $t('flexible', { flexible: ['change', 'directives'] })" width="30%" align-center>
     <directive-form :form="directive" :disabled="props.disabled" @confirm="handleModifyDirective" @cancel="modifyDirectiveDialog = false" />
   </el-dialog>
 
-  <el-dialog v-model="additionDirectiveDialog" title="添加指令" width="30%" align-center destroy-on-close>
+  <el-dialog v-model="additionDirectiveDialog" :title="$t('flexible', { flexible: ['addition', 'directives'] })" width="30%" align-center destroy-on-close>
     <directive-form new-directive @confirm="confirm" @cancel="additionDirectiveDialog = false" />
   </el-dialog>
 </template>

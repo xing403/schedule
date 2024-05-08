@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElLoading, ElMessage, type FormInstance, type FormRules } from 'element-plus'
 
 const props = withDefaults(defineProps<{
   cron: string
@@ -8,8 +8,10 @@ const props = withDefaults(defineProps<{
   disabled: false,
 })
 const emits = defineEmits(['update:cron', 'close', 'success', 'cancel'])
+const drawer = ref(false)
 const form = ref<FormInstance>()
 const currentField = ref<string>('')
+const cronStr = ref<string>(props.cron)
 const cron = ref<any>({
   hour: [],
   minute: [],
@@ -18,7 +20,7 @@ const cron = ref<any>({
   month: [],
   second: [0],
 })
-
+defineExpose({ drawer })
 const rules = reactive<FormRules<any>>({
   month: [{ required: true, message: '请选择月份', trigger: 'blur' }],
   dayOfMonth: [{ required: true, message: '请求选择月份的第几天', trigger: 'blur' }],
@@ -39,7 +41,7 @@ const option = ref<any>({
   minuteQuickSelection: Array<string>(),
 })
 
-function handleQuickChange(_event: MouseEvent, item: any, key: string, quickKey: string) {
+function handleQuickChange(item: any, key: string, quickKey: string) {
   if (option.value[quickKey].includes(item.key as string)) { // checked
     item.value.forEach((e: number) => {
       if (!cron.value[key].includes(e))
@@ -67,24 +69,24 @@ function checkQuickSelection(Cron: any, quickSelection: Array<any>, cronKey: str
   })
 }
 function handleCreateCron() {
+  const loading = ElLoading.service({ lock: true, text: 'Loading', fullscreen: true })
   form.value?.validate((valid: boolean) => {
     if (valid) {
-      const c = fieldsToExpression(cron.value).stringify()
-      emits('update:cron', c)
+      emits('update:cron', fieldsToExpression(cron.value).stringify())
       setTimeout(() => {
-        emits('success', c)
+        loading.close()
+        drawer.value = false
+        emits('success')
       }, 1000)
+    }
+    else {
+      loading.close()
     }
   })
 }
 function handleCancelCron() {
   form.value && form.value.resetFields()
-
-  checkQuickSelection(cron.value, monthQuickSelection, 'month', 'monthQuickSelection')
-  checkQuickSelection(cron.value, dayOfMonthQuickSelection, 'dayOfMonth', 'dayOfMonthQuickSelection')
-  checkQuickSelection(cron.value, dayOfWeekQuickSelection, 'dayOfWeek', 'dayOfWeekQuickSelection')
-  checkQuickSelection(cron.value, hourQuickSelection, 'hour', 'hourQuickSelection')
-  checkQuickSelection(cron.value, minuteQuickSelection, 'minute', 'minuteQuickSelection')
+  cron.value = handleParseCron(props.cron)
 }
 
 function checkIndeterminateStatus<T>(source: Array<T>, target: Array<T>) {
@@ -115,14 +117,22 @@ watchDeep(cron.value, (val: any) => {
       break
   }
 })
+function handleParseCron(val: string) {
+  try {
+    return Object.assign(cron.value, JSON.parse(JSON.stringify(parseExpression(val).fields)))
+  }
+  catch (e: any) {
+    ElMessage.error(e.message)
+  }
+}
 
 onMounted(() => {
   nextTick(() => {
     if (props.cron !== '') {
-      cron.value = Object.assign(cron.value, JSON.parse(JSON.stringify(parseExpression(props.cron).fields)))
+      cron.value = handleParseCron(props.cron)
+
       if (cron.value.dayOfWeek.includes(7))
         cron.value.dayOfWeek.splice(cron.value.dayOfWeek.indexOf(7), 1)
-
       checkQuickSelection(cron.value, monthQuickSelection, 'month', 'monthQuickSelection')
       checkQuickSelection(cron.value, dayOfMonthQuickSelection, 'dayOfMonth', 'dayOfMonthQuickSelection')
       checkQuickSelection(cron.value, dayOfWeekQuickSelection, 'dayOfWeek', 'dayOfWeekQuickSelection')
@@ -134,126 +144,129 @@ onMounted(() => {
 </script>
 
 <template>
-  <div flex="~ col" h-full>
-    <el-form ref="form" :model="cron" :rules="rules" h-full w-full label-position="top" require-asterisk-position="right">
-      <el-form-item label="月份" prop="month">
-        <el-select
-          v-model="cron.month" placeholder="选择月份" :max-collapse-tags="4" collapse-tags clearable multiple w-full
-          :disabled="props.disabled" @focus="currentField = 'month'" @blur="currentField = ''"
-        >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.monthQuickSelection">
-              <el-checkbox
-                v-for="item in monthQuickSelection" :key="item.key"
-                :indeterminate="checkIndeterminateStatus(cron.month, item.value)" :label="item.key"
-                @change="handleQuickChange($event, item, 'month', 'monthQuickSelection')"
-              >
-                {{ item.label }}
-              </el-checkbox>
-            </el-checkbox-group>
-          </template>
-          <el-option v-for="item in MonthMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
-        </el-select>
-      </el-form-item>
+  <el-drawer
+    v-model="drawer" :title="$t('cron')" direction="rtl"
+    :size="windowWidth.value < 768 ? '100%' : windowWidth.value < 1200 ? '50%' : '30%'" @close="$emit('close')"
+  >
+    <div flex="~ col" h-full>
+      <el-form
+        ref="form" :model="cron" :rules="rules" h-full w-full label-position="top"
+        require-asterisk-position="right"
+      >
+        <el-form-item :label="$t('cron')">
+          <el-input
+            v-model="cronStr" :placeholder="$t('flexible', { flexible: ['auto', 'parse'] })" clearable
+            :disabled="props.disabled"
+          >
+            <template #append>
+              <el-button @click="() => handleParseCron(cronStr)">
+                {{ $t('parse') }}
+              </el-button>
+            </template>
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('month')" prop="month">
+          <el-select
+            v-model="cron.month" placeholder="选择月份" :max-collapse-tags="4" clearable collapse-tags multiple
+            w-full :disabled="props.disabled" @focus="currentField = 'month'" @blur="currentField = ''"
+          >
+            <template v-if="!props.disabled" #header>
+              <el-checkbox-group v-model="option.monthQuickSelection">
+                <el-checkbox
+                  v-for="item in monthQuickSelection" :key="item.key"
+                  :indeterminate="checkIndeterminateStatus(cron.month, item.value)" :value="item.key"
+                  :label="item.label" @change="handleQuickChange(item, 'month', 'monthQuickSelection')"
+                />
+              </el-checkbox-group>
+            </template>
+            <el-option v-for="item in MonthMap" :key="item" :label="$t(`el.datepicker.month${item}`)" :value="item" />
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="天" prop="dayOfMonth">
-        <el-select
-          v-model="cron.dayOfMonth" placeholder="选择月份的第几天" collapse-tags :max-collapse-tags="4" multiple
-          clearable w-full :disabled="props.disabled" @focus="currentField = 'dayOfMonth'" @blur="currentField = ''"
-        >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.dayOfMonthQuickSelection">
-              <el-checkbox
-                v-for="item in dayOfMonthQuickSelection" :key="item.key"
-                :indeterminate="checkIndeterminateStatus(cron.dayOfMonth, item.value)" :label="item.key"
-                @change="handleQuickChange($event, item, 'dayOfMonth', 'dayOfMonthQuickSelection')"
-              >
-                {{ item.label }}
-              </el-checkbox>
-            </el-checkbox-group>
-          </template>
-          <el-option v-for="item in DayOfMonthMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
-        </el-select>
-      </el-form-item>
+        <el-form-item :label="$t('day')" prop="dayOfMonth">
+          <el-select
+            v-model="cron.dayOfMonth" placeholder="选择月份的第几天" collapse-tags :max-collapse-tags="4" multiple
+            clearable w-full :disabled="props.disabled" @focus="currentField = 'dayOfMonth'" @blur="currentField = ''"
+          >
+            <template v-if="!props.disabled" #header>
+              <el-checkbox-group v-model="option.dayOfMonthQuickSelection">
+                <el-checkbox
+                  v-for="item in dayOfMonthQuickSelection" :key="item.key"
+                  :indeterminate="checkIndeterminateStatus(cron.dayOfMonth, item.value)" :value="item.key"
+                  :label="item.label" @change="handleQuickChange(item, 'dayOfMonth', 'dayOfMonthQuickSelection')"
+                />
+              </el-checkbox-group>
+            </template>
+            <el-option v-for="item in DayOfMonthMap" :key="item" :label="item" :value="item" />
+            <el-option
+              v-for="item in DayOfMonthMapExtend" :key="item" :label="$t(`cron-label.${item}`)"
+              :value="item"
+            />
+          </el-select>
+        </el-form-item>
+        <el-alert title="`周` 优先级高于 `日`, 在日期中两者冲突时,优先使用周" type="info" :closable="false" />
+        <el-form-item :label="$t('week')" prop="dayOfWeek">
+          <el-select
+            v-model="cron.dayOfWeek" placeholder="选择星期几" collapse-tags :max-collapse-tags="4" multiple
+            clearable w-full :disabled="props.disabled" @focus="currentField = 'dayOfWeek'" @blur="currentField = ''"
+          >
+            <template v-if="!props.disabled" #header>
+              <el-checkbox-group v-model="option.dayOfWeekQuickSelection">
+                <el-checkbox
+                  v-for="item in dayOfWeekQuickSelection" :key="item.key"
+                  :indeterminate="checkIndeterminateStatus(cron.dayOfWeek, item.value)" :value="item.key"
+                  :label="item.label" @change="handleQuickChange(item, 'dayOfWeek', 'dayOfWeekQuickSelection')"
+                />
+              </el-checkbox-group>
+            </template>
+            <el-option
+              v-for="item, index in WeekMap" :key="item" :label="$t(`el.datepicker.weeks.${item}`)"
+              :value="index"
+            />
+            <el-option v-for="item in WeekMapExtend" :key="item" :label="$t(`cron-label.${item}`)" :value="item" />
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="周" prop="dayOfWeek">
-        <el-select
-          v-model="cron.dayOfWeek" placeholder="选择星期几" collapse-tags :max-collapse-tags="4" multiple clearable
-          w-full :disabled="props.disabled" @focus="currentField = 'dayOfWeek'" @blur="currentField = ''"
-        >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.dayOfWeekQuickSelection">
-              <el-checkbox
-                v-for="item in dayOfWeekQuickSelection" :key="item.key"
-                :indeterminate="checkIndeterminateStatus(cron.dayOfWeek, item.value)" :label="item.key"
-                @change="handleQuickChange($event, item, 'dayOfWeek', 'dayOfWeekQuickSelection')"
-              >
-                {{ item.label }}
-              </el-checkbox>
-            </el-checkbox-group>
-          </template>
-          <el-option v-for="item in WeekMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
-        </el-select>
-      </el-form-item>
+        <el-form-item :label="$t('hour')" prop="hour">
+          <el-select
+            v-model="cron.hour" placeholder="选择小时" collapse-tags :max-collapse-tags="4" multiple clearable
+            w-full :disabled="props.disabled" @focus="currentField = 'hour'" @blur="currentField = ''"
+          >
+            <template v-if="!props.disabled" #header>
+              <el-checkbox-group v-model="option.hourQuickSelection">
+                <el-checkbox
+                  v-for="item in hourQuickSelection" :key="item.key"
+                  :indeterminate="checkIndeterminateStatus(cron.hour, item.value)" :value="item.key" :label="item.label"
+                  @change="handleQuickChange(item, 'hour', 'hourQuickSelection')"
+                />
+              </el-checkbox-group>
+            </template>
+            <el-option v-for="item in HourMap" :key="item" :label="item" :value="item" />
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="小时" prop="hour">
-        <el-select
-          v-model="cron.hour" placeholder="选择小时" collapse-tags :max-collapse-tags="4" multiple clearable w-full
-          :disabled="props.disabled" @focus="currentField = 'hour'" @blur="currentField = ''"
-        >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.hourQuickSelection">
-              <el-checkbox
-                v-for="item in hourQuickSelection" :key="item.key"
-                :indeterminate="checkIndeterminateStatus(cron.hour, item.value)" :label="item.key"
-                @change="handleQuickChange($event, item, 'hour', 'hourQuickSelection')"
-              >
-                {{ item.label }}
-              </el-checkbox>
-            </el-checkbox-group>
-          </template>
-          <el-option v-for="item in HourMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="分钟" prop="minute">
-        <el-select
-          v-model="cron.minute" placeholder="选择分钟" collapse-tags :max-collapse-tags="4" multiple clearable w-full
-          :disabled="props.disabled" @focus="currentField = 'minute'" @blur="currentField = ''"
-        >
-          <template v-if="!props.disabled" #header>
-            <el-checkbox-group v-model="option.minuteQuickSelection">
-              <el-checkbox
-                v-for="item in minuteQuickSelection" :key="item.key"
-                :indeterminate="checkIndeterminateStatus(cron.minute, item.value)" :label="item.key"
-                @change="handleQuickChange($event, item, 'minute', 'minuteQuickSelection')"
-              >
-                {{ item.label }}
-              </el-checkbox>
-            </el-checkbox-group>
-          </template>
-          <el-option v-for="item in MinuteMap" :key="item.value" :label="item.CN" :value="item.value">
-            <span style="float: left" v-text="item.CN" />
-            <span style="float: right; color: var(--el-text-color-secondary);font-size: 13px;" v-text="item.En" />
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label=" ">
-        <el-button v-if="!props.disabled" type="primary" @click="handleCreateCron" v-text="'立即创建'" />
-        <el-button v-if="!props.disabled" @click="handleCancelCron" v-text="'重置'" />
-      </el-form-item>
-    </el-form>
-  </div>
+        <el-form-item :label="$t('minute')" prop="minute">
+          <el-select
+            v-model="cron.minute" placeholder="选择分钟" collapse-tags :max-collapse-tags="4" multiple clearable
+            w-full :disabled="props.disabled" @focus="currentField = 'minute'" @blur="currentField = ''"
+          >
+            <template v-if="!props.disabled" #header>
+              <el-checkbox-group v-model="option.minuteQuickSelection">
+                <el-checkbox
+                  v-for="item in minuteQuickSelection" :key="item.key"
+                  :indeterminate="checkIndeterminateStatus(cron.minute, item.value)" :value="item.key"
+                  :label="item.label" @change="handleQuickChange(item, 'minute', 'minuteQuickSelection')"
+                />
+              </el-checkbox-group>
+            </template>
+            <el-option v-for="item in MinuteMap" :key="item" :label="item" :value="item" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </div>
+    <template #footer>
+      <el-button v-if="!props.disabled" type="primary" @click="handleCreateCron" v-text="$t('save')" />
+      <el-button v-if="!props.disabled" @click="handleCancelCron" v-text="$t('reset')" />
+    </template>
+  </el-drawer>
 </template>

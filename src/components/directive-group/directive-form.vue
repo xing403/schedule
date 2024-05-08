@@ -53,7 +53,7 @@ function cancel() {
 
 <template>
   <el-form :model="form" label-width="120px" :inline="false">
-    <el-form-item label="选择指令">
+    <el-form-item :label="$t('flexible', { flexible: ['select', 'directives'] })">
       <el-select v-model="form.key" placeholder="选择指令" clearable filterable :disabled="props.disabled" w-full>
         <el-option
           v-for="item in DIRECTIVE_MAP" :key="item.key" :label="item.name ?? item.key" :value="item.key"
@@ -62,7 +62,7 @@ function cancel() {
       </el-select>
     </el-form-item>
 
-    <el-form-item label="别称" prop="alias">
+    <el-form-item :label="$t('alias')" prop="alias">
       <el-input v-model="form.alias" placeholder="指令描述" :disabled="props.disabled" />
     </el-form-item>
 
@@ -70,7 +70,7 @@ function cancel() {
       <el-form-item prop="args.topics" label="订阅主题">
         <el-select
           v-model="topic"
-          :max-collapse-tags="2" filterable collapse-tags allow-create collapse-tags-tooltip multiple default-first-option w-full placeholder="选择需要的主题"
+          :max-collapse-tags="2" filterable collapse-tags multiple allow-create collapse-tags-tooltip default-first-option w-full placeholder="选择需要的主题"
         >
           <el-option v-for="t in topics" :key="t" :label="t" :value="t" />
         </el-select>
@@ -88,26 +88,26 @@ function cancel() {
     </template>
 
     <template v-else-if="form.key === 'date-time'">
-      <el-form-item prop="args.format" label="格式">
+      <el-form-item prop="args.format" :label="$t('format')">
         <el-input v-model="form.args.format" placeholder="时间格式(默认: YYYY-MM-DD HH:mm:ss)" :disabled="props.disabled" />
       </el-form-item>
     </template>
 
     <template v-else-if="form.key === 'tts'">
-      <el-form-item prop="args.text" label="文本">
+      <el-form-item prop="args.text" :label="$t('text')">
         <el-input v-model="form.args.text" placeholder="发送文本($1 为占位符)" :disabled="props.disabled" />
       </el-form-item>
     </template>
 
     <template v-else-if="form.key === 'open-external'">
-      <el-form-item prop="args.to" label="链接">
+      <el-form-item prop="args.to" :label="$t('link')">
         <el-input v-model="form.args.url" placeholder="链接地址" :disabled="props.disabled" />
       </el-form-item>
     </template>
 
     <el-form-item v-if="!props.disabled" prop="button" label=" ">
-      <el-button type="primary" @click="confirm" v-text="'确定'" />
-      <el-button type="default" size="default" @click="cancel" v-text="'取消'" />
+      <el-button type="primary" @click="confirm" v-text="$t('confirm')" />
+      <el-button type="default" size="default" @click="cancel" v-text="$t('cancel')" />
     </el-form-item>
   </el-form>
 </template>

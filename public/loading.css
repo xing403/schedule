@@ -1,0 +1,17 @@
+#app .loading{
+  position: relative;
+  top: 50%;
+  text-align: center;
+  margin: auto;
+  transform: translate(0,-50%);
+
+  width: 200px;
+  height: 200px;
+}
+#app .loading .loading-icon{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  zoom: 3;
+}
