@@ -27,7 +27,9 @@ const router = createRouter({
 router.beforeEach(async (_to, _from, next) => {
   const { t } = useI18nStore()
   useTitle(t('schedule'))
-  loadingToggle()
+  if (!isLoading.value)
+    loadingToggle()
+
   next()
 })
 
