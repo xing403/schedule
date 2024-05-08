@@ -154,7 +154,10 @@ onMounted(() => {
         require-asterisk-position="right"
       >
         <el-form-item :label="$t('cron')">
-          <el-input v-model="cronStr" :placeholder="$t('flexible', { flexible: ['auto', 'parse'] })" clearable>
+          <el-input
+            v-model="cronStr" :placeholder="$t('flexible', { flexible: ['auto', 'parse'] })" clearable
+            :disabled="props.disabled"
+          >
             <template #append>
               <el-button @click="() => handleParseCron(cronStr)">
                 {{ $t('parse') }}
@@ -164,8 +167,8 @@ onMounted(() => {
         </el-form-item>
         <el-form-item :label="$t('month')" prop="month">
           <el-select
-            v-model="cron.month" placeholder="选择月份" :max-collapse-tags="4"
-            clearable collapse-tags multiple w-full :disabled="props.disabled" @focus="currentField = 'month'" @blur="currentField = ''"
+            v-model="cron.month" placeholder="选择月份" :max-collapse-tags="4" clearable collapse-tags multiple
+            w-full :disabled="props.disabled" @focus="currentField = 'month'" @blur="currentField = ''"
           >
             <template v-if="!props.disabled" #header>
               <el-checkbox-group v-model="option.monthQuickSelection">
@@ -195,7 +198,10 @@ onMounted(() => {
               </el-checkbox-group>
             </template>
             <el-option v-for="item in DayOfMonthMap" :key="item" :label="item" :value="item" />
-            <el-option v-for="item in DayOfMonthMapExtend" :key="item" :label="$t(`cron-label.${item}`)" :value="item" />
+            <el-option
+              v-for="item in DayOfMonthMapExtend" :key="item" :label="$t(`cron-label.${item}`)"
+              :value="item"
+            />
           </el-select>
         </el-form-item>
         <el-alert title="`周` 优先级高于 `日`, 在日期中两者冲突时,优先使用周" type="info" :closable="false" />

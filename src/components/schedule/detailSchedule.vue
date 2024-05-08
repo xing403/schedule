@@ -23,6 +23,7 @@ const rules = {
 }
 
 function handleOpenDrawer() {
+  cronInputRef.value.blur()
   cronDrawerRef.value.drawer = true
 }
 onMounted(() => {
@@ -37,9 +38,6 @@ onMounted(() => {
     JSON.parse(JSON.stringify(parseExpression(schedule_form.value.cron).fields))
   })
 })
-function handleCloseCronDrawer() {
-  cronInputRef.value.blur()
-}
 </script>
 
 <template>
@@ -90,7 +88,7 @@ function handleCloseCronDrawer() {
       <el-form-item :label="$t('directives')" prop="directives">
         <directive-group v-model:directives="schedule_form.directives" disabled />
       </el-form-item>
-      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" disabled @success="handleCloseCronDrawer" />
+      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" disabled />
     </el-form>
   </div>
 </template>

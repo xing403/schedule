@@ -42,6 +42,7 @@ function handleSaveUpdateSchedule() {
 }
 
 function handleOpenDrawer() {
+  cronInputRef.value.blur()
   cronDrawerRef.value.drawer = true
 }
 onMounted(() => {
@@ -56,10 +57,6 @@ onMounted(() => {
     JSON.parse(JSON.stringify(parseExpression(schedule_form.value.cron).fields))
   })
 })
-
-function handleCloseCronDrawer() {
-  cronInputRef.value.blur()
-}
 </script>
 
 <template>
@@ -120,7 +117,7 @@ function handleCloseCronDrawer() {
         <el-button type="warning" @click="$emit('close')" v-text="$t('cancel')" />
       </el-form-item>
 
-      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" @success="handleCloseCronDrawer" @cancel="handleCloseCronDrawer" />>
+      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" />
     </el-form>
   </div>
 </template>

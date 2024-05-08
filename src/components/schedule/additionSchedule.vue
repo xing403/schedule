@@ -39,12 +39,10 @@ function resetFrom() {
   insertFormRef.value && insertFormRef.value.resetFields()
 }
 function openCronDrawer() {
+  cronInputRef.value.blur()
   cronDrawerRef.value.drawer = true
 }
 
-function handleCloseCronDrawer() {
-  cronInputRef.value.blur()
-}
 defineExpose({ dialog })
 </script>
 
@@ -101,7 +99,7 @@ defineExpose({ dialog })
         <el-button type="warning" @click="resetFrom" v-text="$t('reset')" />
       </el-form-item>
 
-      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" @success="handleCloseCronDrawer" @cancel="handleCloseCronDrawer" />
+      <cron-drawer ref="cronDrawerRef" v-model:cron="schedule_form.cron" />
     </el-form>
   </el-dialog>
 </template>
