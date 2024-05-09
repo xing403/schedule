@@ -14,6 +14,8 @@ export function createIPC() {
   ipcMain.handle('read-schedule', () => {
     if (fs.existsSync(path.join(app.getPath('userData'), 'schedule.json')))
       return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'schedule.json'), 'utf-8'))
+    logs('read-schedule', 'not foundschedule.json,is initializing...')
+    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), 'schedule.json'), 'w'), JSON.stringify({ schedules: [] }, null, 4))
     return { schedules: '[]' }
   })
 
@@ -29,6 +31,8 @@ export function createIPC() {
   ipcMain.handle('read-setting', () => {
     if (fs.existsSync(path.join(app.getPath('userData'), 'setting.json')))
       return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
+    logs('read-setting', 'not foundsetting.json,is initializing...')
+    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), 'setting.json'), 'w'), JSON.stringify({}, null, 4))
     return {}
   })
 
@@ -38,18 +42,22 @@ export function createIPC() {
   })
 
   ipcMain.handle('command', (_event, command: string, argv?: any) => {
-    if (command === 'openMainWindow') {
-      if (windowMap.get('main'))
-        windowMap.get('main')?.show()
-      else
-        createMainWindow(windowMap)
-    }
-    else if (command === 'moveSuspended') {
-      if (windowMap.get('suspended')) {
-        const sus = windowMap.get('suspended') as BrowserWindow
-        const [x, y] = sus.getPosition()
-        sus.setPosition(x + argv.x, y + argv.y)
-      }
+    let win: BrowserWindow | null = null
+    switch (command) {
+      case 'open-main-window':
+        win = windowMap.get('main')
+        if (win)
+          win.show()
+        else
+          createMainWindow(windowMap)
+        break
+      case 'move-float-ball':
+        win = windowMap.get('float-ball')
+        if (win) {
+          const [x, y] = win.getPosition()
+          win.setPosition(x + argv.x, y + argv.y)
+        }
+        break
     }
   })
 
@@ -66,6 +74,9 @@ export function createIPC() {
   ipcMain.handle('read-service', (_event, service_name: string) => {
     if (fs.existsSync(path.join(app.getPath('userData'), `${service_name}.json`)))
       return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), `${service_name}.json`), 'utf-8'))
+    logs('read-service', `not found${service_name}.json,is initializing...`)
+    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), `${service_name}.json`), 'w'),
+      JSON.stringify({ service: '{ "host": "127.0.0.1", "port": "8083", "username": "", "password": "" }' }, null, 4))
     return { service: '{ "host": "127.0.0.1", "port": "8083", "username": "", "password": "" }' }
   })
 }

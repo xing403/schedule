@@ -24,7 +24,7 @@ function handleContextMenu(event: MouseEvent) {
 }
 function handleMouseMove(event: MouseEvent) {
   if (active.value && platform.value === 'electron') {
-    window.Electron.command('moveSuspended', {
+    window.Electron.command('move-float-ball', {
       x: event.clientX - x.value,
       y: event.clientY - y.value,
     })
@@ -37,7 +37,7 @@ function handleMouseUp() {
 
 function handleMouseClick() {
   if (platform.value === 'electron')
-    window.Electron.command('openMainWindow')
+    window.Electron.command('open-main-window')
 }
 onMounted(() => {
 })

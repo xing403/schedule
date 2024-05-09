@@ -35,7 +35,7 @@ export function createMainWindow(windowMap: WindowMap) {
 export function createSuspendedWindow(windowMap: WindowMap) {
   const primaryDisplay = screen.getPrimaryDisplay()
   const { width } = primaryDisplay.workAreaSize
-  const suspendedWindow = createWindow({
+  const floatBallWindow = createWindow({
     x: width - 100,
     y: 240,
     width: 50,
@@ -49,7 +49,7 @@ export function createSuspendedWindow(windowMap: WindowMap) {
     skipTaskbar: true,
   })
 
-  windowMap.set('suspended', suspendedWindow)
-  const suspendedPath = process.argv[2] ? `${process.argv[2]}/#/suspended` : path.join('file://', __dirname, 'index.html#/float-ball')
-  suspendedWindow.loadURL(suspendedPath)
+  windowMap.set('float-ball', floatBallWindow)
+  const suspendedPath = process.argv[2] ? `${process.argv[2]}/#/float-ball` : path.join('file://', __dirname, 'index.html#/float-ball')
+  floatBallWindow.loadURL(suspendedPath)
 }
