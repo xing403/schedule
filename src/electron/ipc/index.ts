@@ -1,7 +1,7 @@
 /* eslint-disable n/prefer-global/process */
 import fs from 'node:fs'
 import path from 'node:path'
-import { Notification, app, ipcMain, shell } from 'electron'
+import { Menu, Notification, app, ipcMain, shell } from 'electron'
 import { createMainWindow, logs, windowMap } from '..'
 
 export function useIpc() {
@@ -13,12 +13,13 @@ export function useIpc() {
     if (fs.existsSync(path.join(app.getPath('userData'), 'schedule.json')))
       return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'schedule.json'), 'utf-8'))
     logs('read-schedule', 'not foundschedule.json,is initializing...')
-    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), 'schedule.json'), 'w'), JSON.stringify({ schedules: [] }, null, 4))
+
+    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), 'schedule.json'), 'w'), JSON.stringify({ schedules: [] }, null, 2))
     return { schedules: '[]' }
   })
 
   ipcMain.handle('save-schedule', (_event, list: string) => {
-    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), 'schedule.json'), 'w'), JSON.stringify({ schedules: list }, null, 4))
+    fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), 'schedule.json'), 'w'), JSON.stringify({ schedules: list }, null, 2))
     return true
   })
 
@@ -50,6 +51,17 @@ export function useIpc() {
       const [x, y] = win.getPosition()
       win.setPosition(x + argv.x, y + argv.y)
     }
+  })
+
+  ipcMain.handle('show-float-ball-menu', () => {
+    const floatBallWin = windowMap.get('float-ball')
+    Menu.buildFromTemplate([{
+      label: '隐藏',
+      click: () => {
+        if (floatBallWin != null)
+          floatBallWin.hide()
+      },
+    }]).popup({})
   })
 
   ipcMain.handle('logs', (_event, context: string, level?: string) => {

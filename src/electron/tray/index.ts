@@ -5,7 +5,7 @@ import { Menu, Tray, nativeImage } from 'electron'
 
 import { createMainWindow, createWindow } from '..'
 
-export function useTray(windowMap: WindowMap) {
+export function useTray(windowMap: WindowMap, config: any = {}) {
   const tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '256x256.png')))
   const contextMenu = Menu.buildFromTemplate([{
     label: '关于',
@@ -39,6 +39,14 @@ export function useTray(windowMap: WindowMap) {
         windowMap.delete('settings')
       })
       windowMap.set('settings', settings)
+    },
+  }, {
+    label: '悬浮球',
+    visible: config?.baseSetting?.floatBall,
+    click: () => {
+      const floatBallWin = windowMap.get('float-ball')
+      if (floatBallWin)
+        floatBallWin.isVisible() ? floatBallWin.hide() : floatBallWin.show()
     },
   }, {
     type: 'separator',

@@ -19,6 +19,8 @@ contextBridge.exposeInMainWorld('Electron', {
 
   moveFloatBall: (argv: { x: number; y: number }) => ipcRenderer.invoke('move-float-ball', argv),
 
+  showFloatBallMenu: () => ipcRenderer.invoke('show-float-ball-menu'),
+
   openMainWindow: () => ipcRenderer.invoke('open-main-window'),
 
   readService: (name: string) => ipcRenderer.invoke('read-service', name),

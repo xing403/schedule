@@ -5,7 +5,7 @@ const currentTabPane = ref('base-setting')
 
 const settingConfig = ref({
   baseSetting: {
-    suspended_window: false,
+    floatBall: false,
   },
 })
 
@@ -48,7 +48,7 @@ function handleSaveSetting() {
         <el-divider />
         <div class="setting-item">
           <el-text v-text="'悬浮球'" />
-          <el-switch v-model="settingConfig.baseSetting.suspended_window" />
+          <el-switch v-model="settingConfig.baseSetting.floatBall" />
         </div>
       </el-card>
     </el-tab-pane>

@@ -15,25 +15,25 @@ import {
 app.setAppUserModelId('Schedule Notification')
 app.setPath('userData', path.join(app.getPath('userData'), 'data'))
 
-let settings: any = {
+let setting: any = {
   baseSetting: {
     floatBall: true,
   },
 }
 
-if (fs.existsSync(path.join(app.getPath('userData'), 'settings.json')))
-  settings = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
+if (fs.existsSync(path.join(app.getPath('userData'), 'setting.json')))
+  setting = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
 else
-  fs.writeFileSync(path.join(app.getPath('userData'), 'settings.json'), JSON.stringify(settings))
+  fs.writeFileSync(path.join(app.getPath('userData'), 'setting.json'), JSON.stringify(setting, null, 2))
 
 app.whenReady().then(() => {
   createMainWindow(windowMap)
 
   useIpc()
-  useTray(windowMap)
+  useTray(windowMap, setting)
   useLogs()
 
-  if (settings.baseSetting.floatBall)
+  if (setting.baseSetting.floatBall)
     createFloatBallWindow(windowMap)
 })
 

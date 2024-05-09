@@ -21,6 +21,8 @@ function handleMouseDown(event: MouseEvent) {
 }
 function handleContextMenu(event: MouseEvent) {
   event.preventDefault()
+  if (platform.value === 'electron')
+    window.Electron.showFloatBallMenu()
 }
 function handleMouseMove(event: MouseEvent) {
   if (active.value && platform.value === 'electron') {
