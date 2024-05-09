@@ -1,13 +1,11 @@
+/* eslint-disable n/prefer-global/process */
 import fs from 'node:fs'
 import path from 'node:path'
-import type { BrowserWindow } from 'electron'
 import { Notification, app, ipcMain, shell } from 'electron'
-import { logs } from './utils'
-import { createMainWindow, windowMap } from '.'
+import { createMainWindow, logs, windowMap } from '..'
 
-export function createIPC() {
+export function useIpc() {
   ipcMain.handle('notification', (_event, title: string, body: string) => {
-    // eslint-disable-next-line n/prefer-global/process
     new Notification({ title, body, icon: path.relative(process.cwd(), path.join('dist/256x256.ico')) }).show()
   })
 
@@ -41,23 +39,16 @@ export function createIPC() {
     return true
   })
 
-  ipcMain.handle('command', (_event, command: string, argv?: any) => {
-    let win: BrowserWindow | null = null
-    switch (command) {
-      case 'open-main-window':
-        win = windowMap.get('main')
-        if (win)
-          win.show()
-        else
-          createMainWindow(windowMap)
-        break
-      case 'move-float-ball':
-        win = windowMap.get('float-ball')
-        if (win) {
-          const [x, y] = win.getPosition()
-          win.setPosition(x + argv.x, y + argv.y)
-        }
-        break
+  ipcMain.handle('open-main-window', () => {
+    const win = windowMap.get('main')
+    win != null ? win.show() : createMainWindow(windowMap)
+  })
+
+  ipcMain.handle('move-float-ball', (_, argv: { x: number; y: number }) => {
+    const win = windowMap.get('float-ball')
+    if (win) {
+      const [x, y] = win.getPosition()
+      win.setPosition(x + argv.x, y + argv.y)
     }
   })
 
@@ -71,6 +62,7 @@ export function createIPC() {
       JSON.stringify({ service: argv }, null, 4))
     return true
   })
+
   ipcMain.handle('read-service', (_event, service_name: string) => {
     if (fs.existsSync(path.join(app.getPath('userData'), `${service_name}.json`)))
       return JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), `${service_name}.json`), 'utf-8'))

@@ -1,6 +1,6 @@
 export * from './main'
 export * from './tray'
-export * from './globalShortcut'
+export * from './shortcut'
 export * from './ipc'
 export * from './utils'
 

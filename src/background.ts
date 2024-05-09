@@ -3,12 +3,12 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { app } from 'electron'
 import {
-  createIPC,
+  createFloatBallWindow,
   createMainWindow,
-  createSuspendedWindow,
-  createTray,
-  initLogs,
   logs,
+  useIpc,
+  useLogs,
+  useTray,
   windowMap,
 } from './electron'
 
@@ -17,7 +17,7 @@ app.setPath('userData', path.join(app.getPath('userData'), 'data'))
 
 let settings: any = {
   baseSetting: {
-    suspended_window: true,
+    floatBall: true,
   },
 }
 
@@ -28,15 +28,16 @@ else
 
 app.whenReady().then(() => {
   createMainWindow(windowMap)
-  createIPC()
-  createTray(windowMap)
 
-  if (settings?.baseSetting?.suspended_window)
-    createSuspendedWindow(windowMap)
-  initLogs()
+  useIpc()
+  useTray(windowMap)
+  useLogs()
+
+  if (settings.baseSetting.floatBall)
+    createFloatBallWindow(windowMap)
 })
 
-app.on('window-all-closed', () => {})
+app.on('window-all-closed', () => { })
 app.on('quit', () => {
   logs('app closed', 'info')
 })

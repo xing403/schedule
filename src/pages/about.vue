@@ -8,7 +8,7 @@ meta:
 
 <script setup lang="ts">
 function handleFeedback() {
-  openExternal(`${PkgJson.repository.url}/issues`)
+  openExternal(`${PkgJson.repository.url}/issues/new`)
 }
 </script>
 
