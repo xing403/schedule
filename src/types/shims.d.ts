@@ -8,12 +8,17 @@ interface Window {
   Electron: Electron;
 }
 type STATUS_TYPE = 'success' | 'error' | 'ready' | 'notFound' | 'stop' | 'running'
-
+type SUPPORT_TYPE = 'electron' | 'web'
 interface DirectiveType {
   /**
    * directive key
    */
   key: string,
+  /**
+   * directive support type
+   * @value electron or web
+   */
+  support: SUPPORT_TYPE[],
   /**
    * directive name
    */

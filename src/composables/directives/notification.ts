@@ -1,6 +1,7 @@
 const directive: DirectiveFType = {
   key: 'notification',
   name: '发送通知',
+  support: ['web', 'electron'],
   execute: (schedule: Schedule, data?: any) => {
     data.args = Object.assign({
       title: schedule.title,
