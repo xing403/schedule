@@ -1,3 +1,4 @@
+import type { Buffer } from 'node:buffer'
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('Electron', {
@@ -26,4 +27,6 @@ contextBridge.exposeInMainWorld('Electron', {
   readService: (name: string) => ipcRenderer.invoke('read-service', name),
 
   saveService: (name: string, argv: any) => ipcRenderer.invoke('save-service', name, argv),
+
+  getFile: (path: string): Promise<Buffer> => ipcRenderer.invoke('get-file', path),
 })

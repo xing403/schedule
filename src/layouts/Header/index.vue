@@ -1,15 +1,14 @@
 <script setup lang="ts">
+import { useTimestamp } from '@vueuse/core'
 import { dayjs } from 'element-plus'
 
+const timestamp = useTimestamp({ offset: 0 })
+const time = computed(() => dayjs(timestamp.value).format('YYYY-MM-DD HH:mm:ss'))
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const router = useRouter()
-const current = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
 const additionScheduleRef = ref()
-const setCurrentTime = () => current.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
 const reload = () => router.push({ name: 'reload' })
-
-const timer = setInterval(setCurrentTime, 1000)
 const settingsDialog = ref(false)
 const theme = computed(() => isDark.value ? createIconComponents('carbon:moon') : createIconComponents('carbon:sun'))
 function handleCommandEvent(cmd: string) {
@@ -25,15 +24,12 @@ function handleCommandEvent(cmd: string) {
       break
   }
 }
-onBeforeUnmount(() => {
-  clearInterval(timer)
-})
 </script>
 
 <template>
   <el-header border-b="1px light:hex-dcdfe6 dark:hex-4C4D4F solid">
     <div flex="~ row items-center gap-2" h-full>
-      <div v-if="windowWidth.value > 768" text-xl v-text="current" />
+      <div v-if="windowWidth.value > 768" text-xl v-text="time" />
       <div class="flex-grow" />
       <I18n />
       <svg-icon icon-hover name="mdi:refresh" size="1.2em" @click="reload()" />

@@ -13,4 +13,5 @@ import HeaderComponent from './Header/index.vue'
       </transition>
     </RouterView>
   </el-main>
+  <Music />
 </template>

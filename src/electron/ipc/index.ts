@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { Menu, Notification, app, ipcMain, shell } from 'electron'
 import { createMainWindow, logs, windowMap } from '..'
+import { getFile } from '../file'
 
 export function useIpc() {
   ipcMain.handle('notification', (_event, title: string, body: string) => {
@@ -82,5 +83,9 @@ export function useIpc() {
     fs.writeFileSync(fs.openSync(path.join(app.getPath('userData'), `${service_name}.json`), 'w'),
       JSON.stringify({ service: '{ "host": "127.0.0.1", "port": "8083", "username": "", "password": "" }' }, null, 4))
     return { service: '{ "host": "127.0.0.1", "port": "8083", "username": "", "password": "" }' }
+  })
+
+  ipcMain.handle('get-file', (_event, filePath: string) => {
+    return getFile(filePath)
   })
 }

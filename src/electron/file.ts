@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import type { Buffer } from 'node:buffer'
 import { dialog } from 'electron'
 
 export function getFilesInFloder(floder: string) {
@@ -10,7 +11,7 @@ export function getFilesInFloder(floder: string) {
 }
 
 export function getFile(dirPath: string) {
-  return new Promise((resolve, reject) => {
+  return new Promise<Buffer>((resolve, reject) => {
     fs.readFile(dirPath, (err, data) => {
       err ? reject(err) : resolve(data)
     })

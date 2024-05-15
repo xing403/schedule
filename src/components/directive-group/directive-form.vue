@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { UploadFile } from 'element-plus'
 import DIRECTIVE_MAP from '~/composables/directives'
 
 import useMQTTStore from '~/store/mqtt'
@@ -20,13 +21,14 @@ const mqttStore = useMQTTStore()
 const form = ref({ ...props.form })
 const topics = ref<string[]>(mqttStore.subscribe_topics)
 const topic = ref<string[]>()
-
 onMounted(() => {
   if (props.newDirective) {
     form.value = {
       alias: '',
       key: '',
-      args: {},
+      args: {
+        url: '',
+      },
     }
   }
   else {
@@ -49,10 +51,14 @@ function confirm() {
 function cancel() {
   emits('cancel')
 }
+function handleChangeFile(file: UploadFile) {
+  if (file.raw)
+    form.value.args.url = file.raw.path
+}
 </script>
 
 <template>
-  <el-form :model="form" label-width="120px" :inline="false">
+  <el-form :model="form" label-position="top" :inline="false">
     <el-form-item :label="$t('flexible', { flexible: ['select', 'directives'] })">
       <el-select v-model="form.key" placeholder="选择指令" clearable filterable :disabled="props.disabled" w-full>
         <el-option
@@ -69,8 +75,8 @@ function cancel() {
     <template v-if="form.key === 'mqtt'">
       <el-form-item prop="args.topics" label="订阅主题">
         <el-select
-          v-model="topic"
-          :max-collapse-tags="2" filterable collapse-tags multiple allow-create collapse-tags-tooltip default-first-option w-full placeholder="选择需要的主题"
+          v-model="topic" :max-collapse-tags="2" filterable collapse-tags multiple allow-create
+          collapse-tags-tooltip default-first-option w-full placeholder="选择需要的主题"
         >
           <el-option v-for="t in topics" :key="t" :label="t" :value="t" />
         </el-select>
@@ -100,8 +106,18 @@ function cancel() {
     </template>
 
     <template v-else-if="form.key === 'open-external'">
-      <el-form-item prop="args.to" :label="$t('link')">
+      <el-form-item prop="args.url" :label="$t('link')">
         <el-input v-model="form.args.url" placeholder="链接地址" :disabled="props.disabled" />
+      </el-form-item>
+    </template>
+
+    <template v-else-if="form.key === 'music'">
+      <el-form-item prop="args.url" :label="$t('link')">
+        <el-upload drag action="" :auto-upload="false" w-full :on-change="handleChangeFile">
+          <div class="el-upload__text">
+            Drop file here or <em>click to upload</em>
+          </div>
+        </el-upload>
       </el-form-item>
     </template>
 
