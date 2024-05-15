@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import 'xgplayer/dist/index.min.css'
 import 'xgplayer-music/dist/index.min.css'
-import Player from 'xgplayer'
+import Player, { Events } from 'xgplayer'
 import { dayjs } from 'element-plus'
 import { Analyze } from 'xgplayer-music'
 import useMusicStore from '~/store/music'
@@ -22,7 +22,7 @@ function initAudioPlayer() {
   player.value = new Player({
     id: 'mse',
     mediaType: 'audio',
-    volume: 0.8,
+    volume: 1,
     height: 0,
     width: '100%',
     url: musicStore.url,
@@ -32,6 +32,7 @@ function initAudioPlayer() {
       crossOrigin: 'anonymous', // 允许跨域
     },
   })
+  player.value.on(Events.ENDED, handleCloseDrawer)
 }
 function initAnalyze() {
   analyze.value = new Analyze(player.value, analyzeRef.value as HTMLElement, {
