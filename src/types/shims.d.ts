@@ -8,12 +8,17 @@ interface Window {
   Electron: Electron;
 }
 type STATUS_TYPE = 'success' | 'error' | 'ready' | 'notFound' | 'stop' | 'running'
-
+type SUPPORT_TYPE = 'electron' | 'web'
 interface DirectiveType {
   /**
    * directive key
    */
   key: string,
+  /**
+   * directive support type
+   * @value electron or web
+   */
+  support: SUPPORT_TYPE[],
   /**
    * directive name
    */
@@ -25,7 +30,7 @@ interface DirectiveType {
   /**
    * this directive run need args
    */
-  args?: any,
+  args: DirectiveParam,
   /**
    * pre directive run result, format => {data: any}
    */
@@ -35,7 +40,14 @@ interface DirectiveType {
    */
   status?: STATUS_TYPE,
 }
-
+interface DirectiveParam extends any {
+  topics?: Array<string>,
+  musicUrl?: string,
+  url?: string,
+  message?: string,
+  format?: string,
+  text?: string
+}
 interface DirectiveFType extends DirectiveType {
   /**
    * directive execute function

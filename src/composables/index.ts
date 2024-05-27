@@ -14,9 +14,9 @@ export async function initApp() {
   logs('app runing')
   const mqttStore = useMQTTStore()
 
-  await getAppService('mqtt').then(async () => {
+  getAppService('mqtt').then(async () => {
     if (MQTT.value.auto) {
-      await mqttStore.connect(md5(Date()), MQTT.value.host, MQTT.value.username, MQTT.value.password, MQTT.value.port).then(() => {
+      mqttStore.connect(md5(Date()), MQTT.value.host, MQTT.value.username, MQTT.value.password, MQTT.value.port).then(() => {
         logs('started mqtt service')
       }).catch(() => {
         logs('failed to start mqtt service')

@@ -21,10 +21,12 @@ function handleMouseDown(event: MouseEvent) {
 }
 function handleContextMenu(event: MouseEvent) {
   event.preventDefault()
+  if (platform.value === 'electron')
+    window.Electron.showFloatBallMenu()
 }
 function handleMouseMove(event: MouseEvent) {
   if (active.value && platform.value === 'electron') {
-    window.Electron.command('moveSuspended', {
+    window.Electron.moveFloatBall({
       x: event.clientX - x.value,
       y: event.clientY - y.value,
     })
@@ -37,7 +39,7 @@ function handleMouseUp() {
 
 function handleMouseClick() {
   if (platform.value === 'electron')
-    window.Electron.command('openMainWindow')
+    window.Electron.openMainWindow()
 }
 onMounted(() => {
 })

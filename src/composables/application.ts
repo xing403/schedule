@@ -8,7 +8,7 @@ export const version = PKGJson.version
 export const name = PKGJson.name
 export const description = PKGJson.description
 export const author = PKGJson.author
-export const platform = useStorageAsync<'electron' | 'web'>('platform', userAgent.includes('electron/') ? 'electron' : 'web')
+export const platform = computed(() => userAgent.includes('electron/') ? 'electron' : 'web')
 
 export const favicon_path = path.join('favicon.ico')
 

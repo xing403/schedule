@@ -1,9 +1,13 @@
 const directive: DirectiveFType = {
   key: 'open-external',
   name: '打开链接',
+  args: {
+    url: '',
+  },
+  support: ['web', 'electron'],
   execute: (schedule: Schedule, data?: any) => {
     const url = data.pre_res.data ?? data.args.url as string
-    if (/^(https?|ftp):\/\/([\-A-Za-z0-9+&@#/%?=~_|!:,.;]+[\.])+([A-Za-z]{2,4}[0-9]{1,3}|[A-Za-z]{2,4}|[0-9]{1,3})$/.test(url))
+    if (/^((https?:\/\/)?([a-z\d]([a-z\d-]*[a-z\d])?\.)+[a-z]{2,})|((?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\.(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3})|(localhost)(:\d+)?/.test(url))
       openExternal(url)
 
     else

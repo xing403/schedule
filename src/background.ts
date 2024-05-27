@@ -3,40 +3,43 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { app } from 'electron'
 import {
-  createIPC,
+  createFloatBallWindow,
   createMainWindow,
-  createSuspendedWindow,
-  createTray,
-  initLogs,
   logs,
+  unregisterShortcut,
+  useIpc,
+  useLogs,
+  useTray,
   windowMap,
 } from './electron'
 
 app.setAppUserModelId('Schedule Notification')
 app.setPath('userData', path.join(app.getPath('userData'), 'data'))
 
-let settings: any = {
+let setting: any = {
   baseSetting: {
-    suspended_window: true,
+    floatBall: true,
   },
 }
 
-if (fs.existsSync(path.join(app.getPath('userData'), 'settings.json')))
-  settings = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
+if (fs.existsSync(path.join(app.getPath('userData'), 'setting.json')))
+  setting = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'setting.json'), 'utf-8'))
 else
-  fs.writeFileSync(path.join(app.getPath('userData'), 'settings.json'), JSON.stringify(settings))
+  fs.writeFileSync(path.join(app.getPath('userData'), 'setting.json'), JSON.stringify(setting, null, 2))
 
 app.whenReady().then(() => {
-  createMainWindow(windowMap)
-  createIPC()
-  createTray(windowMap)
+  const win = createMainWindow(windowMap)
 
-  if (settings?.baseSetting?.suspended_window)
-    createSuspendedWindow(windowMap)
-  initLogs()
+  useIpc(win)
+  useTray(windowMap, setting)
+  useLogs()
+
+  if (setting.baseSetting.floatBall)
+    createFloatBallWindow(windowMap)
 })
 
-app.on('window-all-closed', () => {})
+app.on('window-all-closed', () => { })
 app.on('quit', () => {
   logs('app closed', 'info')
+  unregisterShortcut()
 })

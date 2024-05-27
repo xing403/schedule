@@ -1,17 +1,20 @@
+/* eslint-disable n/no-path-concat */
+/* eslint-disable n/prefer-global/process */
 import path from 'node:path'
 import { Menu, Tray, nativeImage } from 'electron'
 
-import { createMainWindow, createWindow } from '.'
+import { createMainWindow, createWindow } from '..'
 
-export function createTray(windowMap: WindowMap) {
+export function useTray(windowMap: WindowMap, config: any = {}) {
   const tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '256x256.png')))
   const contextMenu = Menu.buildFromTemplate([{
     label: '关于',
     click: () => {
-      if (windowMap.get('about'))
+      if (windowMap.get('about')) {
+        windowMap.get('about').show()
         return
+      }
       const about = createWindow({ width: 600, height: 900 })
-      // eslint-disable-next-line n/no-path-concat, n/prefer-global/process
       const aboutPath = process.argv[2] ? `${process.argv[2]}/#/about` : `file://${__dirname}/index.html#/about`
       about.loadURL(aboutPath)
 
@@ -23,10 +26,12 @@ export function createTray(windowMap: WindowMap) {
   }, {
     label: '设置',
     click: () => {
-      if (windowMap.get('settings'))
+      if (windowMap.get('settings')) {
+        windowMap.get('settings').show()
         return
+      }
       const settings = createWindow({ width: 600, height: 900 })
-      // eslint-disable-next-line n/prefer-global/process, n/no-path-concat
+
       const settingsPath = process.argv[2] ? `${process.argv[2]}/#/settings` : `file://${__dirname}/index.html#/settings`
       settings.loadURL(settingsPath)
 
@@ -34,6 +39,14 @@ export function createTray(windowMap: WindowMap) {
         windowMap.delete('settings')
       })
       windowMap.set('settings', settings)
+    },
+  }, {
+    label: '悬浮球',
+    visible: config?.baseSetting?.floatBall,
+    click: () => {
+      const floatBallWin = windowMap.get('float-ball')
+      if (floatBallWin)
+        floatBallWin.isVisible() ? floatBallWin.hide() : floatBallWin.show()
     },
   }, {
     type: 'separator',

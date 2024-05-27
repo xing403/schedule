@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ElLoading, ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { DayOfMonthMap, DayOfMonthMapExtend, MinuteMap, monthQuickSelection } from '~/composables/dictionaries'
 
 const props = withDefaults(defineProps<{
   cron: string

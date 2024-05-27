@@ -14,6 +14,7 @@ declare module 'vue' {
     DirectiveGroup: typeof import('./../components/directive-group/index.vue')['default']
     I18n: typeof import('./../components/I18n/index.vue')['default']
     Mqtt: typeof import('./../components/service/mqtt.vue')['default']
+    Music: typeof import('./../components/Music/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SettingsComponent: typeof import('./../components/settings-component.vue')['default']

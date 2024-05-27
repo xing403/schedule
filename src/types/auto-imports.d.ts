@@ -349,12 +349,9 @@ declare global {
 import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
-    readonly DayOfMonthMap: UnwrapRef<typeof import('../composables/dictionaries')['DayOfMonthMap']>
-    readonly DayOfMonthMapExtend: UnwrapRef<typeof import('../composables/dictionaries')['DayOfMonthMapExtend']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly HourMap: UnwrapRef<typeof import('../composables/dictionaries')['HourMap']>
     readonly MQTT: UnwrapRef<typeof import('../composables/services')['MQTT']>
-    readonly MinuteMap: UnwrapRef<typeof import('../composables/dictionaries')['MinuteMap']>
     readonly MonthMap: UnwrapRef<typeof import('../composables/dictionaries')['MonthMap']>
     readonly PkgJson: UnwrapRef<typeof import('../composables/application')['PkgJson']>
     readonly WeekMap: UnwrapRef<typeof import('../composables/dictionaries')['WeekMap']>
@@ -424,7 +421,6 @@ declare module 'vue' {
     readonly menuCollapse: UnwrapRef<typeof import('../composables/application')['menuCollapse']>
     readonly menuCollapseToggle: UnwrapRef<typeof import('../composables/application')['menuCollapseToggle']>
     readonly minuteQuickSelection: UnwrapRef<typeof import('../composables/dictionaries')['minuteQuickSelection']>
-    readonly monthQuickSelection: UnwrapRef<typeof import('../composables/dictionaries')['monthQuickSelection']>
     readonly name: UnwrapRef<typeof import('../composables/application')['name']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
@@ -686,12 +682,9 @@ declare module 'vue' {
 }
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    readonly DayOfMonthMap: UnwrapRef<typeof import('../composables/dictionaries')['DayOfMonthMap']>
-    readonly DayOfMonthMapExtend: UnwrapRef<typeof import('../composables/dictionaries')['DayOfMonthMapExtend']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly HourMap: UnwrapRef<typeof import('../composables/dictionaries')['HourMap']>
     readonly MQTT: UnwrapRef<typeof import('../composables/services')['MQTT']>
-    readonly MinuteMap: UnwrapRef<typeof import('../composables/dictionaries')['MinuteMap']>
     readonly MonthMap: UnwrapRef<typeof import('../composables/dictionaries')['MonthMap']>
     readonly PkgJson: UnwrapRef<typeof import('../composables/application')['PkgJson']>
     readonly WeekMap: UnwrapRef<typeof import('../composables/dictionaries')['WeekMap']>
@@ -761,7 +754,6 @@ declare module '@vue/runtime-core' {
     readonly menuCollapse: UnwrapRef<typeof import('../composables/application')['menuCollapse']>
     readonly menuCollapseToggle: UnwrapRef<typeof import('../composables/application')['menuCollapseToggle']>
     readonly minuteQuickSelection: UnwrapRef<typeof import('../composables/dictionaries')['minuteQuickSelection']>
-    readonly monthQuickSelection: UnwrapRef<typeof import('../composables/dictionaries')['monthQuickSelection']>
     readonly name: UnwrapRef<typeof import('../composables/application')['name']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>

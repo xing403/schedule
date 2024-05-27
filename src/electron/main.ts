@@ -1,8 +1,9 @@
+/* eslint-disable n/no-path-concat */
 /* eslint-disable n/prefer-global/process */
 import path from 'node:path'
 import type { BrowserWindowConstructorOptions } from 'electron'
 import { BrowserWindow, screen } from 'electron'
-import { createGlobalShortcut, removeGlobalShortcut } from '.'
+import { useShortcut } from '.'
 
 export function createWindow(config?: BrowserWindowConstructorOptions) {
   const win = new BrowserWindow({
@@ -21,21 +22,27 @@ export function createWindow(config?: BrowserWindowConstructorOptions) {
 export function createMainWindow(windowMap: WindowMap) {
   const mainWindow = createWindow()
   windowMap.set('main', mainWindow)
-  createGlobalShortcut(mainWindow)
+  const shortcut = useShortcut(mainWindow)
 
   process.argv[2] ? mainWindow.loadURL(process.argv[2]) : mainWindow.loadFile('index.html')
-
+  mainWindow.on('close', (event) => {
+    event.preventDefault()
+    mainWindow.hide()
+  })
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.send('main-win-init', { id: mainWindow.id, name: 'main' })
+  })
   mainWindow.on('closed', () => {
-    removeGlobalShortcut()
+    shortcut.unregisterShortcut()
     windowMap.delete('main')
   })
   return mainWindow
 }
 
-export function createSuspendedWindow(windowMap: WindowMap) {
+export function createFloatBallWindow(windowMap: WindowMap) {
   const primaryDisplay = screen.getPrimaryDisplay()
   const { width } = primaryDisplay.workAreaSize
-  const suspendedWindow = createWindow({
+  const floatBallWindow = createWindow({
     x: width - 100,
     y: 240,
     width: 50,
@@ -49,7 +56,7 @@ export function createSuspendedWindow(windowMap: WindowMap) {
     skipTaskbar: true,
   })
 
-  windowMap.set('suspended', suspendedWindow)
-  const suspendedPath = process.argv[2] ? `${process.argv[2]}/#/suspended` : path.join('file://', __dirname, 'index.html#/float-ball')
-  suspendedWindow.loadURL(suspendedPath)
+  windowMap.set('float-ball', floatBallWindow)
+  const suspendedPath = process.argv[2] ? `${process.argv[2]}/#/float-ball` : `file://${__dirname}/index.html#/float-ball`
+  floatBallWindow.loadURL(suspendedPath)
 }

@@ -47,7 +47,9 @@
     "sortablejs": "^1.15.2",
     "vue": "^3.4.27",
     "vue-i18n": "^9.13.1",
-    "vue-router": "^4.3.2"
+    "vue-router": "^4.3.2",
+    "xgplayer": "^3.0.17",
+    "xgplayer-music": "^3.0.17"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
