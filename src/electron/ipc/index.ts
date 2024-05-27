@@ -1,11 +1,11 @@
 /* eslint-disable n/prefer-global/process */
 import fs from 'node:fs'
 import path from 'node:path'
-import { Menu, Notification, app, ipcMain, shell } from 'electron'
+import { BrowserWindow, Menu, Notification, app, ipcMain, shell } from 'electron'
 import { createMainWindow, logs, windowMap } from '..'
-import { getFile } from '../file'
+import { getFile } from '../utils/file'
 
-export function useIpc() {
+export function useIpc(mainWin: BrowserWindow) {
   ipcMain.handle('notification', (_event, title: string, body: string) => {
     new Notification({ title, body, icon: path.relative(process.cwd(), path.join('dist/256x256.ico')) }).show()
   })
@@ -87,5 +87,14 @@ export function useIpc() {
 
   ipcMain.handle('get-file', (_event, filePath: string) => {
     return getFile(filePath)
+  })
+  ipcMain.handle('get-win-id', (event) => {
+    return BrowserWindow.fromWebContents(event.sender)?.id
+  })
+  ipcMain.handle('init-schedule-process', (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender)
+    if (win)
+      return mainWin.id === win.id
+    return null
   })
 }

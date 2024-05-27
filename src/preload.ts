@@ -29,4 +29,8 @@ contextBridge.exposeInMainWorld('Electron', {
   saveService: (name: string, argv: any) => ipcRenderer.invoke('save-service', name, argv),
 
   getFile: (path: string): Promise<Buffer> => ipcRenderer.invoke('get-file', path),
+
+  initScheduleProcess: () => ipcRenderer.invoke('init-schedule-process'),
+
+  getCurrentWinId: () => ipcRenderer.invoke('get-win-id'),
 })

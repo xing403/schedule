@@ -6,6 +6,7 @@ import {
   createFloatBallWindow,
   createMainWindow,
   logs,
+  unregisterShortcut,
   useIpc,
   useLogs,
   useTray,
@@ -27,9 +28,9 @@ else
   fs.writeFileSync(path.join(app.getPath('userData'), 'setting.json'), JSON.stringify(setting, null, 2))
 
 app.whenReady().then(() => {
-  createMainWindow(windowMap)
+  const win = createMainWindow(windowMap)
 
-  useIpc()
+  useIpc(win)
   useTray(windowMap, setting)
   useLogs()
 
@@ -40,4 +41,5 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => { })
 app.on('quit', () => {
   logs('app closed', 'info')
+  unregisterShortcut()
 })

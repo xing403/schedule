@@ -25,7 +25,13 @@ export function createMainWindow(windowMap: WindowMap) {
   const shortcut = useShortcut(mainWindow)
 
   process.argv[2] ? mainWindow.loadURL(process.argv[2]) : mainWindow.loadFile('index.html')
-
+  mainWindow.on('close', (event) => {
+    event.preventDefault()
+    mainWindow.hide()
+  })
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.send('main-win-init', { id: mainWindow.id, name: 'main' })
+  })
   mainWindow.on('closed', () => {
     shortcut.unregisterShortcut()
     windowMap.delete('main')
