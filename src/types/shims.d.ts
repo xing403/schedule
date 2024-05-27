@@ -30,7 +30,7 @@ interface DirectiveType {
   /**
    * this directive run need args
    */
-  args?: any,
+  args: DirectiveParam,
   /**
    * pre directive run result, format => {data: any}
    */
@@ -40,7 +40,14 @@ interface DirectiveType {
    */
   status?: STATUS_TYPE,
 }
-
+interface DirectiveParam extends any {
+  topics?: Array<string>,
+  musicUrl?: string,
+  url?: string,
+  message?: string,
+  format?: string,
+  text?: string
+}
 interface DirectiveFType extends DirectiveType {
   /**
    * directive execute function

@@ -1,6 +1,9 @@
 const directive: DirectiveFType = {
   key: 'open-external',
   name: '打开链接',
+  args: {
+    url: '',
+  },
   support: ['web', 'electron'],
   execute: (schedule: Schedule, data?: any) => {
     const url = data.pre_res.data ?? data.args.url as string

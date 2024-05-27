@@ -4,8 +4,8 @@ import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   directives: {
-    type: Array as PropType<any[]>,
-    default: () => [],
+    type: Array as PropType<DirectiveType[]>,
+    default: (): Array<DirectiveType> => [],
   },
   disabled: {
     type: Boolean,
@@ -16,7 +16,7 @@ const props = defineProps({
 const emits = defineEmits(['update:directives', 'changed', 'addition', 'deleted'])
 const directivesRef = ref<HTMLElement>()
 
-const directives = shallowRef(props.directives)
+const directives = shallowRef<DirectiveType[]>(props.directives)
 const directive = ref<any>()
 
 const modifyDirectiveDialog = ref(false)
@@ -41,7 +41,7 @@ function confirm(d: any) {
   emits('update:directives', directives.value)
   emits('changed', directives)
 }
-function handleModifyDirective(d: any) {
+function handleModifyDirective(d: DirectiveType) {
   if (directives.value.find(item => item.key === d.key) && directive.value.key !== d.key) {
     ElMessage.warning('该指令已存在')
     return
@@ -68,7 +68,7 @@ function handleDeleteDirective(key: string) {
       :class="{ disabled: props.disabled }"
     >
       <el-button w-full flex-1 @click="openModifyDialog(item)">
-        {{ item.alias !== '' ? `${item.alias}(${item.key})` : item.key }}
+        {{ item.alias !== '' ? item.alias : item.key }}
       </el-button>
       <svg-icon class="close" name="carbon:close-outline" icon-hover @click="handleDeleteDirective(item.key)" />
     </div>
@@ -82,11 +82,21 @@ function handleDeleteDirective(key: string) {
     </el-button>
   </div>
 
-  <el-dialog v-model="modifyDirectiveDialog" :title="props.disabled ? $t('flexible', { flexible: ['see', 'directives'] }) : $t('flexible', { flexible: ['change', 'directives'] })" width="30%" align-center>
-    <directive-form :form="directive" :disabled="props.disabled" @confirm="handleModifyDirective" @cancel="modifyDirectiveDialog = false" />
+  <el-dialog
+    v-model="modifyDirectiveDialog"
+    :title="props.disabled ? $t('flexible', { flexible: ['see', 'directives'] }) : $t('flexible', { flexible: ['change', 'directives'] })"
+    width="30%" align-center
+  >
+    <directive-form
+      :form="directive" :disabled="props.disabled" @confirm="handleModifyDirective"
+      @cancel="modifyDirectiveDialog = false"
+    />
   </el-dialog>
 
-  <el-dialog v-model="additionDirectiveDialog" :title="$t('flexible', { flexible: ['addition', 'directives'] })" width="30%" align-center destroy-on-close>
+  <el-dialog
+    v-model="additionDirectiveDialog" :title="$t('flexible', { flexible: ['addition', 'directives'] })"
+    width="30%" align-center destroy-on-close
+  >
     <directive-form new-directive @confirm="confirm" @cancel="additionDirectiveDialog = false" />
   </el-dialog>
 </template>

@@ -18,22 +18,25 @@ const props = withDefaults(defineProps<{
 })
 const emits = defineEmits(['confirm', 'cancel'])
 const mqttStore = useMQTTStore()
-const form = ref({ ...props.form })
+const form = ref<DirectiveType>({ ...props.form })
 const topics = ref<string[]>(mqttStore.subscribe_topics)
-const topic = ref<string[]>()
+const args = ref<DirectiveParam>({})
 onMounted(() => {
   if (props.newDirective) {
     form.value = {
       alias: '',
+      support: [],
       key: '',
-      args: {
-        url: '',
-      },
+      args: {},
     }
   }
   else {
     if (form.value.key === 'mqtt')
-      topic.value = form.value.args.topics
+      args.value.topics = form.value.args.topics
+    if (form.value.key === 'music')
+      args.value.musicUrl = form.value.args.musicUrl
+    if (form.value.key === 'open-external')
+      args.value.url = form.value.args.url
   }
 })
 function handleChangeDirectiveKey(key: string) {
@@ -43,7 +46,7 @@ function handleChangeDirectiveKey(key: string) {
 
 function confirm() {
   if (form.value.key === 'mqtt')
-    form.value.args.topics = topic.value
+    form.value.args.topics = args.value.topics
 
   emits('confirm', form.value)
 }
@@ -52,8 +55,10 @@ function cancel() {
   emits('cancel')
 }
 function handleChangeFile(file: UploadFile) {
-  if (file.raw)
-    form.value.args.url = file.raw.path
+  if (file.raw && form.value.key === 'music') {
+    form.value.args.musicUrl = file.raw.path
+    args.value.musicUrl = file.raw.path
+  }
 }
 </script>
 
@@ -75,8 +80,8 @@ function handleChangeFile(file: UploadFile) {
     <template v-if="form.key === 'mqtt'">
       <el-form-item prop="args.topics" label="订阅主题">
         <el-select
-          v-model="topic" :max-collapse-tags="2" filterable collapse-tags multiple allow-create
-          collapse-tags-tooltip default-first-option w-full placeholder="选择需要的主题"
+          v-model="args.topics" :max-collapse-tags="2"
+          filterable collapse-tags allow-create collapse-tags-tooltip multiple default-first-option w-full placeholder="选择需要的主题"
         >
           <el-option v-for="t in topics" :key="t" :label="t" :value="t" />
         </el-select>
@@ -108,16 +113,21 @@ function handleChangeFile(file: UploadFile) {
     <template v-else-if="form.key === 'open-external'">
       <el-form-item prop="args.url" :label="$t('link')">
         <el-input v-model="form.args.url" placeholder="链接地址" :disabled="props.disabled" />
+        <el-alert :title="args.url" type="info" show-icon :closable="false" />
       </el-form-item>
     </template>
 
     <template v-else-if="form.key === 'music'">
-      <el-form-item prop="args.url" :label="$t('link')">
-        <el-upload drag action="" :auto-upload="false" w-full :on-change="handleChangeFile">
+      <el-form-item prop="args.musicUrl" :label="$t('link')">
+        <el-upload
+          v-if="props.disabled === false" drag action="" :auto-upload="false" w-full :show-file-list="false"
+          :on-change="handleChangeFile"
+        >
           <div class="el-upload__text">
-            Drop file here or <em>click to upload</em>
+            点击或者将文件拖拽到这里
           </div>
         </el-upload>
+        <el-alert :title="args.musicUrl" type="info" show-icon :closable="false" />
       </el-form-item>
     </template>
 

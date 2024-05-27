@@ -4,13 +4,16 @@ import useMusicStore from '~/store/music'
 const directive: DirectiveFType = {
   key: 'music',
   name: '播放音乐',
+  args: {
+    musicUrl: '',
+  },
   support: ['electron'],
   execute: (schedule: Schedule, data?: any) => {
     const musicStore = useMusicStore()
 
     if (!musicStore.start) {
-      const url = data.pre_res.data ?? data.args.url as string
-      window.Electron.getFile(url).then((fileBuffer: Buffer) => {
+      const musicUrl = data.args.musicUrl as string
+      window.Electron.getFile(musicUrl).then((fileBuffer: Buffer) => {
         const blob = new Blob([fileBuffer], { type: 'audio/mp4' })
         musicStore.url = URL.createObjectURL(blob)
         if (!musicStore.start)

@@ -3,6 +3,9 @@ import { dayjs } from 'element-plus'
 const directive: DirectiveFType = {
   key: 'date-time',
   name: '获取日期时间',
+  args: {
+    format: '',
+  },
   support: ['web', 'electron'],
   execute: (schedule: Schedule, data: any) => {
     data.args = Object.assign({

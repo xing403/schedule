@@ -4,6 +4,10 @@ import useMQTTStore from '~/store/mqtt'
 const directive: DirectiveFType = {
   key: 'mqtt',
   name: 'MQTT消息',
+  args: {
+    topics: [],
+    message: '',
+  },
   support: ['web', 'electron'],
   execute: (schedule: Schedule, data: any) => {
     const mqttStore = useMQTTStore()

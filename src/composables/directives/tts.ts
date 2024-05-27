@@ -3,6 +3,9 @@ import axios from 'axios'
 const directive: DirectiveFType = {
   key: 'tts',
   name: '文本转语音',
+  args: {
+    text: '',
+  },
   support: ['web', 'electron'],
   execute: async (schedule: Schedule, data: any) => {
     let text = data.pre_res.data ?? data.args.text ?? schedule.title
