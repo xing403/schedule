@@ -35,7 +35,7 @@
     "@intlify/core-base": "10.0.0-alpha.1",
     "@vueuse/core": "^10.9.0",
     "@vueuse/integrations": "^10.9.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "cron-parser": "^4.9.0",
     "electron-log": "5.0.0-rc.1",
     "element-plus": "^2.7.2",
