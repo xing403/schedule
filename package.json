@@ -40,7 +40,7 @@
     "electron-log": "5.0.0-rc.1",
     "element-plus": "^2.7.2",
     "md5": "^2.3.0",
-    "mqtt": "^5.5.5",
+    "mqtt": "^5.7.3",
     "nprogress": "^0.2.0",
     "path-browserify": "^1.0.1",
     "pinia": "^2.1.7",
