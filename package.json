@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "@intlify/core-base": "10.0.0-alpha.1",
+    "@intlify/core-base": "10.0.0-beta.1",
     "@vueuse/core": "^10.9.0",
     "@vueuse/integrations": "^10.9.0",
     "axios": "^1.7.2",

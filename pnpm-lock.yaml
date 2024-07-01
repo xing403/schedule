@@ -9,8 +9,8 @@ dependencies:
     specifier: ^2.3.1
     version: 2.3.1(vue@3.4.27)
   '@intlify/core-base':
-    specifier: 10.0.0-alpha.1
-    version: 10.0.0-alpha.1
+    specifier: 10.0.0-beta.1
+    version: 10.0.0-beta.1
   '@vueuse/core':
     specifier: ^10.9.0
     version: 10.9.0(vue@3.4.27)
@@ -1260,12 +1260,12 @@ packages:
       yaml-eslint-parser: 1.2.2
     dev: true
 
-  /@intlify/core-base@10.0.0-alpha.1:
-    resolution: {integrity: sha512-mQUmGJs3RWBMW7TqP/Ka7oOJ2YkIndPSK9/xddSjjK2KdhVZxXYPoTrJRFkECyZB4THTsVInshk1hxPNF6cOHw==}
+  /@intlify/core-base@10.0.0-beta.1:
+    resolution: {integrity: sha512-eSjIKjIbDVGy/0yXAvL6O5LOVJ8E7jkbPUyQyM1vPVmu+5o05NNOTbZlsdOm9dDgXfXnFga4aUNWSkge7efe4Q==}
     engines: {node: '>= 16'}
     dependencies:
-      '@intlify/message-compiler': 10.0.0-alpha.1
-      '@intlify/shared': 10.0.0-alpha.1
+      '@intlify/message-compiler': 10.0.0-beta.1
+      '@intlify/shared': 10.0.0-beta.1
     dev: false
 
   /@intlify/core-base@9.13.1:
@@ -1275,11 +1275,11 @@ packages:
       '@intlify/message-compiler': 9.13.1
       '@intlify/shared': 9.13.1
 
-  /@intlify/message-compiler@10.0.0-alpha.1:
-    resolution: {integrity: sha512-6tq6eESzjk3PXeO+ZFnWXDBENPmOnvSbgkiFRHblbmzdWLBFcadIgMtuStUibucmlGvAfrXMCmx8k16sH+qMIg==}
+  /@intlify/message-compiler@10.0.0-beta.1:
+    resolution: {integrity: sha512-rBmXBZzDgq3yPkL/3/r9uK0nrsJOYHSpaW0mtGBxxjt9pY9vaPL0UAKbVAjFPRnfEY41ixgpkpTjai6IKZ+hvg==}
     engines: {node: '>= 16'}
     dependencies:
-      '@intlify/shared': 10.0.0-alpha.1
+      '@intlify/shared': 10.0.0-beta.1
       source-map-js: 1.2.0
     dev: false
 
@@ -1290,8 +1290,8 @@ packages:
       '@intlify/shared': 9.13.1
       source-map-js: 1.2.0
 
-  /@intlify/shared@10.0.0-alpha.1:
-    resolution: {integrity: sha512-FxFh2AnuOpIwyzfQoBKmaMNVaVOQkUoLJ4EyXYwCBa4O1VUhIxGRcRd23jF+w47qngzMLf6xuwmSIXd2YX+3tQ==}
+  /@intlify/shared@10.0.0-beta.1:
+    resolution: {integrity: sha512-61MnYhgqS/TyAto9CXOltHlhK2WflLBcKpIkRhZCUL2IkiVvh7qKevsqZ3RYZylyC3q19ajLW6mB+iJtnbAOpg==}
     engines: {node: '>= 16'}
     dev: false
 
