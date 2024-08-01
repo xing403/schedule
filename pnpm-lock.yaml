@@ -33,8 +33,8 @@ dependencies:
     specifier: ^2.3.0
     version: 2.3.0
   mqtt:
-    specifier: ^5.5.5
-    version: 5.5.5
+    specifier: ^5.9.1
+    version: 5.9.1
   nprogress:
     specifier: ^0.2.0
     version: 0.2.0
@@ -7472,8 +7472,8 @@ packages:
       - supports-color
     dev: false
 
-  /mqtt@5.5.5:
-    resolution: {integrity: sha512-vWglkVfumjnI53/tV+RMWbDuQL4ldGqc/wFX2EHkMy9sSV7Q0TQK+HcAtmg2QupI8DpcyNpoe2mNhaO/H4ILUg==}
+  /mqtt@5.9.1:
+    resolution: {integrity: sha512-FMENfSUMfCSUCnkuUVAL4U01795SUEfrX0NZ53HNr1r2VNpwKhR5Au9viq9WCFGtgrDAmsll4fkloqFCFgStYA==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     dependencies:
@@ -7492,7 +7492,7 @@ packages:
       rfdc: 1.3.1
       split2: 4.2.0
       worker-timers: 7.1.8
-      ws: 8.17.0
+      ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -10311,6 +10311,20 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dev: true
+
+  /ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
 
   /xgplayer-music@3.0.17(core-js@3.37.1)(xgplayer@3.0.17):
     resolution: {integrity: sha512-X9CYZNx/t+dbMY8rc80DIymaCmDfDe84fGLETYk1G17+qcpxjBGZfmd3UARl1R3JbS+DIWe7PQVa9zCgtXyEaQ==}
